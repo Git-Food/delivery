@@ -9,4 +9,12 @@ public class ModelModule {
     public Class<Delivery> provideDeliveryClass() {
         return Delivery.class;
     }
+    @Provides
+    public Class<OrderItem> provideOrderItemClass() {
+        return OrderItem.class;
+    }
+    @Provides
+    public Class<Order> provideOrderClass() {
+        return Order.class;
+    }
 }
