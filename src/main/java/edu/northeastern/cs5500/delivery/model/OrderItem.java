@@ -8,6 +8,8 @@ import lombok.Data;
  */
 @Data
 public class OrderItem implements Model{
+    /**Constant valid amount for price and quantity of the order */
+    private static final int VALID_AMOUNT = 0;
     private ObjectId id;
     private Double price;
     private Integer quantity;
@@ -17,6 +19,6 @@ public class OrderItem implements Model{
      * @return true if this OrderItem is valid */
     @JsonIgnore
     public boolean isValid(){
-        return this.price >= 0 && this.quantity >= 0;
+        return this.price >= VALID_AMOUNT && this.quantity >= VALID_AMOUNT;
     }
 }

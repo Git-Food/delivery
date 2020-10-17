@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class Order implements Model{
     /**Constant valid charge amount for the order */
-    private static final Double VALID_AMOUNT = 0.0;
+    private static final double VALID_CHARGE = 0.0;
     private ObjectId id;
     private List<OrderItem> orderItems;
     private OrderStatus orderStatus;
@@ -22,7 +22,7 @@ public class Order implements Model{
     @JsonIgnore
     public boolean isValid() {
         return !this.orderItems.isEmpty() &&
-        this.taxAmount > VALID_AMOUNT &&
-        this.totalPrice > VALID_AMOUNT;
+        this.taxAmount > VALID_CHARGE &&
+        this.totalPrice > VALID_CHARGE;
     }
 }
