@@ -5,9 +5,9 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 
 @Data
-public class AbstractUser implements Model {
+public abstract class AbstractUser implements Model {
     private ObjectId id;
-    private String name; // TODO: should name be a class? but
+    private String name; // TODO: add Name class
     private String phoneNumber;
     // TODO: add IPayment interface
     private String email;
