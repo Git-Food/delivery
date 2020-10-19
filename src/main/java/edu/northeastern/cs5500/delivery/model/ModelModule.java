@@ -21,13 +21,12 @@ public class ModelModule {
     }
 
     @Provides
-    public MakeModel provideMakeModel(String name, String model) {
-        return new MakeModel(name, model);
+    public MakeModel provideMakeModel() {
+        return new MakeModel();
     }
 
     @Provides
-    public Vehicle provideVehicle(
-            String color, String licensePlate, Integer year, MakeModel makeModel) {
-        return new Vehicle(color, licensePlate, year, makeModel);
+    public Vehicle provideVehicle() {
+        return new Vehicle();
     }
 }
