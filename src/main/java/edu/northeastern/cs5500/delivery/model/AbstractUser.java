@@ -16,6 +16,6 @@ public abstract class AbstractUser implements Model {
     /** @return true if this abstract user is valid */
     @JsonIgnore
     public boolean isValid() {
-        return !name.isEmpty() && !email.isEmpty();
+        return !name.isEmpty() && name != null && !email.isEmpty() && email != null;
     }
 }
