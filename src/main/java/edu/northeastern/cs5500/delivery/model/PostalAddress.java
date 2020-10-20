@@ -1,6 +1,8 @@
 package edu.northeastern.cs5500.delivery.model;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Class represents a postal address.
  */
