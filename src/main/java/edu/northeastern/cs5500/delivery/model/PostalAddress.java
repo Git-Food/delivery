@@ -1,5 +1,4 @@
 package edu.northeastern.cs5500.delivery.model;
-
 import lombok.Data;
 
 /**
@@ -15,6 +14,8 @@ public class PostalAddress {
     private String state;
     private String zipCode;
     private String country;
+
+    /* TODO: Implement methods to calculate GPS coordinates */
 
     /**
      * Returns true if PostalAddress is valid, false otherwise
