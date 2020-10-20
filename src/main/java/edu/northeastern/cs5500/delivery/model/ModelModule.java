@@ -19,4 +19,14 @@ public class ModelModule {
     public Class<Order> provideOrderClass() {
         return Order.class;
     }
+
+    @Provides
+    public MakeModel provideMakeModel() {
+        return new MakeModel();
+    }
+
+    @Provides
+    public Vehicle provideVehicle() {
+        return new Vehicle();
+    }
 }
