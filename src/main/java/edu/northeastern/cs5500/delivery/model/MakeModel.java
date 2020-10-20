@@ -12,6 +12,9 @@ public class MakeModel {
     /** @return true if this MakeModel is valid */
     @JsonIgnore
     public boolean isValid() {
-        return this.make != null && this.model != null;
+        return this.make != null
+                && !this.make.isEmpty()
+                && this.model != null
+                && !this.model.isEmpty();
     }
 }
