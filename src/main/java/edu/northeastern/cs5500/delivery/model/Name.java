@@ -11,6 +11,6 @@ public class Name {
     /** @return true if this make name is valid */
     @JsonIgnore
     public boolean isValid() {
-        return !firstName.isEmpty() && firstName != null && !lastName.isEmpty() && lastName != null;
+        return firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty();
     }
 }

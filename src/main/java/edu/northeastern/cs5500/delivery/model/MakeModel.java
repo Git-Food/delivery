@@ -1,9 +1,11 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 
 /** Class represents the MakeModel of a Vehicle. */
+@Builder
 @Data
 public class MakeModel {
     private String make;
