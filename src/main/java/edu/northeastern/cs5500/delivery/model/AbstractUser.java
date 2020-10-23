@@ -7,15 +7,20 @@ import org.bson.types.ObjectId;
 @Data
 public abstract class AbstractUser implements Model {
     protected ObjectId id;
-    protected String name; // TODO: add Name class
+    protected Name name;
     protected String phoneNumber;
     // TODO: add IPayment interface
     protected String email;
-    // TODO: add Location class
+    protected PostalAddress location;
 
     /** @return true if this abstract user is valid */
     @JsonIgnore
     public boolean isValid() {
-        return !name.isEmpty() && name != null && !email.isEmpty() && email != null;
+        return name.isValid()
+                && !email.isEmpty()
+                && email != null
+                && phoneNumber != null
+                && !phoneNumber.isEmpty()
+                && location.isValid();
     }
 }

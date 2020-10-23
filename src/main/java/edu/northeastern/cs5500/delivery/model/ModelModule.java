@@ -21,12 +21,42 @@ public class ModelModule {
     }
 
     @Provides
-    public MakeModel provideMakeModel() {
-        return new MakeModel();
+    public Class<MakeModel> provideMakeModel() {
+        return MakeModel.class;
     }
 
     @Provides
-    public Vehicle provideVehicle() {
-        return new Vehicle();
+    public Class<Vehicle> provideVehicle() {
+        return Vehicle.class;
+    }
+
+    @Provides
+    public Class<PostalAddress> providePostalAddress() {
+        return PostalAddress.class;
+    }
+
+    @Provides
+    public Class<GPSCoordinates> provideGPSCoordinates() {
+        return GPSCoordinates.class;
+    }
+
+    @Provides
+    public Class<Name> provideName() {
+        return Name.class;
+    }
+
+    @Provides
+    public Class<DriverUser> provideDriverUser() {
+        return DriverUser.class;
+    }
+
+    @Provides
+    public Class<CustomerUser> provideCustomerUser() {
+        return CustomerUser.class;
+    }
+
+    @Provides
+    public Class<BusinessUser> provideBusinessUser() {
+        return BusinessUser.class;
     }
 }
