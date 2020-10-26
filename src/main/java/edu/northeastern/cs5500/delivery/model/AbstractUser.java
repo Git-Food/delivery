@@ -13,7 +13,7 @@ public abstract class AbstractUser implements Model {
     protected String email;
     protected PostalAddress location;
 
-    /** @return true if this abstract user is valid */
+    /** @return true if this AbstractUser is valid */
     @JsonIgnore
     public boolean isValid() {
         return name.isValid()

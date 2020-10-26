@@ -1,18 +1,20 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
 @Data
-public class Delivery implements Model {
-    private ObjectId id;
-    private String title;
+public class Menu {
+    private ObjectId objectId;
+    private String name;
     private String description;
+    private List<MenuItem> menuItems;
 
-    /** @return true if this Delivery is valid */
+    /** @return true if this Menu is valid */
     @JsonIgnore
     public boolean isValid() {
-        return title != null && !title.isEmpty();
+        return name != null && !name.isEmpty();
     }
 }
