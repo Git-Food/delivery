@@ -8,7 +8,7 @@ public class Name {
     private String firstName;
     private String lastName;
 
-    /** @return true if this make name is valid */
+    /** @return true if this Name is valid */
     @JsonIgnore
     public boolean isValid() {
         return firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty();

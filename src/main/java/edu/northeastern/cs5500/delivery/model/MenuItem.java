@@ -5,14 +5,16 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 
 @Data
-public class Delivery implements Model {
-    private ObjectId id;
-    private String title;
+public class MenuItem {
+    private ObjectId objectId;
+    private String name;
     private String description;
+    private double Price;
+    private String note;
 
-    /** @return true if this Delivery is valid */
+    /** @return true if this MenuItem is valid */
     @JsonIgnore
     public boolean isValid() {
-        return title != null && !title.isEmpty();
+        return name != null && !name.isEmpty();
     }
 }
