@@ -59,4 +59,14 @@ public class ModelModule {
     public Class<BusinessUser> provideBusinessUser() {
         return BusinessUser.class;
     }
+
+    @Provides
+    public Class<Menu> providesMenu() {
+        return Menu.class;
+    }
+
+    @Provides
+    public Class<MenuItem> providesMenuItem() {
+        return MenuItem.class;
+    }
 }
