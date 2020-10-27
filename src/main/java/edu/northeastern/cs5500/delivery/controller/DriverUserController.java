@@ -2,6 +2,7 @@ package edu.northeastern.cs5500.delivery.controller;
 
 import com.mongodb.lang.Nullable;
 import edu.northeastern.cs5500.delivery.model.DriverUser;
+import edu.northeastern.cs5500.delivery.model.GPSCoordinates;
 import edu.northeastern.cs5500.delivery.model.MakeModel;
 import edu.northeastern.cs5500.delivery.model.Name;
 import edu.northeastern.cs5500.delivery.model.PostalAddress;
@@ -65,6 +66,13 @@ public class DriverUserController {
         vehicle2.setYear(2018);
         MakeModel makemodel2 = MakeModel.builder().make("Honda").model("CRV").build();
         vehicle2.setMakeModel(makemodel2);
+        // Coordinates
+        GPSCoordinates coordinate1 = new GPSCoordinates();
+        coordinate1.setLatitude(47.64938723);
+        coordinate1.setLongitude(-122.385973723);
+        GPSCoordinates coordinate2 = new GPSCoordinates();
+        coordinate2.setLatitude(47.67511789);
+        coordinate2.setLongitude(-122.323399063);
         // Drivers
         final DriverUser defaultDriver1 = new DriverUser();
         defaultDriver1.setName(driverUserName1);
@@ -72,12 +80,14 @@ public class DriverUserController {
         defaultDriver1.setEmail("Driver1@gmail.com");
         defaultDriver1.setLocation(driverUserAddress1);
         defaultDriver1.setVehicle(vehicle1);
+        defaultDriver1.setCoordinates(coordinate1);
         final DriverUser defaultDriver2 = new DriverUser();
         defaultDriver2.setName(driverUserName2);
         defaultDriver2.setPhoneNumber("206123789");
         defaultDriver2.setEmail("Driver2@gmail.com");
         defaultDriver2.setLocation(driverUserAddress2);
         defaultDriver2.setVehicle(vehicle2);
+        defaultDriver2.setCoordinates(coordinate2);
 
         try {
             addDriver(defaultDriver1);
