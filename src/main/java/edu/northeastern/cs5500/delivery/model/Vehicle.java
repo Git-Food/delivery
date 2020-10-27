@@ -9,7 +9,7 @@ public class Vehicle {
     private String color;
     private String licensePlate;
     private Integer year;
-    MakeModel makeModel;
+    private MakeModel makeModel;
 
     /** @return true if this Vehicle is valid */
     @JsonIgnore
