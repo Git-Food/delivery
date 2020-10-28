@@ -11,7 +11,7 @@ public class MenuItem {
     private ObjectId objectId;
     private String name;
     private String description;
-    private double Price;
+    private double price;
     private String note;
 
     /** @return true if this MenuItem is valid */
