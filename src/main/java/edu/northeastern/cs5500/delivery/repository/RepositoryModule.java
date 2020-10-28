@@ -5,8 +5,8 @@ import dagger.Provides;
 import edu.northeastern.cs5500.delivery.model.BusinessUser;
 import edu.northeastern.cs5500.delivery.model.CustomerUser;
 import edu.northeastern.cs5500.delivery.model.Delivery;
-import edu.northeastern.cs5500.delivery.model.Menu;
 import edu.northeastern.cs5500.delivery.model.DriverUser;
+import edu.northeastern.cs5500.delivery.model.Menu;
 
 @Module
 public class RepositoryModule {
@@ -39,10 +39,10 @@ public class RepositoryModule {
 /*
  * // Here's an example of how you imght swap out the in-memory repository for a
  * database-backed // repository:
- * 
+ *
  * @Provides public GenericRepository<Menu> provideMenuRepository() { return new
  * InMemoryRepository<>(); } }
- * 
+ *
  * /* // Here's an example of how you imght swap out the in-memory repository
  * for a database-backed // repository:
  *
