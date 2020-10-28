@@ -1,7 +1,6 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.inject.Inject;
 import lombok.Data;
 
 /** Class represents a vehicle used by a driver. */
@@ -10,7 +9,7 @@ public class Vehicle {
     private String color;
     private String licensePlate;
     private Integer year;
-    @Inject MakeModel makeModel;
+    private MakeModel makeModel;
 
     /** @return true if this Vehicle is valid */
     @JsonIgnore
