@@ -1,7 +1,7 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -12,7 +12,7 @@ public class Menu implements Model {
     private ObjectId id;
     private String name;
     private String description;
-    private List<MenuItem> menuItems;
+    private Map<ObjectId, MenuItem> menuItems;
 
     /** @return true if this Menu is valid */
     @JsonIgnore
