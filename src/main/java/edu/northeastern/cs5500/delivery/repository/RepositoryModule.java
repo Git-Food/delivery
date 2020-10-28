@@ -2,6 +2,7 @@ package edu.northeastern.cs5500.delivery.repository;
 
 import dagger.Module;
 import dagger.Provides;
+import edu.northeastern.cs5500.delivery.model.BusinessUser;
 import edu.northeastern.cs5500.delivery.model.CustomerUser;
 import edu.northeastern.cs5500.delivery.model.Delivery;
 import edu.northeastern.cs5500.delivery.model.DriverUser;
@@ -15,6 +16,11 @@ public class RepositoryModule {
 
     @Provides
     public GenericRepository<CustomerUser> provideCustomerUserRepository() {
+        return new InMemoryRepository<>();
+    }
+
+    @Provides
+    public GenericRepository<BusinessUser> provideBusinessUserRepository() {
         return new InMemoryRepository<>();
     }
 

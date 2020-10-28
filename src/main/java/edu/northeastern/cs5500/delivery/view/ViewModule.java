@@ -26,6 +26,12 @@ public class ViewModule {
 
     @Provides
     @IntoSet
+    public View provideBusinessUserView(BusinessUserView businessUserView) {
+        return businessUserView;
+    }
+
+    @Provides
+    @IntoSet
     public View provideDriverView(DriverView driverView) {
         return driverView;
     }
