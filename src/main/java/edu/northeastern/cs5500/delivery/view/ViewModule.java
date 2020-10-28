@@ -22,7 +22,10 @@ public class ViewModule {
     @IntoSet
     public View providesMenuView(MenuView menuView) {
         return menuView;
+    }
 
+    @Provides
+    @IntoSet
     public View provideCustomerUserView(CustomerUserView customerUserView) {
         return customerUserView;
     }
