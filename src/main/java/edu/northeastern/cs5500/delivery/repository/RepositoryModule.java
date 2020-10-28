@@ -12,7 +12,7 @@ public class RepositoryModule {
     public GenericRepository<Delivery> provideDeliveryRepository() {
         return new InMemoryRepository<>();
     }
-  
+
     @Provides
     public GenericRepository<CustomerUser> provideCustomerUserRepository() {
         return new InMemoryRepository<>();
