@@ -7,4 +7,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class DriverUser extends AbstractUser {
     private Vehicle vehicle;
+    private GPSCoordinates coordinates;
 }
