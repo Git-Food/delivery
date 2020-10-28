@@ -5,11 +5,8 @@ import dagger.Provides;
 import edu.northeastern.cs5500.delivery.model.BusinessUser;
 import edu.northeastern.cs5500.delivery.model.CustomerUser;
 import edu.northeastern.cs5500.delivery.model.Delivery;
-<<<<<<< HEAD
 import edu.northeastern.cs5500.delivery.model.Menu;
-=======
 import edu.northeastern.cs5500.delivery.model.DriverUser;
->>>>>>> main
 
 @Module
 public class RepositoryModule {
@@ -17,8 +14,6 @@ public class RepositoryModule {
     public GenericRepository<Delivery> provideDeliveryRepository() {
         return new InMemoryRepository<>();
     }
-<<<<<<< HEAD
-=======
 
     @Provides
     public GenericRepository<CustomerUser> provideCustomerUserRepository() {
@@ -34,15 +29,9 @@ public class RepositoryModule {
     public GenericRepository<DriverUser> provideDriverUserRepository() {
         return new InMemoryRepository<>();
     }
-}
-
-/*
-// Here's an example of how you imght swap out the in-memory repository for a database-backed
-// repository:
->>>>>>> main
 
     @Provides
-    public GenericRepository<Menu> provideMenuRepository() {
+    public GenericRepository<Menu> providesMenuRepository() {
         return new InMemoryRepository<>();
     }
 }
@@ -50,6 +39,12 @@ public class RepositoryModule {
 /*
  * // Here's an example of how you imght swap out the in-memory repository for a
  * database-backed // repository:
+ * 
+ * @Provides public GenericRepository<Menu> provideMenuRepository() { return new
+ * InMemoryRepository<>(); } }
+ * 
+ * /* // Here's an example of how you imght swap out the in-memory repository
+ * for a database-backed // repository:
  *
  * package edu.northeastern.cs5500.delivery.repository;
  *

@@ -20,10 +20,9 @@ public class ViewModule {
 
     @Provides
     @IntoSet
-<<<<<<< HEAD
     public View providesMenuView(MenuView menuView) {
         return menuView;
-=======
+
     public View provideCustomerUserView(CustomerUserView customerUserView) {
         return customerUserView;
     }
@@ -38,6 +37,5 @@ public class ViewModule {
     @IntoSet
     public View provideDriverView(DriverView driverView) {
         return driverView;
->>>>>>> main
     }
 }
