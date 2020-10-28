@@ -32,27 +32,27 @@ public class DriverUserController {
 
         log.info("DriversController > construct > adding default drivers");
         // Names
-        Name driverUserName1 = new Name();
-        driverUserName1.setFirstName("Will");
-        driverUserName1.setLastName("Douglas");
-        Name driverUserName2 = new Name();
-        driverUserName2.setFirstName("Michael");
-        driverUserName2.setLastName("Walton");
+        Name driverUserName1 = Name.builder().firstName("Will").lastName("Douglas").build();
+        Name driverUserName2 = Name.builder().firstName("Michael").lastName("Walton").build();
         // Addresses
-        PostalAddress driverUserAddress1 = new PostalAddress();
-        driverUserAddress1.setStreetAddress("Westlake Ave");
-        driverUserAddress1.setHouseNumber("123");
-        driverUserAddress1.setCity("Seattle");
-        driverUserAddress1.setState("WA");
-        driverUserAddress1.setZipCode("98103");
-        driverUserAddress1.setCountry("US");
-        PostalAddress driverUserAddress2 = new PostalAddress();
-        driverUserAddress2.setStreetAddress("Thomas Ave");
-        driverUserAddress2.setHouseNumber("456");
-        driverUserAddress2.setCity("Seattle");
-        driverUserAddress2.setState("WA");
-        driverUserAddress2.setZipCode("98107");
-        driverUserAddress2.setCountry("US");
+        PostalAddress driverUserAddress1 =
+                PostalAddress.builder()
+                        .streetAddress("Westlake Ave")
+                        .houseNumber("123")
+                        .city("Seattle")
+                        .state("WA")
+                        .zipCode("98103")
+                        .country("US")
+                        .build();
+        PostalAddress driverUserAddress2 =
+                PostalAddress.builder()
+                        .streetAddress("Thomas Ave")
+                        .houseNumber("456")
+                        .city("Seattle")
+                        .state("WA")
+                        .zipCode("98107")
+                        .country("US")
+                        .build();
         // Vehicles
         Vehicle vehicle1 = new Vehicle();
         vehicle1.setColor("red");
