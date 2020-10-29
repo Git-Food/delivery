@@ -4,6 +4,7 @@ import com.mongodb.lang.Nullable;
 import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
+import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
 import java.util.HashMap;
@@ -62,12 +63,14 @@ public class OrderController {
                         .orderItems(order1Items)
                         .customerId(new ObjectId())
                         .businessId(new ObjectId())
+                        .orderStatus(OrderStatus.UNDER_REVIEW)
                         .build();
         Order defaultOrder2 =
                 Order.builder()
                         .orderItems(order2Items)
                         .customerId(new ObjectId())
                         .businessId(new ObjectId())
+                        .orderStatus(OrderStatus.UNDER_REVIEW)
                         .build();
         try {
             addOrder(defaultOrder1);
@@ -87,8 +90,8 @@ public class OrderController {
      * @param order Order to calculate total price from.
      * @return Double total price for the order
      */
-    public Double calculateOrderPrice(Order order) {
-        Double orderPrice = 0.0;
+    public long calculateOrderPrice(Order order) {
+        long orderPrice = 0;
         for (ObjectId id : order.getOrderItems().keySet()) {
             OrderItem currrentItem = order.getOrderItems().get(id);
             orderPrice =

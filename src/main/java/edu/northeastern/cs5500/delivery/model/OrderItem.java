@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @Builder
 public class OrderItem implements Model {
     /** Constant valid for valid amount of items in the item */
-    private static final int VALID_AMOUNT = 0;
+    private static final Integer VALID_QUANTITY = 0;
 
     private ObjectId id;
     private MenuItem menuItem;
@@ -20,6 +20,6 @@ public class OrderItem implements Model {
     /** @return true if this OrderItem is valid */
     @JsonIgnore
     public boolean isValid() {
-        return this.menuItem != null && this.quantity >= VALID_AMOUNT;
+        return menuItem != null && quantity >= VALID_QUANTITY;
     }
 }
