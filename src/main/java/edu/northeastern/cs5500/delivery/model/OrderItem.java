@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @Builder
 public class OrderItem implements Model {
     /** Constant valid for valid amount of items in the item */
-    private static final Integer VALID_QUANTITY = 0;
+    private static final int VALID_QUANTITY = 0;
 
     private ObjectId id;
     private MenuItem menuItem;
