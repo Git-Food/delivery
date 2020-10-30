@@ -41,4 +41,10 @@ public class ViewModule {
     public View provideDriverView(DriverView driverView) {
         return driverView;
     }
+
+    @Provides
+    @IntoSet
+    public View provideOrderView(OrderView orderView) {
+        return orderView;
+    }
 }
