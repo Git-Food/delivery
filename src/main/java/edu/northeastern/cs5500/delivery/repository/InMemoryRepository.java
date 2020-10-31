@@ -18,8 +18,6 @@ public class InMemoryRepository<T extends Model> implements GenericRepository<T>
 
     @Nullable
     public T get(ObjectId id) {
-        System.out.println(id);
-        System.out.println(collection);
         return collection.get(id);
     }
 
