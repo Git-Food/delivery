@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.bson.types.ObjectId;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
