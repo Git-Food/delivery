@@ -1,11 +1,9 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import java.util.Map;
-
-import org.bson.types.ObjectId;
-
 import lombok.Builder;
 import lombok.Data;
+import org.bson.types.ObjectId;
 
 @Builder
 @Data
