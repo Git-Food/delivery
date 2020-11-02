@@ -11,5 +11,5 @@ public class ShoppingCart implements Model {
     private ObjectId id;
     private Map<ObjectId, Order> shoppingCart;
     private Integer itemCount;
-    private Long price;
+    private Long totalPrice;
 }
