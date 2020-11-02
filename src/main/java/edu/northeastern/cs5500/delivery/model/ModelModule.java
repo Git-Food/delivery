@@ -69,4 +69,9 @@ public class ModelModule {
     public Class<MenuItem> providesMenuItem() {
         return MenuItem.class;
     }
+
+    @Provides
+    public Class<ShoppingCart> providesShoppingCart() {
+        return ShoppingCart.class;
+    }
 }
