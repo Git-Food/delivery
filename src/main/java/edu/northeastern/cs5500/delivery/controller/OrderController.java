@@ -85,10 +85,10 @@ public class OrderController {
     // TODO the method will update order's field "totalPrice" or that would be
     // responsibility of shopping cart?
     /**
-     * Calculate total price for an order.
+     * Totals price for an order.
      *
-     * @param order Order to calculate total price from.
-     * @return Double total price for the order
+     * @param order Order to calculate total price from
+     * @return orderPrice price for the order
      */
     public long calculateOrderPrice(Order order) {
         long orderPrice = 0;
@@ -107,6 +107,21 @@ public class OrderController {
         }
         // return the total price of this order
         return orderPrice;
+    }
+
+    // TODO: is this responsibility of the OrderController?
+    /**
+     * Totals the number of OrderItems in an order
+     *
+     * @param order Order to total the quantity from
+     * @return itemQuantity order item quantity for the order
+     */
+    public int calculateItemQuantity(Order order) {
+        int itemQuantity = 0;
+        for (OrderItem item : order.getOrderItems().values()) {
+            itemQuantity += item.getQuantity();
+        }
+        return itemQuantity;
     }
 
     @Nullable

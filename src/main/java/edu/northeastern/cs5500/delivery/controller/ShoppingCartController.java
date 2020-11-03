@@ -17,12 +17,14 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class ShoppingCartController {
     private final GenericRepository<ShoppingCart> shoppingCarts;
-
-    @Inject OrderController orderController;
+    private final OrderController orderController;
 
     @Inject
-    ShoppingCartController(GenericRepository<ShoppingCart> shoppingCartRepository) {
+    ShoppingCartController(
+            GenericRepository<ShoppingCart> shoppingCartRepository,
+            OrderController orderController) {
         shoppingCarts = shoppingCartRepository;
+        this.orderController = orderController;
 
         log.info("ShoppingCartController > construct");
 
@@ -42,9 +44,10 @@ public class ShoppingCartController {
                                                 Collectors.toMap(
                                                         Order::getId, Function.identity())))
                         .build();
-
         try {
             addShoppingCart(defaultShoppingCart1);
+            calculateShoppingCartPrice(defaultShoppingCart1);
+            calculateShoppingCartQuantity(defaultShoppingCart1);
         } catch (Exception e) {
             log.error(
                     "ShoppingCartController > construct > adding default shoppingCart > failure?");
@@ -52,8 +55,6 @@ public class ShoppingCartController {
         }
     }
 
-    // TODO the method will update shoppingCart's field "totalPrice" or that would
-    // be responsibility of shopping cart?
     /**
      * Calculate total price for a shoppingCart.
      *
@@ -74,6 +75,22 @@ public class ShoppingCartController {
         }
         // return the total price of this shoppingCart
         return totalPrice;
+    }
+
+    public int calculateShoppingCartQuantity(ShoppingCart shoppingCart) {
+        int totalQuantity = 0;
+        for (Order order : shoppingCart.getShoppingCart().values()) {
+            totalQuantity += orderController.calculateItemQuantity(order);
+        }
+
+        shoppingCart.setItemCount(totalQuantity);
+        try {
+            updateShoppingCart(shoppingCart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalQuantity;
     }
 
     @Nullable
