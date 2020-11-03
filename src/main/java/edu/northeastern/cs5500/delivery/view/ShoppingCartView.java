@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.northeastern.cs5500.delivery.JsonTransformer;
 import edu.northeastern.cs5500.delivery.controller.ShoppingCartController;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
@@ -20,73 +19,87 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class ShoppingCartView implements View {
     @Inject
-    ShoppingCartView() {
-    }
+    ShoppingCartView() {}
 
-    @Inject
-    JsonTransformer jsonTransformer;
+    @Inject JsonTransformer jsonTransformer;
 
-    @Inject
-    ShoppingCartController shoppingCartController;
+    @Inject ShoppingCartController shoppingCartController;
 
     @Override
     public void register() {
         log.info("ShoppingCartView > register");
 
-        get("/shoppingCart", (request, response) -> {
-            log.debug("/shoppingCart");
-            response.type("application/json");
-            return shoppingCartController.getShoppingCarts();
-        }, jsonTransformer);
+        get(
+                "/shoppingCart",
+                (request, response) -> {
+                    log.debug("/shoppingCart");
+                    response.type("application/json");
+                    return shoppingCartController.getShoppingCarts();
+                },
+                jsonTransformer);
 
-        get("/order/:id", (request, response) -> {
-            final String paramId = request.params(":id");
-            log.debug("/order/:id<{}>", paramId);
-            final ObjectId id = new ObjectId(paramId);
-            ShoppingCart shoppingCart = shoppingCartController.getShoppingCart(id);
-            if (shoppingCart == null) {
-                halt(404);
-            }
-            response.type("application/json");
-            return shoppingCart;
-        }, jsonTransformer);
+        get(
+                "/order/:id",
+                (request, response) -> {
+                    final String paramId = request.params(":id");
+                    log.debug("/order/:id<{}>", paramId);
+                    final ObjectId id = new ObjectId(paramId);
+                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCart(id);
+                    if (shoppingCart == null) {
+                        halt(404);
+                    }
+                    response.type("application/json");
+                    return shoppingCart;
+                },
+                jsonTransformer);
 
-        post("/shoppingCart", (request, response) -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ShoppingCart shoppingCart = mapper.readValue(request.body(), ShoppingCart.class);
-            // There is currently no invalid shoppingCart
-            // if (!shoppingCart.isValid()) {
-            // response.status(400);
-            // return "";
-            // }
+        post(
+                "/shoppingCart",
+                (request, response) -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    ShoppingCart shoppingCart =
+                            mapper.readValue(request.body(), ShoppingCart.class);
+                    // There is currently no invalid shoppingCart
+                    // if (!shoppingCart.isValid()) {
+                    // response.status(400);
+                    // return "";
+                    // }
 
-            // Ignore the user-provided ID if there is one
-            shoppingCart.setId(null);
-            shoppingCart = shoppingCartController.addShoppingCart(shoppingCart);
+                    // Ignore the user-provided ID if there is one
+                    shoppingCart.setId(null);
+                    shoppingCart = shoppingCartController.addShoppingCart(shoppingCart);
 
-            response.redirect(String.format("/shoppingCart/{}", shoppingCart.getId().toHexString()), 301);
-            return shoppingCart;
-        });
+                    response.redirect(
+                            String.format("/shoppingCart/{}", shoppingCart.getId().toHexString()),
+                            301);
+                    return shoppingCart;
+                });
 
-        put("/shoppingCart", (request, response) -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ShoppingCart shoppingCart = mapper.readValue(request.body(), ShoppingCart.class);
-            // There is currently no invalid shoppingCart
-            // if (!order.isValid()) {
-            // response.status(400);
-            // return "";
-            // }
+        put(
+                "/shoppingCart",
+                (request, response) -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    ShoppingCart shoppingCart =
+                            mapper.readValue(request.body(), ShoppingCart.class);
+                    // There is currently no invalid shoppingCart
+                    // if (!order.isValid()) {
+                    // response.status(400);
+                    // return "";
+                    // }
 
-            shoppingCartController.updateShoppingCart(shoppingCart);
-            return shoppingCart;
-        });
+                    shoppingCartController.updateShoppingCart(shoppingCart);
+                    return shoppingCart;
+                });
 
-        delete("/shoppingCart", (request, response) -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ShoppingCart shoppingCart = mapper.readValue(request.body(), ShoppingCart.class);
+        delete(
+                "/shoppingCart",
+                (request, response) -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    ShoppingCart shoppingCart =
+                            mapper.readValue(request.body(), ShoppingCart.class);
 
-            shoppingCartController.deleteShoppingCart(shoppingCart.getId());
-            return shoppingCart;
-        });
+                    shoppingCartController.deleteShoppingCart(shoppingCart.getId());
+                    return shoppingCart;
+                });
     }
 }

@@ -7,7 +7,6 @@ import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,8 +18,7 @@ import org.bson.types.ObjectId;
 public class ShoppingCartController {
     private final GenericRepository<ShoppingCart> shoppingCarts;
 
-    @Inject
-    OrderController orderController;
+    @Inject OrderController orderController;
 
     @Inject
     ShoppingCartController(GenericRepository<ShoppingCart> shoppingCartRepository) {
@@ -34,14 +32,22 @@ public class ShoppingCartController {
 
         log.info("ShoppingCartController > construct > adding default shopping carts");
         // Menu Items
-        ShoppingCart defaultShoppingCart1 = ShoppingCart.builder().id(new ObjectId()).itemCount(0).shoppingCart(
-                orderController.getOrders().stream().collect(Collectors.toMap(Order::getId, Function.identity())))
-                .build();
+        ShoppingCart defaultShoppingCart1 =
+                ShoppingCart.builder()
+                        .id(new ObjectId())
+                        .itemCount(0)
+                        .shoppingCart(
+                                orderController.getOrders().stream()
+                                        .collect(
+                                                Collectors.toMap(
+                                                        Order::getId, Function.identity())))
+                        .build();
 
         try {
             addShoppingCart(defaultShoppingCart1);
         } catch (Exception e) {
-            log.error("ShoppingCartController > construct > adding default shoppingCart > failure?");
+            log.error(
+                    "ShoppingCartController > construct > adding default shoppingCart > failure?");
             e.printStackTrace();
         }
     }
