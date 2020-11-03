@@ -22,9 +22,9 @@ public class ShoppingCartController {
     @Inject
     ShoppingCartController(
             GenericRepository<ShoppingCart> shoppingCartRepository,
-            OrderController orderController) {
+            OrderController orderControllerInstance) {
         shoppingCarts = shoppingCartRepository;
-        this.orderController = orderController;
+        orderController = orderControllerInstance;
 
         log.info("ShoppingCartController > construct");
 
