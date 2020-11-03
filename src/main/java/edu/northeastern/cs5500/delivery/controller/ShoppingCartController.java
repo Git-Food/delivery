@@ -52,28 +52,27 @@ public class ShoppingCartController {
         }
     }
 
-    // TODO take the order id instead of object order.
-    // TODO the method will update order's field "totalPrice" or that would be
-    // responsibility of shopping cart?
+    // TODO the method will update shoppingCart's field "totalPrice" or that would
+    // be responsibility of shopping cart?
     /**
-     * Calculate total price for an order.
+     * Calculate total price for a shoppingCart.
      *
-     * @param order Order to calculate total price from.
-     * @return Double total price for the order
+     * @param ShoppingCart shoppingCart to calculate total price from.
+     * @return long totalPrice for the shoppingCart
      */
     public long calculateShoppingCartPrice(ShoppingCart shoppingCart) {
         long totalPrice = 0;
         for (Order order : shoppingCart.getShoppingCart().values()) {
             totalPrice += orderController.calculateOrderPrice(order);
         }
-        // Update order
+        // Update shoppingCart
         shoppingCart.setTotalPrice(totalPrice);
         try {
             updateShoppingCart(shoppingCart);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // return the total price of this order
+        // return the total price of this shoppingCart
         return totalPrice;
     }
 
@@ -96,7 +95,7 @@ public class ShoppingCartController {
         // if (!shoppingCart.isValid()) {
         // TODO: replace with a real invalid object exception
         // probably not one exception per object type though...
-        // throw new Exception("InvalidOrderException");
+        // throw new Exception("InvalidShoppingCartException");
         // }
 
         ObjectId id = shoppingCart.getId();

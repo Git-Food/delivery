@@ -2,7 +2,6 @@ package edu.northeastern.cs5500.delivery.view;
 
 import static spark.Spark.delete;
 import static spark.Spark.get;
-import static spark.Spark.halt;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
@@ -39,15 +38,16 @@ public class ShoppingCartView implements View {
                 jsonTransformer);
 
         get(
-                "/order/:id",
+                "/shoppingCart/:id",
                 (request, response) -> {
                     final String paramId = request.params(":id");
-                    log.debug("/order/:id<{}>", paramId);
+                    log.debug("/shoppingCart/:id<{}>", paramId);
                     final ObjectId id = new ObjectId(paramId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCart(id);
-                    if (shoppingCart == null) {
-                        halt(404);
-                    }
+                    // There is currently no invalid shoppingCart
+                    // if (shoppingCart == null) {
+                    // halt(404);
+                    // }
                     response.type("application/json");
                     return shoppingCart;
                 },
