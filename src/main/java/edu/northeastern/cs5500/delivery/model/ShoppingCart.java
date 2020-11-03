@@ -10,6 +10,6 @@ import org.bson.types.ObjectId;
 public class ShoppingCart implements Model {
     private ObjectId id;
     private Map<ObjectId, Order> shoppingCart;
-    private int itemCount;
+    private int totalQuantity;
     private long totalPrice;
 }

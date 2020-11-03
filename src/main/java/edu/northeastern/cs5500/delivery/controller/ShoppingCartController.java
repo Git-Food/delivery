@@ -37,7 +37,6 @@ public class ShoppingCartController {
         ShoppingCart defaultShoppingCart1 =
                 ShoppingCart.builder()
                         .id(new ObjectId())
-                        .itemCount(0)
                         .shoppingCart(
                                 orderController.getOrders().stream()
                                         .collect(
@@ -46,6 +45,7 @@ public class ShoppingCartController {
                         .build();
         try {
             addShoppingCart(defaultShoppingCart1);
+            // Updates the price and quantity for each shoppingCart
             for (ShoppingCart shoppingCart : shoppingCarts.getAll()) {
                 calculateShoppingCartPrice(shoppingCart);
                 calculateShoppingCartQuantity(shoppingCart);
@@ -60,8 +60,8 @@ public class ShoppingCartController {
     /**
      * Calculate total price for a shoppingCart.
      *
-     * @param ShoppingCart shoppingCart to calculate total price from.
-     * @return long totalPrice for the shoppingCart
+     * @param ShoppingCart shoppingCart to calculate total price from
+     * @return totalPrice for the shoppingCart
      */
     public long calculateShoppingCartPrice(ShoppingCart shoppingCart) {
         long totalPrice = 0;
@@ -79,13 +79,19 @@ public class ShoppingCartController {
         return totalPrice;
     }
 
+    /**
+     * Calculate the total quantity for a shoppingCart
+     *
+     * @param shoppingCart shoppingCart to calculate total quantity from
+     * @return totalQuantity total quantity for the shoppingCart
+     */
     public int calculateShoppingCartQuantity(ShoppingCart shoppingCart) {
         int totalQuantity = 0;
         for (Order order : shoppingCart.getShoppingCart().values()) {
             totalQuantity += orderController.calculateItemQuantity(order);
         }
 
-        shoppingCart.setItemCount(totalQuantity);
+        shoppingCart.setTotalQuantity(totalQuantity);
         try {
             updateShoppingCart(shoppingCart);
         } catch (Exception e) {

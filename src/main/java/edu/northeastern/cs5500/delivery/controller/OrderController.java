@@ -77,11 +77,11 @@ public class OrderController {
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
+            // Updates the price and quantity for each order
             for (Order order : orders.getAll()) {
                 calculateOrderPrice(order);
                 calculateItemQuantity(order);
             }
-            // Updates the price and quantity of orders added to repository
         } catch (Exception e) {
             log.error("OrderController > construct > adding default orders > failure?");
             e.printStackTrace();
