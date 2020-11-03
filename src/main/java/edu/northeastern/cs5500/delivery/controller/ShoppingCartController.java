@@ -37,6 +37,7 @@ public class ShoppingCartController {
         ShoppingCart defaultShoppingCart1 =
                 ShoppingCart.builder()
                         .id(new ObjectId())
+                        .customerId(new ObjectId())
                         .shoppingCart(
                                 orderController.getOrders().stream()
                                         .collect(
