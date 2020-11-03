@@ -46,8 +46,10 @@ public class ShoppingCartController {
                         .build();
         try {
             addShoppingCart(defaultShoppingCart1);
-            calculateShoppingCartPrice(defaultShoppingCart1);
-            calculateShoppingCartQuantity(defaultShoppingCart1);
+            for (ShoppingCart shoppingCart : shoppingCarts.getAll()) {
+                calculateShoppingCartPrice(shoppingCart);
+                calculateShoppingCartQuantity(shoppingCart);
+            }
         } catch (Exception e) {
             log.error(
                     "ShoppingCartController > construct > adding default shoppingCart > failure?");

@@ -15,6 +15,7 @@ public class Order implements Model {
     private long deliveryCharge;
     private long taxAmount;
     private long totalPrice;
+    private int totalOrderItemQuantity;
     private ObjectId customerId;
     private ObjectId businessId;
     private ObjectId driverId;

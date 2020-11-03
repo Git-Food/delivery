@@ -38,13 +38,15 @@ public class OrderController {
                         .objectId(menuItemObjectId1)
                         .name("Chicken1")
                         .description("chicken1 description")
+                        .price(2)
                         .note("Spicy sauce included")
                         .build();
         MenuItem menuItem2 =
                 MenuItem.builder()
                         .objectId(menuItemObjectId2)
-                        .name("Chicken2")
-                        .description("chicken2 description")
+                        .name("Beef1")
+                        .description("beef1 description")
+                        .price(3)
                         .note("BBQ sauce included")
                         .build();
         // Order Items
@@ -75,6 +77,11 @@ public class OrderController {
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
+            for (Order order : orders.getAll()) {
+                calculateOrderPrice(order);
+                calculateItemQuantity(order);
+            }
+            // Updates the price and quantity of orders added to repository
         } catch (Exception e) {
             log.error("OrderController > construct > adding default orders > failure?");
             e.printStackTrace();
@@ -117,11 +124,17 @@ public class OrderController {
      * @return itemQuantity order item quantity for the order
      */
     public int calculateItemQuantity(Order order) {
-        int itemQuantity = 0;
+        int totalOrderItemQuantity = 0;
         for (OrderItem item : order.getOrderItems().values()) {
-            itemQuantity += item.getQuantity();
+            totalOrderItemQuantity += item.getQuantity();
         }
-        return itemQuantity;
+        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
+        try {
+            updateOrder(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalOrderItemQuantity;
     }
 
     @Nullable
