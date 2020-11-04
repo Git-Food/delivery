@@ -38,13 +38,15 @@ public class OrderController {
                         .objectId(menuItemObjectId1)
                         .name("Chicken1")
                         .description("chicken1 description")
+                        .price(2)
                         .note("Spicy sauce included")
                         .build();
         MenuItem menuItem2 =
                 MenuItem.builder()
                         .objectId(menuItemObjectId2)
-                        .name("Chicken2")
-                        .description("chicken2 description")
+                        .name("Beef1")
+                        .description("beef1 description")
+                        .price(3)
                         .note("BBQ sauce included")
                         .build();
         // Order Items
@@ -75,6 +77,11 @@ public class OrderController {
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
+            // Updates the price and quantity for each order
+            for (Order order : orders.getAll()) {
+                calculateOrderPrice(order);
+                calculateItemQuantity(order);
+            }
         } catch (Exception e) {
             log.error("OrderController > construct > adding default orders > failure?");
             e.printStackTrace();
@@ -85,10 +92,10 @@ public class OrderController {
     // TODO the method will update order's field "totalPrice" or that would be
     // responsibility of shopping cart?
     /**
-     * Calculate total price for an order.
+     * Totals price for an order.
      *
-     * @param order Order to calculate total price from.
-     * @return Double total price for the order
+     * @param order Order to calculate total price from
+     * @return orderPrice price for the order
      */
     public long calculateOrderPrice(Order order) {
         long orderPrice = 0;
@@ -107,6 +114,27 @@ public class OrderController {
         }
         // return the total price of this order
         return orderPrice;
+    }
+
+    // TODO: is this responsibility of the OrderController?
+    /**
+     * Totals the number of OrderItems in an order
+     *
+     * @param order Order to total the quantity from
+     * @return itemQuantity order item quantity for the order
+     */
+    public int calculateItemQuantity(Order order) {
+        int totalOrderItemQuantity = 0;
+        for (OrderItem item : order.getOrderItems().values()) {
+            totalOrderItemQuantity += item.getQuantity();
+        }
+        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
+        try {
+            updateOrder(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalOrderItemQuantity;
     }
 
     @Nullable

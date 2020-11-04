@@ -9,7 +9,8 @@ import org.bson.types.ObjectId;
 @Data
 public class ShoppingCart implements Model {
     private ObjectId id;
+    private ObjectId customerId;
     private Map<ObjectId, Order> shoppingCart;
-    private Integer itemCount;
-    private Long totalPrice;
+    private int totalQuantity;
+    private long totalPrice;
 }

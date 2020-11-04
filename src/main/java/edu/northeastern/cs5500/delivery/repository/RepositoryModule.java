@@ -8,6 +8,7 @@ import edu.northeastern.cs5500.delivery.model.Delivery;
 import edu.northeastern.cs5500.delivery.model.DriverUser;
 import edu.northeastern.cs5500.delivery.model.Menu;
 import edu.northeastern.cs5500.delivery.model.Order;
+import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 
 @Module
 public class RepositoryModule {
@@ -38,6 +39,11 @@ public class RepositoryModule {
 
     @Provides
     public GenericRepository<Order> providesOrderRepository() {
+        return new InMemoryRepository<>();
+    }
+
+    @Provides
+    public GenericRepository<ShoppingCart> providesShoppingCartRepository() {
         return new InMemoryRepository<>();
     }
 }
