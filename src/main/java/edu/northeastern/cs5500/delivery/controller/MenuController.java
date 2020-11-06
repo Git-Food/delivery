@@ -42,22 +42,18 @@ public class MenuController {
         defaultMenuItem2.setDescription("beef1 description");
         defaultMenuItem2.setPrice(3);
         defaultMenuItem2.setNote("BBQ sauce included");
-        HashMap<ObjectId, MenuItem> defaultMenuItems1 = new HashMap<>();
-        defaultMenuItems1.put(menuItemObjectId1, defaultMenuItem1);
-        HashMap<ObjectId, MenuItem> defaultMenuItems2 = new HashMap<>();
-        defaultMenuItems2.put(menuItemObjectId2, defaultMenuItem2);
-        final Menu defaultMenu1 =
-                Menu.builder()
-                        .name("menu name1")
-                        .description("menu description1")
-                        .menuItems(defaultMenuItems1)
-                        .build();
-        final Menu defaultMenu2 =
-                Menu.builder()
-                        .name("menu name2")
-                        .description("menu description2")
-                        .menuItems(defaultMenuItems2)
-                        .build();
+        HashMap<String, MenuItem> defaultMenuItems1 = new HashMap<>();
+        defaultMenuItems1.put(menuItemObjectId1.toString(), defaultMenuItem1);
+        HashMap<String, MenuItem> defaultMenuItems2 = new HashMap<>();
+        defaultMenuItems2.put(menuItemObjectId2.toString(), defaultMenuItem2);
+        final Menu defaultMenu1 = new Menu();
+        defaultMenu1.setName("menu name1");
+        defaultMenu1.setDescription("menu description1");
+        defaultMenu1.setMenuItems(defaultMenuItems1);
+        final Menu defaultMenu2 = new Menu();
+        defaultMenu2.setName("menu name2");
+        defaultMenu2.setDescription("menu description2");
+        defaultMenu2.setMenuItems(defaultMenuItems2);
 
         try {
             addMenu(defaultMenu1);
