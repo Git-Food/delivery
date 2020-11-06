@@ -5,9 +5,11 @@ import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
+import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -88,6 +90,23 @@ public class OrderController {
         }
     }
 
+    /**
+     * Creates an Order based on userId and OrderItem.
+     *
+     * @param userId ObjectId of user making the Order.
+     * @return Order based on userId and OrderItem and OrderItem businessId.
+     */
+    private Order createOrder(ObjectId userId, OrderItem orderItem) {
+        Map<ObjectId, OrderItem> orderItems = new HashMap<>();
+        orderItems.put(orderItem.getId(), orderItem);
+        return Order.builder()
+                .id(new ObjectId())
+                .customerId(userId)
+                .businessId(orderItem.getBusinessId())
+                .orderItems(orderItems)
+                .build();
+    }
+
     // TODO take the order id instead of object order.
     // TODO the method will update order's field "totalPrice" or that would be
     // responsibility of shopping cart?
@@ -106,12 +125,12 @@ public class OrderController {
                             + (currrentItem.getMenuItem().getPrice() * currrentItem.getQuantity());
         }
         // Update order
-        order.setTotalPrice(orderPrice);
-        try {
-            updateOrder(order);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // order.setTotalPrice(orderPrice);
+        // try {
+        //     updateOrder(order);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
         // return the total price of this order
         return orderPrice;
     }
@@ -128,12 +147,12 @@ public class OrderController {
         for (OrderItem item : order.getOrderItems().values()) {
             totalOrderItemQuantity += item.getQuantity();
         }
-        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
-        try {
-            updateOrder(order);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // order.setTotalOrderItemQuantity(totalOrderItemQuantity);
+        // try {
+        //     updateOrder(order);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
         return totalOrderItemQuantity;
     }
 
@@ -173,8 +192,83 @@ public class OrderController {
         orders.update(order);
     }
 
+    /** Overloaded updateOrder method */
+    public void updateOrder(
+            @Nonnull Order order,
+            @Nonnull long totalPrice,
+            @Nonnull int totalOrderItemQuantity,
+            Map<ObjectId, OrderItem> orderItems)
+            throws Exception {
+        log.debug("OrderController > updateOrder(...overloaded)");
+        order.setTotalPrice(totalPrice);
+        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
+        order.setOrderItems(orderItems);
+        orders.update(order);
+    }
+
     public void deleteOrder(@Nonnull ObjectId id) throws Exception {
         log.debug("OrderController > deleteOrder(...)");
         orders.delete(id);
+    }
+
+    /** Adds OrderItem to anOrder */
+    public Order addOrderItem(
+            ObjectId userId,
+            OrderItem orderItemToAdd,
+            ShoppingCartController shoppingCartController)
+            throws Exception {
+        log.debug("OrderController > addOrderItem(...)");
+        ShoppingCart activeShoppingCart = shoppingCartController.getShoppingCartByUser(userId);
+
+        if (!activeShoppingCart.isEmpty()) {
+            // add orderItem to existing Order where Cart is NOT emtpy
+            for (Map.Entry<ObjectId, Order> entry :
+                    activeShoppingCart.getShoppingCart().entrySet()) {
+                if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
+                    Order currentOrder = entry.getValue();
+                    Map<ObjectId, OrderItem> currentOrderItems = currentOrder.getOrderItems();
+                    currentOrderItems.put(orderItemToAdd.getId(), orderItemToAdd);
+                    long newOrderPrice = calculateOrderPrice(currentOrder);
+                    int newOrderItemQuantity = calculateItemQuantity(currentOrder);
+                    try {
+                        updateOrder(
+                                currentOrder,
+                                newOrderPrice,
+                                newOrderItemQuantity,
+                                currentOrderItems);
+                    } catch (Exception e) {
+                        log.error(
+                                "OrderController > addOrderItem > adding new order (non-empty cart existing order) > failure?");
+                        e.printStackTrace();
+                    }
+                    entry.setValue(currentOrder);
+                    shoppingCartController.updateOrderInShoppingCart(
+                            currentOrder, activeShoppingCart);
+                    return currentOrder;
+                }
+            }
+            // cart is NOT empty but user is creating order from new restaurant
+            Order newOrder = createOrder(userId, orderItemToAdd);
+            try {
+                addOrder(newOrder); // add new Order to database
+            } catch (Exception e) {
+                log.error(
+                        "OrderController > addOrderItem > adding new order (non-empty cart new order) > failure?");
+                e.printStackTrace();
+            }
+            shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
+            return newOrder;
+        }
+        // Empty shopping cart  -> create new order at new restaurant
+        Order newOrder = createOrder(userId, orderItemToAdd);
+        try {
+            addOrder(newOrder); // add new Order to database
+        } catch (Exception e) {
+            log.error(
+                    "OrderController > addOrderItem > adding new order (empty cart new order)> failure?");
+            e.printStackTrace();
+        }
+        shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
+        return newOrder;
     }
 }
