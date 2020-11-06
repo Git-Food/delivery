@@ -5,6 +5,8 @@ import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -18,6 +20,7 @@ import org.bson.types.ObjectId;
 public class ShoppingCartController {
     private final GenericRepository<ShoppingCart> shoppingCarts;
     private final OrderController orderController;
+    private Map<ObjectId, ObjectId> cartToUser;
 
     @Inject
     ShoppingCartController(
@@ -25,6 +28,7 @@ public class ShoppingCartController {
             OrderController orderControllerInstance) {
         shoppingCarts = shoppingCartRepository;
         orderController = orderControllerInstance;
+        cartToUser = createCartToUserMap(shoppingCartRepository);
 
         log.info("ShoppingCartController > construct");
 
@@ -56,6 +60,22 @@ public class ShoppingCartController {
                     "ShoppingCartController > construct > adding default shoppingCart > failure?");
             e.printStackTrace();
         }
+    }
+
+    private Map<ObjectId, ObjectId> createCartToUserMap(
+            GenericRepository<ShoppingCart> shoppingCartRepository) {
+        HashMap<ObjectId, ObjectId> cartToUserMap = new HashMap<>();
+        Collection<ShoppingCart> allShoppingCarts = shoppingCartRepository.getAll();
+        for (ShoppingCart shoppingCart : allShoppingCarts) {
+            // place (customerId : shoppingCartId) in map
+            cartToUserMap.put(shoppingCart.getCustomerId(), shoppingCart.getId());
+        }
+
+        return cartToUserMap;
+    }
+
+    public ShoppingCart createShoppingCart(ObjectId userId) {
+        return ShoppingCart.builder().id(new ObjectId()).customerId(userId).build();
     }
 
     /**
@@ -108,6 +128,13 @@ public class ShoppingCartController {
         return shoppingCarts.get(uuid);
     }
 
+    @Nullable
+    public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) {
+        log.debug("ShoppingCartController > getShoppingCartByUser({})", userId);
+        return shoppingCarts.get(cartToUser.get(userId));
+        // return shoppingCarts.get(cartToUser.getOrDefault(userId, null));
+    }
+
     @Nonnull
     public Collection<ShoppingCart> getShoppingCarts() {
         log.debug("ShoppingCartController > getShoppingCarts()");
@@ -134,9 +161,25 @@ public class ShoppingCartController {
         return shoppingCarts.add(shoppingCart);
     }
 
+    public void addOrderToShoppingCart(
+            @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
+        Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
+        currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
+        shoppingCart.setShoppingCart(currentShoppingCart);
+        addShoppingCart(shoppingCart);
+    }
+
     public void updateShoppingCart(@Nonnull ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > updateShoppingCart(...)");
         shoppingCarts.update(shoppingCart);
+    }
+
+    public void updateOrderInShoppingCart(
+            @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
+        Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
+        currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
+        shoppingCart.setShoppingCart(currentShoppingCart);
+        updateShoppingCart(shoppingCart);
     }
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
