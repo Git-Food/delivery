@@ -13,6 +13,7 @@ public class OrderItem implements Model {
     private static final int VALID_QUANTITY = 0;
 
     private ObjectId id;
+    private ObjectId businessId;
     private MenuItem menuItem;
     private Integer quantity;
     private String specialNote;
