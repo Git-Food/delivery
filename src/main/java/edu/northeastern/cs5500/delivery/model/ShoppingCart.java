@@ -13,4 +13,8 @@ public class ShoppingCart implements Model {
     private Map<ObjectId, Order> shoppingCart;
     private int totalQuantity;
     private long totalPrice;
+
+    public boolean isEmpty() {
+        return shoppingCart.isEmpty();
+    }
 }
