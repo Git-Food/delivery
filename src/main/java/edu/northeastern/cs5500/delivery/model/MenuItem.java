@@ -1,12 +1,10 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
 @Data
-@Builder
 public class MenuItem {
     private ObjectId objectId;
     private String name;

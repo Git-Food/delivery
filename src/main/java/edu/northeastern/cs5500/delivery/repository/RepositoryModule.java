@@ -9,6 +9,7 @@ import edu.northeastern.cs5500.delivery.model.DriverUser;
 import edu.northeastern.cs5500.delivery.model.Menu;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
+import edu.northeastern.cs5500.delivery.service.MongoDBService;
 
 @Module
 public class RepositoryModule {
@@ -37,9 +38,14 @@ public class RepositoryModule {
         return new InMemoryRepository<>();
     }
 
+    // @Provides
+    // public GenericRepository<Order> providesOrderRepository() {
+    //     return new InMemoryRepository<>();
+    // }
+
     @Provides
-    public GenericRepository<Order> providesOrderRepository() {
-        return new InMemoryRepository<>();
+    public GenericRepository<Order> providesORderRepository(MongoDBService mongoDBService) {
+        return new MongoDBRepository<Order>(Order.class, mongoDBService);
     }
 
     @Provides

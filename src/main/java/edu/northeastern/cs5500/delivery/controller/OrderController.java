@@ -33,47 +33,47 @@ public class OrderController {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
-        MenuItem menuItem1 =
-                MenuItem.builder()
-                        .objectId(menuItemObjectId1)
-                        .name("Chicken1")
-                        .description("chicken1 description")
-                        .price(2)
-                        .note("Spicy sauce included")
-                        .build();
-        MenuItem menuItem2 =
-                MenuItem.builder()
-                        .objectId(menuItemObjectId2)
-                        .name("Beef1")
-                        .description("beef1 description")
-                        .price(3)
-                        .note("BBQ sauce included")
-                        .build();
+        MenuItem menuItem1 = new MenuItem();
+        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setName("Chicken1");
+        menuItem1.setDescription("chicken1 description");
+        menuItem1.setPrice(2);
+        menuItem1.setNote("Spicy sauce included");
+        MenuItem menuItem2 = new MenuItem();
+        menuItem2.setObjectId(menuItemObjectId2);
+        menuItem2.setName("Beef1");
+        menuItem2.setDescription("beef1 description");
+        menuItem2.setPrice(3);
+        menuItem2.setNote("BBQ sauce included");
         // Order Items
-        OrderItem orderItem1 =
-                OrderItem.builder().id(new ObjectId()).menuItem(menuItem1).quantity(2).build();
-        OrderItem orderItem2 =
-                OrderItem.builder().id(new ObjectId()).menuItem(menuItem2).quantity(1).build();
-        HashMap<ObjectId, OrderItem> order1Items = new HashMap<>();
-        HashMap<ObjectId, OrderItem> order2Items = new HashMap<>();
-        order1Items.put(menuItemObjectId1, orderItem1);
-        order1Items.put(menuItemObjectId2, orderItem2);
-        order2Items.put(menuItemObjectId1, orderItem1);
+        ObjectId orderItemId1 = new ObjectId();
+        ObjectId orderItemId2 = new ObjectId();
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setId(orderItemId1);
+        orderItem1.setMenuItem(menuItem1);
+        orderItem1.setQuantity(2);
+        OrderItem orderItem2 = new OrderItem();
+        orderItem2.setId(orderItemId2);
+        orderItem2.setMenuItem(menuItem2);
+        orderItem2.setQuantity(3);
+        HashMap<String, OrderItem> order1Items = new HashMap<>();
+        HashMap<String, OrderItem> order2Items = new HashMap<>();
+        order1Items.put(orderItemId1.toString(), orderItem1);
+        order1Items.put(orderItemId2.toString(), orderItem2);
+        order2Items.put(orderItemId1.toString(), orderItem1);
         // Orders
-        Order defaultOrder1 =
-                Order.builder()
-                        .orderItems(order1Items)
-                        .customerId(new ObjectId())
-                        .businessId(new ObjectId())
-                        .orderStatus(OrderStatus.UNDER_REVIEW)
-                        .build();
-        Order defaultOrder2 =
-                Order.builder()
-                        .orderItems(order2Items)
-                        .customerId(new ObjectId())
-                        .businessId(new ObjectId())
-                        .orderStatus(OrderStatus.UNDER_REVIEW)
-                        .build();
+        Order defaultOrder1 = new Order();
+        defaultOrder1.setId(new ObjectId());
+        defaultOrder1.setOrderItems(order1Items);
+        defaultOrder1.setCustomerId(new ObjectId());
+        defaultOrder1.setBusinessId(new ObjectId());
+        defaultOrder1.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        Order defaultOrder2 = new Order();
+        defaultOrder2.setId(new ObjectId());
+        defaultOrder2.setOrderItems(order2Items);
+        defaultOrder2.setCustomerId(new ObjectId());
+        defaultOrder2.setBusinessId(new ObjectId());
+        defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
@@ -99,7 +99,7 @@ public class OrderController {
      */
     public long calculateOrderPrice(Order order) {
         long orderPrice = 0;
-        for (ObjectId id : order.getOrderItems().keySet()) {
+        for (String id : order.getOrderItems().keySet()) {
             OrderItem currrentItem = order.getOrderItems().get(id);
             orderPrice =
                     orderPrice
