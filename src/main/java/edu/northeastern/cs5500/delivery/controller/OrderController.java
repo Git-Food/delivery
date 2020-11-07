@@ -222,53 +222,54 @@ public class OrderController {
 
         if (!activeShoppingCart.isEmpty()) {
             // add orderItem to existing Order where Cart is NOT emtpy
-            for (Map.Entry<ObjectId, Order> entry :
-                    activeShoppingCart.getShoppingCart().entrySet()) {
-                if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
-                    Order currentOrder = entry.getValue();
-                    Map<ObjectId, OrderItem> currentOrderItems = currentOrder.getOrderItems();
-                    currentOrderItems.put(orderItemToAdd.getId(), orderItemToAdd);
-                    long newOrderPrice = calculateOrderPrice(currentOrder);
-                    int newOrderItemQuantity = calculateItemQuantity(currentOrder);
-                    try {
-                        updateOrder(
-                                currentOrder,
-                                newOrderPrice,
-                                newOrderItemQuantity,
-                                currentOrderItems);
-                    } catch (Exception e) {
-                        log.error(
-                                "OrderController > addOrderItem > adding new order (non-empty cart existing order) > failure?");
-                        e.printStackTrace();
-                    }
-                    entry.setValue(currentOrder);
-                    shoppingCartController.updateOrderInShoppingCart(
-                            currentOrder, activeShoppingCart);
-                    return currentOrder;
-                }
+            Order updatedCurrentOrder = addOrderItemToExistingOrder(userId, orderItemToAdd, activeShoppingCart);
+            if (updatedCurrentOrder != null) {
+                shoppingCartController.addOrderToShoppingCart(updatedCurrentOrder, activeShoppingCart);
+                return updatedCurrentOrder;
             }
-            // cart is NOT empty but user is creating order from new restaurant
-            Order newOrder = createOrder(userId, orderItemToAdd);
-            try {
-                addOrder(newOrder); // add new Order to database
-            } catch (Exception e) {
-                log.error(
-                        "OrderController > addOrderItem > adding new order (non-empty cart new order) > failure?");
-                e.printStackTrace();
-            }
-            shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
-            return newOrder;
         }
-        // Empty shopping cart  -> create new order at new restaurant
+        // Create a new Order when Cart is Empty OR there is no matching existing Order
+        Order newOrder =  addOrderItemToNewOrder(userId, orderItemToAdd, activeShoppingCart);
+        shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
+        return newOrder;
+        
+    }
+
+    private Order addOrderItemToExistingOrder(ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) throws Exception {
+        for (Map.Entry<ObjectId, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
+            if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
+                Order currentOrder = entry.getValue();
+                Map<ObjectId, OrderItem> currentOrderItems = currentOrder.getOrderItems();
+                currentOrderItems.put(orderItemToAdd.getId(), orderItemToAdd);
+                long newOrderPrice = calculateOrderPrice(currentOrder);
+                int newOrderItemQuantity = calculateItemQuantity(currentOrder);
+                try {
+                    updateOrder(
+                            currentOrder,
+                            newOrderPrice,
+                            newOrderItemQuantity,
+                            currentOrderItems);
+                } catch (Exception e) {
+                    log.error(
+                            "OrderController > addOrderItemToExistingOrder > adding new order > failure?");
+                    e.printStackTrace();
+                }
+                entry.setValue(currentOrder);
+                return currentOrder;
+            }
+        }
+        return null;
+    }
+
+    private Order addOrderItemToNewOrder(ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) {
         Order newOrder = createOrder(userId, orderItemToAdd);
         try {
-            addOrder(newOrder); // add new Order to database
+            addOrder(newOrder);
         } catch (Exception e) {
             log.error(
-                    "OrderController > addOrderItem > adding new order (empty cart new order)> failure?");
+                    "OrderController > addOrderItemToNewOrder > adding new order > failure?");
             e.printStackTrace();
         }
-        shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
         return newOrder;
     }
 }
