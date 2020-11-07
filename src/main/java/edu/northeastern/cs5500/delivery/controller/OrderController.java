@@ -222,20 +222,23 @@ public class OrderController {
 
         if (!activeShoppingCart.isEmpty()) {
             // add orderItem to existing Order where Cart is NOT emtpy
-            Order updatedCurrentOrder = addOrderItemToExistingOrder(userId, orderItemToAdd, activeShoppingCart);
+            Order updatedCurrentOrder =
+                    addOrderItemToExistingOrder(userId, orderItemToAdd, activeShoppingCart);
             if (updatedCurrentOrder != null) {
-                shoppingCartController.addOrderToShoppingCart(updatedCurrentOrder, activeShoppingCart);
+                shoppingCartController.addOrderToShoppingCart(
+                        updatedCurrentOrder, activeShoppingCart);
                 return updatedCurrentOrder;
             }
         }
         // Create a new Order when Cart is Empty OR there is no matching existing Order
-        Order newOrder =  addOrderItemToNewOrder(userId, orderItemToAdd, activeShoppingCart);
+        Order newOrder = addOrderItemToNewOrder(userId, orderItemToAdd, activeShoppingCart);
         shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
         return newOrder;
-        
     }
 
-    private Order addOrderItemToExistingOrder(ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) throws Exception {
+    private Order addOrderItemToExistingOrder(
+            ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart)
+            throws Exception {
         for (Map.Entry<String, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
             if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
                 Order currentOrder = entry.getValue();
@@ -245,10 +248,7 @@ public class OrderController {
                 int newOrderItemQuantity = calculateItemQuantity(currentOrder);
                 try {
                     updateOrder(
-                            currentOrder,
-                            newOrderPrice,
-                            newOrderItemQuantity,
-                            currentOrderItems);
+                            currentOrder, newOrderPrice, newOrderItemQuantity, currentOrderItems);
                 } catch (Exception e) {
                     log.error(
                             "OrderController > addOrderItemToExistingOrder > adding new order > failure?");
@@ -261,13 +261,13 @@ public class OrderController {
         return null;
     }
 
-    private Order addOrderItemToNewOrder(ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) {
+    private Order addOrderItemToNewOrder(
+            ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) {
         Order newOrder = createOrder(userId, orderItemToAdd);
         try {
             addOrder(newOrder);
         } catch (Exception e) {
-            log.error(
-                    "OrderController > addOrderItemToNewOrder > adding new order > failure?");
+            log.error("OrderController > addOrderItemToNewOrder > adding new order > failure?");
             e.printStackTrace();
         }
         return newOrder;

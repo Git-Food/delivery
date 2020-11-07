@@ -12,7 +12,6 @@ import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
-
 import java.util.HashMap;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,84 +25,101 @@ class OrderControllerTest {
     ObjectId menuItemObjectId1 = new ObjectId();
     ObjectId menuItemObjectId2 = new ObjectId();
     ObjectId menuItemObjectId3 = new ObjectId();
-    MenuItem menuItem1 =
-            MenuItem.builder()
-                    .objectId(menuItemObjectId1)
-                    .name("Supreme Pizza")
-                    .description("Supreme Pizza description")
-                    .price(2)
-                    .note("Spicy sauce included")
-                    .build();
-    MenuItem menuItem2 =
-            MenuItem.builder()
-                    .objectId(menuItemObjectId2)
-                    .name("Pasta")
-                    .description("Pasta description")
-                    .price(3)
-                    .note("Special sauce included")
-                    .build();
-    MenuItem menuItem3 =
-        MenuItem.builder()
-                .objectId(menuItemObjectId3)
-                .name("Calamari")
-                .description("Calamari description")
-                .price(5)
-                .note("lemon sauce included")
-                .build();
+
+    // Menu Items
+    MenuItem menuItem1 = new MenuItem();
+    MenuItem menuItem2 = new MenuItem();
+    MenuItem menuItem3 = new MenuItem();
+
     // Order Items
     ObjectId businessId1 = new ObjectId();
     ObjectId businessId2 = new ObjectId();
-    ObjectId businessId3 = new ObjectId();
+    // ObjectId businessId3 = new ObjectId();
 
-    OrderItem orderItem1 =
-            OrderItem.builder().id(new ObjectId()).menuItem(menuItem1).quantity(2).businessId(businessId1).build();
-    OrderItem orderItem2 =
-            OrderItem.builder().id(new ObjectId()).menuItem(menuItem2).quantity(1).businessId(businessId1).build();
-    OrderItem orderItem3 =
-            OrderItem.builder().id(new ObjectId()).menuItem(menuItem3).quantity(1).businessId(businessId3).build();
-    HashMap<ObjectId, OrderItem> order1Items = new HashMap<>();
-    HashMap<ObjectId, OrderItem> order2Items = new HashMap<>();
-    HashMap<ObjectId, OrderItem> order3Items = new HashMap<>();
+    OrderItem orderItem1 = new OrderItem();
+    OrderItem orderItem2 = new OrderItem();
+    OrderItem orderItem3 = new OrderItem();
+
+    HashMap<String, OrderItem> order1Items = new HashMap<>();
+    HashMap<String, OrderItem> order2Items = new HashMap<>();
+    HashMap<String, OrderItem> order3Items = new HashMap<>();
+
     // Orders
     ObjectId orderId1 = new ObjectId();
     ObjectId orderId2 = new ObjectId();
     ObjectId orderId3 = new ObjectId();
-    Order order1 =
-            Order.builder()
-                    .id(orderId1)
-                    .orderItems(order1Items)
-                    .customerId(new ObjectId())
-                    .businessId(businessId1)
-                    .orderStatus(OrderStatus.PENDING)
-                    .build();
-    Order order2 =
-            Order.builder()
-                    .id(orderId2)
-                    .orderItems(order2Items)
-                    .customerId(new ObjectId())
-                    .businessId(businessId2)
-                    .orderStatus(OrderStatus.PENDING)
-                    .build();
-    Order order3 =
-        Order.builder()
-                .id(orderId3)
-                .orderItems(order3Items)
-                .customerId(new ObjectId())
-                .businessId(businessId3)
-                .orderStatus(OrderStatus.PENDING)
-                .build();
 
-    
+    Order order1 = new Order();
+    Order order2 = new Order();
+    Order order3 = new Order();
+
     @BeforeEach
     void init() {
         orderController = new OrderController(new InMemoryRepository<Order>());
         shoppingCartController =
                 new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
 
-        order1Items.put(menuItemObjectId1, orderItem1);
-        order1Items.put(menuItemObjectId2, orderItem2);
-        order2Items.put(menuItemObjectId1, orderItem1);
-        order3Items.put(menuItemObjectId3, orderItem3);
+        // Menu Item Setup
+        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setName("Supreme Pizza");
+        menuItem1.setDescription("Supreme Pizza description");
+        menuItem1.setPrice(2);
+        menuItem1.setNote("Spicy sauce included");
+
+        menuItem2.setObjectId(menuItemObjectId2);
+        menuItem2.setName("Pasta");
+        menuItem2.setDescription("Pasta description");
+        menuItem2.setPrice(3);
+        menuItem2.setNote("Special sauce included");
+
+        menuItem3.setObjectId(menuItemObjectId3);
+        menuItem3.setName("Calamari");
+        menuItem3.setDescription("Calamari description");
+        menuItem3.setPrice(3);
+        menuItem3.setNote("Lemon sauce included");
+
+        // OrderItem Setup
+        // orderItem1 and orderitem 2 from same business
+        orderItem1.setId(new ObjectId());
+        orderItem1.setMenuItem(menuItem1);
+        orderItem1.setQuantity(2);
+        orderItem1.setBusinessId(businessId1);
+
+        orderItem2.setId(new ObjectId());
+        orderItem2.setMenuItem(menuItem2);
+        orderItem2.setQuantity(1);
+        orderItem2.setBusinessId(businessId1);
+
+        // orderItem3 from different business than Item1&2
+        orderItem3.setId(new ObjectId());
+        orderItem3.setMenuItem(menuItem3);
+        orderItem3.setQuantity(1);
+        orderItem3.setBusinessId(businessId2);
+
+        // Order Setup
+        order1Items.put(menuItemObjectId1.toString(), orderItem1);
+        order1Items.put(menuItemObjectId2.toString(), orderItem2);
+        order2Items.put(menuItemObjectId1.toString(), orderItem1);
+        order3Items.put(menuItemObjectId3.toString(), orderItem3);
+
+        order1.setId(orderId1);
+        order1.setOrderItems(order1Items);
+        order1.setCustomerId(new ObjectId()); // will need to link to customer
+        order1.setBusinessId(businessId1);
+        order1.setOrderStatus(OrderStatus.PENDING);
+
+        // Order 2 is same business different user than Order1
+        order2.setId(orderId2);
+        order2.setOrderItems(order2Items);
+        order2.setCustomerId(new ObjectId()); // will need to link to customer
+        order2.setBusinessId(businessId1);
+        order2.setOrderStatus(OrderStatus.PENDING);
+
+        order3.setId(orderId3);
+        order3.setOrderItems(order3Items);
+        order3.setCustomerId(new ObjectId()); // will need to link to customer
+        order3.setBusinessId(businessId2);
+        order3.setOrderStatus(OrderStatus.PENDING);
 
         order1.setOrderItems(order1Items);
         order2.setOrderItems(order2Items);
@@ -112,7 +128,6 @@ class OrderControllerTest {
 
     @Test
     void testCalculateOrderPrice() {
-        // System.out.println(order1);
         assertThat(orderController.calculateOrderPrice(order1)).isEqualTo(7);
         assertThat(orderController.calculateOrderPrice(order2)).isEqualTo(4);
     }
@@ -122,7 +137,6 @@ class OrderControllerTest {
         assertThat(orderController.calculateItemQuantity(order1)).isEqualTo(3);
         assertThat(orderController.calculateItemQuantity(order2)).isEqualTo(2);
     }
-
 
     @Test
     void testGetOrder() throws Exception {
@@ -159,7 +173,8 @@ class OrderControllerTest {
         // Update Order
         orderController.updateOrder(order3);
         // Assert new order status
-        assertThat(orderController.getOrder(orderId3).getOrderStatus()).isEqualTo(OrderStatus.UNDER_REVIEW);
+        assertThat(orderController.getOrder(orderId3).getOrderStatus())
+                .isEqualTo(OrderStatus.UNDER_REVIEW);
     }
 
     // TODO: Test Overloaded update order method.
@@ -175,6 +190,8 @@ class OrderControllerTest {
         // Assert Order has been removed
         assertThat(orderController.getOrders()).doesNotContain(order3);
     }
+
+    //// Will need to create a CustomerUser with shoppingCart to test
 
     // Can't test until we remove dummy shopping cart data from ShoppingCart Constructor
     // @Test

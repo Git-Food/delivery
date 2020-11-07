@@ -71,10 +71,10 @@ public class ShoppingCartController {
     }
 
     public ShoppingCart createShoppingCart(ObjectId userId) {
-         ShoppingCart newCart = new ShoppingCart();
-         newCart.setId(new ObjectId());
-         newCart.setCustomerId(userId);
-         return newCart;
+        ShoppingCart newCart = new ShoppingCart();
+        newCart.setId(new ObjectId());
+        newCart.setCustomerId(userId);
+        return newCart;
     }
 
     /**
