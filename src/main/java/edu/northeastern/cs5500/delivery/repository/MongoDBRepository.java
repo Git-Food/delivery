@@ -20,13 +20,11 @@ public class MongoDBRepository<T extends Model> implements GenericRepository<T> 
     public MongoDBRepository(Class<T> clazz, MongoDBService mongoDBService) {
         MongoDatabase mongoDatabase = mongoDBService.getMongoDatabase();
         String[] className = clazz.getName().split("\\.");
-        System.out.println(className[className.length - 1]);
         collection = mongoDatabase.getCollection(className[className.length - 1], clazz);
     }
 
     @Nullable
     public T get(ObjectId id) {
-        System.out.println(id);
         // return collection.find(eq("id", id)).first();
         return collection.find(eq("_id", id)).first();
     }

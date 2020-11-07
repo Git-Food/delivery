@@ -22,7 +22,6 @@ public class MongoDBService implements Service {
     static String getDatabaseURI() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         final String databaseURI = processBuilder.environment().get("MONGODB_URI");
-        System.out.println(databaseURI);
         if (databaseURI != null) {
             return databaseURI;
         }
