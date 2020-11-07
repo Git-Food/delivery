@@ -28,37 +28,32 @@ public class MenuController {
         }
 
         log.info("MenuController > construct > adding default menus");
-        final HashMap<ObjectId, MenuItem> defaultMenuItem1 = new HashMap<ObjectId, MenuItem>();
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
-        defaultMenuItem1.put(
-                menuItemObjectId1,
-                MenuItem.builder()
-                        .objectId(menuItemObjectId1)
-                        .name("menu item 1 name")
-                        .description("menu item 1 description")
-                        .note("menu item note 1")
-                        .build());
-        defaultMenuItem1.put(
-                menuItemObjectId2,
-                MenuItem.builder()
-                        .objectId(menuItemObjectId2)
-                        .name("menu item 2 name")
-                        .description("menu item 2 description")
-                        .note("menu item note 2")
-                        .build());
-        final Menu defaultMenu1 =
-                Menu.builder()
-                        .name("menu name1")
-                        .description("menu description1")
-                        .menuItems(defaultMenuItem1)
-                        .build();
-        final Menu defaultMenu2 =
-                Menu.builder()
-                        .name("menu name2")
-                        .description("menu description2")
-                        .menuItems(new HashMap<ObjectId, MenuItem>())
-                        .build();
+        MenuItem defaultMenuItem1 = new MenuItem();
+        defaultMenuItem1.setObjectId(menuItemObjectId1);
+        defaultMenuItem1.setName("Chicken1");
+        defaultMenuItem1.setDescription("chicken1 description");
+        defaultMenuItem1.setPrice(2);
+        defaultMenuItem1.setNote("Spicy sauce included");
+        MenuItem defaultMenuItem2 = new MenuItem();
+        defaultMenuItem2.setObjectId(menuItemObjectId2);
+        defaultMenuItem2.setName("Beef1");
+        defaultMenuItem2.setDescription("beef1 description");
+        defaultMenuItem2.setPrice(3);
+        defaultMenuItem2.setNote("BBQ sauce included");
+        HashMap<String, MenuItem> defaultMenuItems1 = new HashMap<>();
+        defaultMenuItems1.put(menuItemObjectId1.toString(), defaultMenuItem1);
+        HashMap<String, MenuItem> defaultMenuItems2 = new HashMap<>();
+        defaultMenuItems2.put(menuItemObjectId2.toString(), defaultMenuItem2);
+        final Menu defaultMenu1 = new Menu();
+        defaultMenu1.setName("menu name1");
+        defaultMenu1.setDescription("menu description1");
+        defaultMenu1.setMenuItems(defaultMenuItems1);
+        final Menu defaultMenu2 = new Menu();
+        defaultMenu2.setName("menu name2");
+        defaultMenu2.setDescription("menu description2");
+        defaultMenu2.setMenuItems(defaultMenuItems2);
 
         try {
             addMenu(defaultMenu1);

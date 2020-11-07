@@ -31,16 +31,16 @@ public class CustomerUserController {
         log.info("CustomerUserController > construct > adding default customerUsers");
 
         final CustomerUser defaultCustomerUser1 = new CustomerUser();
-        Name customerUserName1 = Name.builder().firstName("John").lastName("Smith").build();
-        PostalAddress addressUser1 =
-                PostalAddress.builder()
-                        .houseNumber("225")
-                        .streetAddress("Terry Avenue")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98109")
-                        .country("United States")
-                        .build();
+        Name customerUserName1 = new Name();
+        customerUserName1.setFirstName("John");
+        customerUserName1.setLastName("Smith");
+        PostalAddress addressUser1 = new PostalAddress();
+        addressUser1.setHouseNumber("410");
+        addressUser1.setStreetAddress("Terry Avenue");
+        addressUser1.setCity("Seattle");
+        addressUser1.setState("WA");
+        addressUser1.setZipCode("98109");
+        addressUser1.setCountry("United States");
 
         defaultCustomerUser1.setName(customerUserName1);
         defaultCustomerUser1.setEmail("john.smith@email.com");
@@ -49,16 +49,16 @@ public class CustomerUserController {
         defaultCustomerUser1.setBirthday(Date.valueOf("1965-12-12"));
 
         final CustomerUser defaultCustomerUser2 = new CustomerUser();
-        Name customerUserName2 = Name.builder().firstName("Mary").lastName("Poppins").build();
-        PostalAddress addressUser2 =
-                PostalAddress.builder()
-                        .houseNumber("401")
-                        .streetAddress("Terry Avenue")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98109")
-                        .country("United States")
-                        .build();
+        Name customerUserName2 = new Name();
+        customerUserName2.setFirstName("Mary");
+        customerUserName2.setLastName("Popins");
+        PostalAddress addressUser2 = new PostalAddress();
+        addressUser2.setHouseNumber("410");
+        addressUser2.setStreetAddress("Terry Avenue");
+        addressUser2.setCity("Seattle");
+        addressUser2.setState("WA");
+        addressUser2.setZipCode("98109");
+        addressUser2.setCountry("United States");
 
         defaultCustomerUser2.setName(customerUserName2);
         defaultCustomerUser2.setEmail("mary.poppins@email.com");

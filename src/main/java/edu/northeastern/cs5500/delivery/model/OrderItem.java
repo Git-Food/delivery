@@ -1,13 +1,11 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
 /** Class OrderItem represents an item in an Order. */
 @Data
-@Builder
 public class OrderItem implements Model {
     /** Constant valid for valid amount of items in the item */
     private static final int VALID_QUANTITY = 0;
