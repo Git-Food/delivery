@@ -31,16 +31,16 @@ public class BusinessUserController {
         log.info("BusinessUserController > construct > adding default businessUsers");
 
         final BusinessUser defaultBusinessUser1 = new BusinessUser();
-        Name businessUserName1 = Name.builder().firstName("Han").lastName("Solo").build();
-        PostalAddress addressUser1 =
-                PostalAddress.builder()
-                        .houseNumber("410")
-                        .streetAddress("Terry Avenue")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98109")
-                        .country("United States")
-                        .build();
+        Name businessUserName1 = new Name();
+        businessUserName1.setFirstName("Han");
+        businessUserName1.setLastName("Solo");
+        PostalAddress addressUser1 = new PostalAddress();
+        addressUser1.setHouseNumber("410");
+        addressUser1.setStreetAddress("Terry Avenue");
+        addressUser1.setCity("Seattle");
+        addressUser1.setState("WA");
+        addressUser1.setZipCode("98109");
+        addressUser1.setCountry("United States");
 
         defaultBusinessUser1.setName(businessUserName1);
         defaultBusinessUser1.setEmail("han.solo@email.com");
@@ -52,16 +52,16 @@ public class BusinessUserController {
         defaultBusinessUser1.setEndTime(LocalTime.of(22, 00, 00));
 
         final BusinessUser defaultBusinessUser2 = new BusinessUser();
-        Name businessUserName2 = Name.builder().firstName("Bob").lastName("Ross").build();
-        PostalAddress addressUser2 =
-                PostalAddress.builder()
-                        .houseNumber("832")
-                        .streetAddress("Dexter Avenue North")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98109")
-                        .country("United States")
-                        .build();
+        Name businessUserName2 = new Name();
+        businessUserName2.setFirstName("Bob");
+        businessUserName2.setLastName("Ross");
+        PostalAddress addressUser2 = new PostalAddress();
+        addressUser2.setHouseNumber("832");
+        addressUser2.setStreetAddress("Dexter Avenue North");
+        addressUser2.setCity("Seattle");
+        addressUser2.setState("WA");
+        addressUser2.setZipCode("98109");
+        addressUser2.setCountry("United States");
 
         defaultBusinessUser2.setName(businessUserName2);
         defaultBusinessUser2.setEmail("bob.ross@email.com");

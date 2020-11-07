@@ -1,12 +1,10 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
 
 /** Class represents a postal address. */
 @Data
-@Builder
 public class PostalAddress {
     private String streetAddress;
     private String houseNumber;

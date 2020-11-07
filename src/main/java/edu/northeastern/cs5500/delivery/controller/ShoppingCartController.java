@@ -38,16 +38,12 @@ public class ShoppingCartController {
 
         log.info("ShoppingCartController > construct > adding default shopping carts");
         // Menu Items
-        ShoppingCart defaultShoppingCart1 =
-                ShoppingCart.builder()
-                        .id(new ObjectId())
-                        .customerId(new ObjectId())
-                        .shoppingCart(
-                                orderController.getOrders().stream()
-                                        .collect(
-                                                Collectors.toMap(
-                                                        Order::getId, Function.identity())))
-                        .build();
+        ShoppingCart defaultShoppingCart1 = new ShoppingCart();
+        defaultShoppingCart1.setId(new ObjectId());
+        defaultShoppingCart1.setCustomerId(new ObjectId());
+        defaultShoppingCart1.setShoppingCart(
+                orderController.getOrders().stream()
+                        .collect(Collectors.toMap(x -> x.getId().toString(), Function.identity())));
         try {
             addShoppingCart(defaultShoppingCart1);
             // Updates the price and quantity for each shoppingCart

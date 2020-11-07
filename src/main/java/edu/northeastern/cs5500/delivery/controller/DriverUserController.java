@@ -32,39 +32,43 @@ public class DriverUserController {
 
         log.info("DriversController > construct > adding default drivers");
         // Names
-        Name driverUserName1 = Name.builder().firstName("Will").lastName("Douglas").build();
-        Name driverUserName2 = Name.builder().firstName("Michael").lastName("Walton").build();
+        Name driverUserName1 = new Name();
+        driverUserName1.setFirstName("Mark");
+        driverUserName1.setLastName("Smith");
+        Name driverUserName2 = new Name();
+        driverUserName2.setFirstName("Joe");
+        driverUserName2.setLastName("Tiden");
         // Addresses
-        PostalAddress driverUserAddress1 =
-                PostalAddress.builder()
-                        .streetAddress("Westlake Ave")
-                        .houseNumber("123")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98103")
-                        .country("US")
-                        .build();
-        PostalAddress driverUserAddress2 =
-                PostalAddress.builder()
-                        .streetAddress("Thomas Ave")
-                        .houseNumber("456")
-                        .city("Seattle")
-                        .state("WA")
-                        .zipCode("98107")
-                        .country("US")
-                        .build();
+        PostalAddress driverUserAddress1 = new PostalAddress();
+        driverUserAddress1.setHouseNumber("410");
+        driverUserAddress1.setStreetAddress("Terry Avenue");
+        driverUserAddress1.setCity("Seattle");
+        driverUserAddress1.setState("WA");
+        driverUserAddress1.setZipCode("98109");
+        driverUserAddress1.setCountry("United States");
+        PostalAddress driverUserAddress2 = new PostalAddress();
+        driverUserAddress2.setHouseNumber("500");
+        driverUserAddress2.setStreetAddress("Thomas Ave");
+        driverUserAddress2.setCity("Seattle");
+        driverUserAddress2.setState("WA");
+        driverUserAddress2.setZipCode("98119");
+        driverUserAddress2.setCountry("United States");
         // Vehicles
         Vehicle vehicle1 = new Vehicle();
         vehicle1.setColor("red");
         vehicle1.setLicensePlate("WAAAA123");
         vehicle1.setYear(2020);
-        MakeModel makemodel1 = MakeModel.builder().make("Toyota").model("Rav4").build();
+        MakeModel makemodel1 = new MakeModel();
+        makemodel1.setMake("Toyota");
+        makemodel1.setModel("Rav4");
         vehicle1.setMakeModel(makemodel1);
         Vehicle vehicle2 = new Vehicle();
         vehicle2.setColor("blue");
         vehicle2.setLicensePlate("WBBA456");
         vehicle2.setYear(2018);
-        MakeModel makemodel2 = MakeModel.builder().make("Honda").model("CRV").build();
+        MakeModel makemodel2 = new MakeModel();
+        makemodel2.setMake("Honda");
+        makemodel2.setModel("CRV");
         vehicle2.setMakeModel(makemodel2);
         // Coordinates
         GPSCoordinates coordinate1 = new GPSCoordinates();
