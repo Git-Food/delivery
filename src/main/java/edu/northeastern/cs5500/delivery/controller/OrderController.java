@@ -97,14 +97,14 @@ public class OrderController {
      * @return Order based on userId and OrderItem and OrderItem businessId.
      */
     private Order createOrder(ObjectId userId, OrderItem orderItem) {
-        Map<ObjectId, OrderItem> orderItems = new HashMap<>();
-        orderItems.put(orderItem.getId(), orderItem);
-        return Order.builder()
-                .id(new ObjectId())
-                .customerId(userId)
-                .businessId(orderItem.getBusinessId())
-                .orderItems(orderItems)
-                .build();
+        Map<String, OrderItem> orderItems = new HashMap<>();
+        orderItems.put(orderItem.getId().toString(), orderItem);
+        Order newOrder = new Order();
+        newOrder.setId(new ObjectId());
+        newOrder.setCustomerId(userId);
+        newOrder.setBusinessId(orderItem.getBusinessId());
+        newOrder.setOrderItems(orderItems);
+        return newOrder;
     }
 
     // TODO take the order id instead of object order.
