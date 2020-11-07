@@ -71,7 +71,10 @@ public class ShoppingCartController {
     }
 
     public ShoppingCart createShoppingCart(ObjectId userId) {
-        return ShoppingCart.builder().id(new ObjectId()).customerId(userId).build();
+         ShoppingCart newCart = new ShoppingCart();
+         newCart.setId(new ObjectId());
+         newCart.setCustomerId(userId);
+         return newCart;
     }
 
     /**
@@ -160,8 +163,8 @@ public class ShoppingCartController {
     // Assume that every user will be have a shopping cart upon registration.
     public void addOrderToShoppingCart(
             @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
-        Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
-        currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
+        Map<String, Order> currentShoppingCart = shoppingCart.getShoppingCart();
+        currentShoppingCart.put(orderToAdd.getId().toString(), orderToAdd);
         shoppingCart.setShoppingCart(currentShoppingCart);
         updateShoppingCart(shoppingCart);
     }
