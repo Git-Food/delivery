@@ -197,7 +197,7 @@ public class OrderController {
             @Nonnull Order order,
             @Nonnull long totalPrice,
             @Nonnull int totalOrderItemQuantity,
-            Map<ObjectId, OrderItem> orderItems)
+            Map<String, OrderItem> orderItems)
             throws Exception {
         log.debug("OrderController > updateOrder(...overloaded)");
         order.setTotalPrice(totalPrice);
@@ -236,11 +236,11 @@ public class OrderController {
     }
 
     private Order addOrderItemToExistingOrder(ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) throws Exception {
-        for (Map.Entry<ObjectId, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
+        for (Map.Entry<String, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
             if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
                 Order currentOrder = entry.getValue();
-                Map<ObjectId, OrderItem> currentOrderItems = currentOrder.getOrderItems();
-                currentOrderItems.put(orderItemToAdd.getId(), orderItemToAdd);
+                Map<String, OrderItem> currentOrderItems = currentOrder.getOrderItems();
+                currentOrderItems.put(orderItemToAdd.getId().toString(), orderItemToAdd);
                 long newOrderPrice = calculateOrderPrice(currentOrder);
                 int newOrderItemQuantity = calculateItemQuantity(currentOrder);
                 try {
