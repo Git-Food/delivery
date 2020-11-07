@@ -131,7 +131,7 @@ public class ShoppingCartController {
     @Nullable
     public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) {
         log.debug("ShoppingCartController > getShoppingCartByUser({})", userId);
-        return shoppingCarts.get(cartToUser.get(userId));
+        return getShoppingCart(cartToUser.get(userId));
         // return shoppingCarts.get(cartToUser.getOrDefault(userId, null));
     }
 
@@ -161,12 +161,13 @@ public class ShoppingCartController {
         return shoppingCarts.add(shoppingCart);
     }
 
+    // Assume that every user will be have a shopping cart upon registration.
     public void addOrderToShoppingCart(
             @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
         Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
         currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
         shoppingCart.setShoppingCart(currentShoppingCart);
-        addShoppingCart(shoppingCart);
+        updateShoppingCart(shoppingCart);
     }
 
     public void updateShoppingCart(@Nonnull ShoppingCart shoppingCart) throws Exception {
@@ -174,13 +175,13 @@ public class ShoppingCartController {
         shoppingCarts.update(shoppingCart);
     }
 
-    public void updateOrderInShoppingCart(
-            @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
-        Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
-        currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
-        shoppingCart.setShoppingCart(currentShoppingCart);
-        updateShoppingCart(shoppingCart);
-    }
+    // public void updateOrderInShoppingCart(
+    //         @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
+    //     Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
+    //     currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
+    //     shoppingCart.setShoppingCart(currentShoppingCart);
+    //     updateShoppingCart(shoppingCart);
+    // }
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
