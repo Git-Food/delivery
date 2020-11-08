@@ -193,7 +193,7 @@ public class OrderController {
             @Nonnull int totalOrderItemQuantity,
             Map<String, OrderItem> orderItems)
             throws Exception {
-        log.debug("OrderController > updateOrder(...overloaded)");
+        log.debug("OrderController > updateOrder(Order, long, int, Map)");
         order.setTotalPrice(totalPrice);
         order.setTotalOrderItemQuantity(totalOrderItemQuantity);
         order.setOrderItems(orderItems);
