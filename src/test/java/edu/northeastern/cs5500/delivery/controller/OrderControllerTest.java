@@ -5,7 +5,7 @@ package edu.northeastern.cs5500.delivery.controller;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import edu.northeastern.cs5500.delivery.model.CustomerUser;
+
 import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
@@ -20,44 +20,49 @@ import org.junit.jupiter.api.Test;
 class OrderControllerTest {
     OrderController orderController;
     ShoppingCartController shoppingCartController;
-    CustomerUser user;
-
-    ObjectId menuItemObjectId1 = new ObjectId();
-    ObjectId menuItemObjectId2 = new ObjectId();
-    ObjectId menuItemObjectId3 = new ObjectId();
-
-    // Menu Items
-    MenuItem menuItem1 = new MenuItem();
-    MenuItem menuItem2 = new MenuItem();
-    MenuItem menuItem3 = new MenuItem();
-
-    // Order Items
-    ObjectId businessId1 = new ObjectId();
-    ObjectId businessId2 = new ObjectId();
-    // ObjectId businessId3 = new ObjectId();
-
-    OrderItem orderItem1 = new OrderItem();
-    OrderItem orderItem2 = new OrderItem();
-    OrderItem orderItem3 = new OrderItem();
-
-    HashMap<String, OrderItem> order1Items = new HashMap<>();
-    HashMap<String, OrderItem> order2Items = new HashMap<>();
-    HashMap<String, OrderItem> order3Items = new HashMap<>();
-
-    // Orders
-    ObjectId orderId1 = new ObjectId();
-    ObjectId orderId2 = new ObjectId();
-    ObjectId orderId3 = new ObjectId();
-
-    Order order1 = new Order();
-    Order order2 = new Order();
-    Order order3 = new Order();
+    Order order1;
+    Order order2;
+    Order order3;
+    ObjectId orderId1;
+    ObjectId orderId2;
+    ObjectId orderId3;
 
     @BeforeEach
     void init() {
         orderController = new OrderController(new InMemoryRepository<Order>());
-        shoppingCartController =
-                new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
+        shoppingCartController = new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
+        // CustomerUser user;
+
+        ObjectId menuItemObjectId1 = new ObjectId();
+        ObjectId menuItemObjectId2 = new ObjectId();
+        ObjectId menuItemObjectId3 = new ObjectId();
+    
+        // Menu Items
+        MenuItem menuItem1 = new MenuItem();
+        MenuItem menuItem2 = new MenuItem();
+        MenuItem menuItem3 = new MenuItem();
+    
+        // Order Items
+        ObjectId businessId1 = new ObjectId();
+        ObjectId businessId2 = new ObjectId();
+        // ObjectId businessId3 = new ObjectId();
+    
+        OrderItem orderItem1 = new OrderItem();
+        OrderItem orderItem2 = new OrderItem();
+        OrderItem orderItem3 = new OrderItem();
+    
+        HashMap<String, OrderItem> order1Items = new HashMap<>();
+        HashMap<String, OrderItem> order2Items = new HashMap<>();
+        HashMap<String, OrderItem> order3Items = new HashMap<>();
+    
+        // Orders
+        orderId1 = new ObjectId();
+        orderId2 = new ObjectId();
+        orderId3 = new ObjectId();
+    
+        order1 = new Order();
+        order2 = new Order();
+        order3 = new Order();
 
         // Menu Item Setup
         menuItem1.setObjectId(menuItemObjectId1);
@@ -191,26 +196,22 @@ class OrderControllerTest {
         assertThat(orderController.getOrders()).doesNotContain(order3);
     }
 
-    //// Will need to create a CustomerUser with shoppingCart to test
 
-    // Can't test until we remove dummy shopping cart data from ShoppingCart Constructor
-    // @Test
-    // void testCanAddOrderItemEmptyCart() throws Exception {
-    //     // Remove all dummy data from ShoppingCart
-    //     Collection <ShoppingCart> allshoppingCarts = shoppingCartController.getShoppingCarts();
-    //     for (ShoppingCart cart : allshoppingCarts) {
-    //         shoppingCartController.deleteShoppingCart(cart.getId());
-    //     }
+    @Test
+    void testCanAddOrderItemEmptyCart() throws Exception {
+        // TODO(shh) 
+        // Will need to create a CustomerUser with shoppingCart to test
 
-    // }
+    }
 
-    // @Test
-    // void testCanAddOrderItemNoMatchingOrder() {
+    @Test
+    void testCanAddOrderItemNoMatchingOrder() {
+        // TODO(shh)
+    }
 
-    // }
+    @Test
+    void testCanAddOrderItemToExistingOrder() {
+        // TODO(shh)
 
-    // @Test
-    // void testCanAddOrderItemToExistingOrder() {
-
-    // }
+    }
 }
