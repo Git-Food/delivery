@@ -1,6 +1,9 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import org.bson.types.ObjectId;
 
@@ -12,6 +15,7 @@ public class ShoppingCart implements Model {
     private int totalQuantity;
     private long totalPrice;
 
+    @JsonIgnore
     public boolean isEmpty() {
         return shoppingCart.isEmpty();
     }
