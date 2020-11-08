@@ -245,12 +245,14 @@ public class OrderController {
      * @param userId userId of the CustomerUser model
      * @param orderItemToAdd OrderItem object being added to an existing or new Order
      * @param activeShoppingCart ShoppingCart object of the given CustomerUser
-     * @return Order object containing newly added OrderItem
+     * @return Order object containing newly added OrderItem, or null if no matching Order was
+     *     found.
      * @throws Exception TODO (shh) create specicific exception
      */
     private Order addOrderItemToExistingOrder(
             ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart)
             throws Exception {
+        // Iterates through all Orders in the given ShoppingCart to find a matching Order.
         for (Map.Entry<String, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
             if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
                 Order currentOrder = entry.getValue();

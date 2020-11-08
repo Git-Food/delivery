@@ -58,6 +58,7 @@ public class ShoppingCartController {
         }
     }
 
+    /** Return a Map<CustomerUser id, ShoppingCart id> based on a given ShoppingCartRepository. */
     private Map<ObjectId, ObjectId> createCartToUserMap(
             GenericRepository<ShoppingCart> shoppingCartRepository) {
         HashMap<ObjectId, ObjectId> cartToUserMap = new HashMap<>();
@@ -70,6 +71,11 @@ public class ShoppingCartController {
         return cartToUserMap;
     }
 
+    /**
+     * Returns a new ShoppingCart object for a given CustomerUser id.
+     *
+     * @return a new ShoppingCart object for a given CustomerUser id.
+     */
     public ShoppingCart createShoppingCart(ObjectId userId) {
         ShoppingCart newCart = new ShoppingCart();
         newCart.setId(new ObjectId());
@@ -127,11 +133,16 @@ public class ShoppingCartController {
         return shoppingCarts.get(uuid);
     }
 
+    /**
+     * Return a ShoppingCart belonging to a CustomerUser identified by id.
+     *
+     * @param userId ObjectId of a given CustomerUser
+     * @return ShoppingCart based on CusterUser id.
+     */
     @Nullable
     public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) {
         log.debug("ShoppingCartController > getShoppingCartByUser({})", userId);
         return getShoppingCart(cartToUser.get(userId));
-        // return shoppingCarts.get(cartToUser.getOrDefault(userId, null));
     }
 
     @Nonnull
@@ -160,6 +171,13 @@ public class ShoppingCartController {
         return shoppingCarts.add(shoppingCart);
     }
 
+    /**
+     * Adds an Order the the provided ShoppingCart object
+     *
+     * @param orderToAdd Order to be added to the ShoppingCart object
+     * @param shoppingCart ShoppingCart into which an Order is being added
+     * @throws Exception TODO (shh) create specific exception
+     */
     // Assume that every user will be have a shopping cart upon registration.
     public void addOrderToShoppingCart(
             @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
@@ -173,14 +191,6 @@ public class ShoppingCartController {
         log.debug("ShoppingCartController > updateShoppingCart(...)");
         shoppingCarts.update(shoppingCart);
     }
-
-    // public void updateOrderInShoppingCart(
-    //         @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
-    //     Map<ObjectId, Order> currentShoppingCart = shoppingCart.getShoppingCart();
-    //     currentShoppingCart.put(orderToAdd.getId(), orderToAdd);
-    //     shoppingCart.setShoppingCart(currentShoppingCart);
-    //     updateShoppingCart(shoppingCart);
-    // }
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
