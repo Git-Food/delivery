@@ -5,7 +5,6 @@ package edu.northeastern.cs5500.delivery.controller;
 
 import static com.google.common.truth.Truth.assertThat;
 
-
 import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
@@ -30,36 +29,37 @@ class OrderControllerTest {
     @BeforeEach
     void init() {
         orderController = new OrderController(new InMemoryRepository<Order>());
-        shoppingCartController = new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
+        shoppingCartController =
+                new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
         // CustomerUser user;
 
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
         ObjectId menuItemObjectId3 = new ObjectId();
-    
+
         // Menu Items
         MenuItem menuItem1 = new MenuItem();
         MenuItem menuItem2 = new MenuItem();
         MenuItem menuItem3 = new MenuItem();
-    
+
         // Order Items
         ObjectId businessId1 = new ObjectId();
         ObjectId businessId2 = new ObjectId();
         // ObjectId businessId3 = new ObjectId();
-    
+
         OrderItem orderItem1 = new OrderItem();
         OrderItem orderItem2 = new OrderItem();
         OrderItem orderItem3 = new OrderItem();
-    
+
         HashMap<String, OrderItem> order1Items = new HashMap<>();
         HashMap<String, OrderItem> order2Items = new HashMap<>();
         HashMap<String, OrderItem> order3Items = new HashMap<>();
-    
+
         // Orders
         orderId1 = new ObjectId();
         orderId2 = new ObjectId();
         orderId3 = new ObjectId();
-    
+
         order1 = new Order();
         order2 = new Order();
         order3 = new Order();
@@ -196,10 +196,9 @@ class OrderControllerTest {
         assertThat(orderController.getOrders()).doesNotContain(order3);
     }
 
-
     @Test
     void testCanAddOrderItemEmptyCart() throws Exception {
-        // TODO(shh) 
+        // TODO(shh)
         // Will need to create a CustomerUser with shoppingCart to test
 
     }
