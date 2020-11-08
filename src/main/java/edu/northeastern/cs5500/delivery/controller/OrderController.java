@@ -124,14 +124,6 @@ public class OrderController {
                     orderPrice
                             + (currrentItem.getMenuItem().getPrice() * currrentItem.getQuantity());
         }
-        // Update order
-        // order.setTotalPrice(orderPrice);
-        // try {
-        //     updateOrder(order);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-        // return the total price of this order
         return orderPrice;
     }
 
@@ -147,12 +139,6 @@ public class OrderController {
         for (OrderItem item : order.getOrderItems().values()) {
             totalOrderItemQuantity += item.getQuantity();
         }
-        // order.setTotalOrderItemQuantity(totalOrderItemQuantity);
-        // try {
-        //     updateOrder(order);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
         return totalOrderItemQuantity;
     }
 
@@ -192,7 +178,15 @@ public class OrderController {
         orders.update(order);
     }
 
-    /** Overloaded updateOrder method */
+    /**
+     * Sets mofified fields of the Order and updates the order in the repository
+     *
+     * @param order Order object being updated
+     * @param totalPrice new totalPrice of the Order
+     * @param totalOrderItemQuantity new totalOrderItemQuantity of the Order
+     * @param orderItems new orderItems Map of the Order
+     * @throws Exception TODO (shh) create sepcific exception
+     */
     public void updateOrder(
             @Nonnull Order order,
             @Nonnull long totalPrice,
@@ -211,7 +205,16 @@ public class OrderController {
         orders.delete(id);
     }
 
-    /** Adds OrderItem to anOrder */
+    /**
+     * Return modified Order object after adding an OrderItem to an existing Order, or creates a
+     * brand new Order based on OrderItem.
+     *
+     * @param userId userId from the CustomerUser model
+     * @param orderItemToAdd OrderItem object being added to an existing or new Order
+     * @param shoppingCartController ShoppingCartController object
+     * @throws Exception TODO (shh) create specific exception
+     * @return Order object containing newly added OrderItem
+     */
     public Order addOrderItem(
             ObjectId userId,
             OrderItem orderItemToAdd,
@@ -236,6 +239,15 @@ public class OrderController {
         return newOrder;
     }
 
+    /**
+     * Returns modified Order object after adding an OrderItem to an existing order
+     *
+     * @param userId userId of the CustomerUser model
+     * @param orderItemToAdd OrderItem object being added to an existing or new Order
+     * @param activeShoppingCart ShoppingCart object of the given CustomerUser
+     * @return Order object containing newly added OrderItem
+     * @throws Exception TODO (shh) create specicific exception
+     */
     private Order addOrderItemToExistingOrder(
             ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart)
             throws Exception {
@@ -261,6 +273,14 @@ public class OrderController {
         return null;
     }
 
+    /**
+     * Returns Order object when adding an OrderItem to a newly created Order.
+     *
+     * @param userId userId of the CustomerUser model
+     * @param orderItemToAdd OrderItem object being added to an existing or new Order
+     * @param activeShoppingCart ShoppingCart object of the given CustomerUser
+     * @return Order object containing newly added OrderItem
+     */
     private Order addOrderItemToNewOrder(
             ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) {
         Order newOrder = createOrder(userId, orderItemToAdd);
