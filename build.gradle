@@ -16,9 +16,6 @@ plugins {
 
     // Spotless to format code easily
     id "com.diffplug.gradle.spotless" version "3.27.1"
-
-    // jacoco Testing Coverage Reporting
-    id "jacoco"
 }
 
 repositories {
