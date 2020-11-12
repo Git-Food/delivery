@@ -185,7 +185,6 @@ public class OrderController {
         orders.update(order);
     }
 
-
     public void deleteOrder(@Nonnull ObjectId id) throws Exception {
         log.debug("OrderController > deleteOrder(...)");
         orders.delete(id);
