@@ -1,14 +1,13 @@
 package edu.northeastern.cs5500.delivery.controller;
 
 import com.mongodb.lang.Nullable;
-import edu.northeastern.cs5500.delivery.model.Order;
+import edu.northeastern.cs5500.delivery.model.MenuItem;
+import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,18 +37,51 @@ public class ShoppingCartController {
 
         log.info("ShoppingCartController > construct > adding default shopping carts");
         // Menu Items
+        ObjectId menuItemObjectId1 = new ObjectId();
+        ObjectId menuItemObjectId2 = new ObjectId();
+        MenuItem menuItem1 = new MenuItem();
+        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setName("Chicken1");
+        menuItem1.setDescription("chicken1 description");
+        menuItem1.setPrice(2);
+        menuItem1.setNote("Spicy sauce included");
+        MenuItem menuItem2 = new MenuItem();
+        menuItem2.setObjectId(menuItemObjectId2);
+        menuItem2.setName("Beef1");
+        menuItem2.setDescription("beef1 description");
+        menuItem2.setPrice(3);
+        menuItem2.setNote("BBQ sauce included");
+        // Order Items
+        ObjectId orderItemId1 = new ObjectId();
+        ObjectId orderItemId2 = new ObjectId();
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setId(orderItemId1);
+        orderItem1.setMenuItem(menuItem1);
+        orderItem1.setQuantity(2);
+        OrderItem orderItem2 = new OrderItem();
+        orderItem2.setId(orderItemId2);
+        orderItem2.setMenuItem(menuItem2);
+        orderItem2.setQuantity(3);
+
+        // Shopping Carts
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
+        ShoppingCart defaultShoppingCart2 = new ShoppingCart();
         defaultShoppingCart1.setId(new ObjectId());
         defaultShoppingCart1.setCustomerId(new ObjectId());
-        defaultShoppingCart1.setShoppingCart(
-                orderController.getOrders().stream()
-                        .collect(Collectors.toMap(x -> x.getId().toString(), Function.identity())));
+        Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
+        defaultShoppingCartMap1.put(orderItem1.getId().toString(), orderItem1);
+        defaultShoppingCartMap1.put(orderItem2.getId().toString(), orderItem2);
+        defaultShoppingCart1.setShoppingCart(defaultShoppingCartMap1);
         try {
             addShoppingCart(defaultShoppingCart1);
+            addShoppingCart(defaultShoppingCart2);
             // Updates the price and quantity for each shoppingCart
             for (ShoppingCart shoppingCart : shoppingCarts.getAll()) {
-                calculateShoppingCartPrice(shoppingCart);
-                calculateShoppingCartQuantity(shoppingCart);
+                long cartPrice = calculateShoppingCartPrice(shoppingCart);
+                int cartQuantity = calculateShoppingCartQuantity(shoppingCart);
+                shoppingCart.setTotalPrice(cartPrice);
+                shoppingCart.setTotalQuantity(cartQuantity);
+                updateShoppingCart(shoppingCart);
             }
         } catch (Exception e) {
             log.error(
@@ -91,17 +123,9 @@ public class ShoppingCartController {
      */
     public long calculateShoppingCartPrice(ShoppingCart shoppingCart) {
         long totalPrice = 0;
-        for (Order order : shoppingCart.getShoppingCart().values()) {
-            totalPrice += orderController.calculateOrderPrice(order);
+        for (OrderItem orderItem : shoppingCart.getShoppingCart().values()) {
+            totalPrice += orderItem.getMenuItem().getPrice();
         }
-        // Update shoppingCart
-        shoppingCart.setTotalPrice(totalPrice);
-        try {
-            updateShoppingCart(shoppingCart);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // return the total price of this shoppingCart
         return totalPrice;
     }
 
@@ -113,17 +137,9 @@ public class ShoppingCartController {
      */
     public int calculateShoppingCartQuantity(ShoppingCart shoppingCart) {
         int totalQuantity = 0;
-        for (Order order : shoppingCart.getShoppingCart().values()) {
-            totalQuantity += orderController.calculateItemQuantity(order);
+        for (OrderItem orderItem : shoppingCart.getShoppingCart().values()) {
+            totalQuantity += orderItem.getQuantity();
         }
-
-        shoppingCart.setTotalQuantity(totalQuantity);
-        try {
-            updateShoppingCart(shoppingCart);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         return totalQuantity;
     }
 
@@ -171,19 +187,11 @@ public class ShoppingCartController {
         return shoppingCarts.add(shoppingCart);
     }
 
-    /**
-     * Adds an Order the the provided ShoppingCart object
-     *
-     * @param orderToAdd Order to be added to the ShoppingCart object
-     * @param shoppingCart ShoppingCart into which an Order is being added
-     * @throws Exception TODO (shh) create specific exception
-     */
-    // Assume that every user will be have a shopping cart upon registration.
-    public void addOrderToShoppingCart(
-            @Nonnull Order orderToAdd, @Nonnull ShoppingCart shoppingCart) throws Exception {
-        Map<String, Order> currentShoppingCart = shoppingCart.getShoppingCart();
-        currentShoppingCart.put(orderToAdd.getId().toString(), orderToAdd);
-        shoppingCart.setShoppingCart(currentShoppingCart);
+    public void addOrderItem(OrderItem orderItemToAdd, ShoppingCart shoppingCart) throws Exception {
+        log.debug("ShoppingCartController > addOrderItem(...)");
+        Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
+        activeShoppingCart.put(orderItemToAdd.getId().toString(), orderItemToAdd);
+        shoppingCart.setShoppingCart(activeShoppingCart);
         updateShoppingCart(shoppingCart);
     }
 
