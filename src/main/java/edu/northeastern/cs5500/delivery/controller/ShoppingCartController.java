@@ -187,10 +187,26 @@ public class ShoppingCartController {
         return shoppingCarts.add(shoppingCart);
     }
 
+    /**
+     * 
+     * @param orderItemToAdd
+     * @param shoppingCart
+     * @throws Exception
+     */
     public void addOrderItem(OrderItem orderItemToAdd, ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > addOrderItem(...)");
         Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
         activeShoppingCart.put(orderItemToAdd.getId().toString(), orderItemToAdd);
+        shoppingCart.setShoppingCart(activeShoppingCart);
+        updateShoppingCart(shoppingCart);
+    }
+
+
+
+    public void removeOrderItem(OrderItem orderItemToRemove, ShoppingCart shoppingCart) throws Exception {
+        log.debug("ShoppingCartController > removeOrderItem(...)");
+        Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
+        activeShoppingCart.remove(orderItemToRemove.getId().toString());
         shoppingCart.setShoppingCart(activeShoppingCart);
         updateShoppingCart(shoppingCart);
     }
