@@ -188,32 +188,107 @@ public class ShoppingCartController {
     }
 
     /**
-     * 
-     * @param orderItemToAdd
-     * @param shoppingCart
-     * @throws Exception
+     * Adds the provided OrderItem to the provided ShopppingCart and updates the ShoppingCart.
+     *
+     * @param orderItemToAdd OrderItem object to be added to the provided ShoppingCart
+     * @param shoppingCart ShoppingCart object into which the given OrderItem is added
+     * @throws Exception TODO (shh) create custome exception
      */
     public void addOrderItem(OrderItem orderItemToAdd, ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > addOrderItem(...)");
         Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
         activeShoppingCart.put(orderItemToAdd.getId().toString(), orderItemToAdd);
         shoppingCart.setShoppingCart(activeShoppingCart);
-        updateShoppingCart(shoppingCart);
+        long cartPrice = calculateShoppingCartPrice(shoppingCart);
+        int cartQuantity = calculateShoppingCartQuantity(shoppingCart);
+        updateShoppingCart(shoppingCart, cartPrice, cartQuantity);
     }
 
-
-
-    public void removeOrderItem(OrderItem orderItemToRemove, ShoppingCart shoppingCart) throws Exception {
+    /**
+     * Removes the provided OrderItem completely from the provided ShopppingCart regarless of
+     * OrderItem quantity and updates the ShoppingCart.
+     *
+     * @param orderItemToAdd OrderItem object to be removed from the provided ShoppingCart
+     * @param shoppingCart ShoppingCart object from which the given OrderItem is removed from
+     * @throws Exception TODO (shh) create custom exception
+     */
+    public void removeOrderItem(OrderItem orderItemToRemove, ShoppingCart shoppingCart)
+            throws Exception {
         log.debug("ShoppingCartController > removeOrderItem(...)");
         Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
         activeShoppingCart.remove(orderItemToRemove.getId().toString());
         shoppingCart.setShoppingCart(activeShoppingCart);
-        updateShoppingCart(shoppingCart);
+        long cartPrice = calculateShoppingCartPrice(shoppingCart);
+        int cartQuantity = calculateShoppingCartQuantity(shoppingCart);
+        updateShoppingCart(shoppingCart, cartPrice, cartQuantity);
+    }
+
+    /**
+     * Increments the OrderItem quantity of the provided orderItem within the given ShoppingCart by
+     * 1.
+     *
+     * @param orderItem OrderItem whose quantity is being incremented by 1
+     * @param shoppingCart Shopping Cart in which OrderItem quantity is being incremented
+     * @throws Exception TODO (shh) create custom exception
+     */
+    public void incrementOrderItemQuantity(OrderItem orderItem, ShoppingCart shoppingCart)
+            throws Exception {
+        log.debug("ShoppingCartController > incrementOrderItem(...)");
+        Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
+        OrderItem currentItem = activeShoppingCart.get(orderItem.getId().toString());
+        currentItem.setQuantity(currentItem.getQuantity() + 1);
+        activeShoppingCart.put(orderItem.getId().toString(), currentItem);
+        shoppingCart.setShoppingCart(activeShoppingCart);
+        long cartPrice = calculateShoppingCartPrice(shoppingCart);
+        int cartQuantity = calculateShoppingCartQuantity(shoppingCart);
+        updateShoppingCart(shoppingCart, cartPrice, cartQuantity);
+    }
+
+    /**
+     * Decrements the OrderItem quantity of the provided orderItem within the given ShoppingCart by
+     * 1.
+     *
+     * @param orderItem OrderItem whose quantity is being decremented by 1
+     * @param shoppingCart Shopping Cart in which OrderItem quantity is being decremented
+     * @throws Exception TODO (shh) create custom exception
+     */
+    public void decrementOrderItemQuantity(OrderItem orderItem, ShoppingCart shoppingCart)
+            throws Exception {
+        log.debug("ShoppingCartController > decrementOrderItem(...)");
+        Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();
+        OrderItem currentItem = activeShoppingCart.get(orderItem.getId().toString());
+        if (currentItem.getQuantity() <= 1) {
+            removeOrderItem(orderItem, shoppingCart);
+        } else {
+            currentItem.setQuantity(currentItem.getQuantity() - 1);
+            activeShoppingCart.put(orderItem.getId().toString(), currentItem);
+            shoppingCart.setShoppingCart(activeShoppingCart);
+            long cartPrice = calculateShoppingCartPrice(shoppingCart);
+            int cartQuantity = calculateShoppingCartQuantity(shoppingCart);
+            updateShoppingCart(shoppingCart, cartPrice, cartQuantity);
+        }
     }
 
     public void updateShoppingCart(@Nonnull ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > updateShoppingCart(...)");
         shoppingCarts.update(shoppingCart);
+    }
+
+    /**
+     * Updates the provided ShoppingCart in the repository given an updated cartPrice and
+     * cartItemQuantity.
+     *
+     * @param shoppingCart ShoppingCart object to be updated in the repository
+     * @param cartPrice New ShoppingCart price to be set and updated
+     * @param cartItemQuantity New ShoppingCart item quantity to be set and updated
+     * @throws Exception TODO (shh) create custom exception
+     */
+    public void updateShoppingCart(ShoppingCart shoppingCart, long cartPrice, int cartItemQuantity)
+            throws Exception {
+        log.debug("ShoppingCartController > updateShoppingCart(ShoppingCart, long, int)");
+        shoppingCart.setTotalPrice(cartPrice);
+        shoppingCart.setTotalQuantity(cartItemQuantity);
+        updateShoppingCart(shoppingCart);
     }
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
