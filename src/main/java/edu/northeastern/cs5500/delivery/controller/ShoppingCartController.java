@@ -188,6 +188,19 @@ public class ShoppingCartController {
     }
 
     /**
+     * Clears the provided ShoppingCart object of all OrderItems.
+     *
+     * @param shoppingCart ShoppingCart object to be cleared
+     * @throws Exception TODO (shh) create custom exception
+     */
+    public void clearShoppingCart(ShoppingCart shoppingCart) throws Exception {
+        log.debug("ShoppingCartController > clearShoppingCart(...)");
+        Map<String, OrderItem> newShoppingCartMap = new HashMap<>();
+        shoppingCart.setShoppingCart(newShoppingCartMap);
+        updateShoppingCart(shoppingCart, 0, 0);
+    }
+
+    /**
      * Adds the provided OrderItem to the provided ShopppingCart and updates the ShoppingCart.
      *
      * @param orderItemToAdd OrderItem object to be added to the provided ShoppingCart
