@@ -188,6 +188,20 @@ public class ShoppingCartController {
     }
 
     /**
+     * Creates an Order based on OrderItem contents of ShoppingCart processes payment, and submits
+     * the created Order.
+     *
+     * @param shoppingCart ShoppingCart from which an Order is created
+     * @throws Exception
+     */
+    // TODO(shh) Incorporate payments interface???
+    public void checkout(ShoppingCart shoppingCart) throws Exception {
+        log.debug("OrderController > checkout(...)");
+        orderController.submitOrder(shoppingCart);
+        clearShoppingCart(shoppingCart);
+    }
+
+    /**
      * Clears the provided ShoppingCart object of all OrderItems.
      *
      * @param shoppingCart ShoppingCart object to be cleared
@@ -207,6 +221,11 @@ public class ShoppingCartController {
      * @param shoppingCart ShoppingCart object into which the given OrderItem is added
      * @throws Exception TODO (shh) create custome exception
      */
+    /*TODO Impement logic when adding an OrderItem that has an businesId that does not match
+      the existing Order Items...
+      Do we raise an exception?
+      Do we automatically clear out the cart and add the chosen OrderItem?
+    */
     public void addOrderItem(OrderItem orderItemToAdd, ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > addOrderItem(...)");
         Map<String, OrderItem> activeShoppingCart = shoppingCart.getShoppingCart();

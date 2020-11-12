@@ -91,22 +91,26 @@ public class OrderController {
     }
 
     /**
-     * Creates an Order based on userId and OrderItem.
+     * Creates an Order based on the provided ShoppingCart.
      *
-     * @param userId ObjectId of user making the Order.
-     * @return Order based on userId and OrderItem and OrderItem businessId.
+     * @param shoppingCart ShoppingCart from which an Order is created
+     * @return Order based on the provided ShoppingCart contents.
      */
-    private Order createOrder(ObjectId userId, OrderItem orderItem) {
-        Map<String, OrderItem> orderItems = new HashMap<>();
-        orderItems.put(orderItem.getId().toString(), orderItem);
+    private Order createOrder(ShoppingCart shoppingCart) {
+        Map<String, OrderItem> orderItems = shoppingCart.getShoppingCart();
+        Map.Entry<String, OrderItem> entry = orderItems.entrySet().iterator().next();
         Order newOrder = new Order();
         newOrder.setId(new ObjectId());
-        newOrder.setCustomerId(userId);
-        newOrder.setBusinessId(orderItem.getBusinessId());
+        newOrder.setCustomerId(shoppingCart.getCustomerId());
+        newOrder.setBusinessId(entry.getValue().getBusinessId());
         newOrder.setOrderItems(orderItems);
+        newOrder.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        newOrder.setTotalOrderItemQuantity(shoppingCart.getTotalQuantity());
+        newOrder.setTotalPrice(shoppingCart.getTotalPrice());
         return newOrder;
     }
 
+    // TODO: remove? As this is now calculated by ShoppingCart?
     // TODO take the order id instead of object order.
     // TODO the method will update order's field "totalPrice" or that would be
     // responsibility of shopping cart?
@@ -117,6 +121,7 @@ public class OrderController {
      * @return orderPrice price for the order
      */
     public long calculateOrderPrice(Order order) {
+        log.debug("OrderController > calculateOrderPrice(...)");
         long orderPrice = 0;
         for (String id : order.getOrderItems().keySet()) {
             OrderItem currrentItem = order.getOrderItems().get(id);
@@ -127,6 +132,7 @@ public class OrderController {
         return orderPrice;
     }
 
+    // TODO: remove? As this is now calculated by ShoppingCart?
     // TODO: is this responsibility of the OrderController?
     /**
      * Totals the number of OrderItems in an order
@@ -135,6 +141,7 @@ public class OrderController {
      * @return itemQuantity order item quantity for the order
      */
     public int calculateItemQuantity(Order order) {
+        log.debug("OrderController > calculateItemQuanity(...)");
         int totalOrderItemQuantity = 0;
         for (OrderItem item : order.getOrderItems().values()) {
             totalOrderItemQuantity += item.getQuantity();
@@ -178,27 +185,6 @@ public class OrderController {
         orders.update(order);
     }
 
-    /**
-     * Sets mofified fields of the Order and updates the order in the repository
-     *
-     * @param order Order object being updated
-     * @param totalPrice new totalPrice of the Order
-     * @param totalOrderItemQuantity new totalOrderItemQuantity of the Order
-     * @param orderItems new orderItems Map of the Order
-     * @throws Exception TODO (shh) create sepcific exception
-     */
-    public void updateOrder(
-            @Nonnull Order order,
-            @Nonnull long totalPrice,
-            @Nonnull int totalOrderItemQuantity,
-            Map<String, OrderItem> orderItems)
-            throws Exception {
-        log.debug("OrderController > updateOrder(Order, long, int, Map)");
-        order.setTotalPrice(totalPrice);
-        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
-        order.setOrderItems(orderItems);
-        orders.update(order);
-    }
 
     public void deleteOrder(@Nonnull ObjectId id) throws Exception {
         log.debug("OrderController > deleteOrder(...)");
@@ -206,92 +192,16 @@ public class OrderController {
     }
 
     /**
-     * Return modified Order object after adding an OrderItem to an existing Order, or creates a
-     * brand new Order based on OrderItem.
+     * Creates an Order based on the provided ShoppingCart contents and adds the new Order to the
+     * Order repository.
      *
-     * @param userId userId from the CustomerUser model
-     * @param orderItemToAdd OrderItem object being added to an existing or new Order
-     * @param shoppingCartController ShoppingCartController object
-     * @throws Exception TODO (shh) create specific exception
-     * @return Order object containing newly added OrderItem
+     * @param shoppingCart Non empty ShoppingCart whose contents are used to create a new Order
+     * @throws Exception TODO (shh) create a custom exception
      */
-    public Order addOrderItem(
-            ObjectId userId,
-            OrderItem orderItemToAdd,
-            ShoppingCartController shoppingCartController)
-            throws Exception {
-        log.debug("OrderController > addOrderItem(...)");
-        ShoppingCart activeShoppingCart = shoppingCartController.getShoppingCartByUser(userId);
-
-        if (!activeShoppingCart.isEmpty()) {
-            // add orderItem to existing Order where Cart is NOT emtpy
-            Order updatedCurrentOrder =
-                    addOrderItemToExistingOrder(userId, orderItemToAdd, activeShoppingCart);
-            if (updatedCurrentOrder != null) {
-                shoppingCartController.addOrderToShoppingCart(
-                        updatedCurrentOrder, activeShoppingCart);
-                return updatedCurrentOrder;
-            }
-        }
-        // Create a new Order when Cart is Empty OR there is no matching existing Order
-        Order newOrder = addOrderItemToNewOrder(userId, orderItemToAdd, activeShoppingCart);
-        shoppingCartController.addOrderToShoppingCart(newOrder, activeShoppingCart);
-        return newOrder;
-    }
-
-    /**
-     * Returns modified Order object after adding an OrderItem to an existing order
-     *
-     * @param userId userId of the CustomerUser model
-     * @param orderItemToAdd OrderItem object being added to an existing or new Order
-     * @param activeShoppingCart ShoppingCart object of the given CustomerUser
-     * @return Order object containing newly added OrderItem, or null if no matching Order was
-     *     found.
-     * @throws Exception TODO (shh) create specicific exception
-     */
-    private Order addOrderItemToExistingOrder(
-            ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart)
-            throws Exception {
-        // Iterates through all Orders in the given ShoppingCart to find a matching Order.
-        for (Map.Entry<String, Order> entry : activeShoppingCart.getShoppingCart().entrySet()) {
-            if (entry.getValue().getBusinessId().equals(orderItemToAdd.getBusinessId())) {
-                Order currentOrder = entry.getValue();
-                Map<String, OrderItem> currentOrderItems = currentOrder.getOrderItems();
-                currentOrderItems.put(orderItemToAdd.getId().toString(), orderItemToAdd);
-                long newOrderPrice = calculateOrderPrice(currentOrder);
-                int newOrderItemQuantity = calculateItemQuantity(currentOrder);
-                try {
-                    updateOrder(
-                            currentOrder, newOrderPrice, newOrderItemQuantity, currentOrderItems);
-                } catch (Exception e) {
-                    log.error(
-                            "OrderController > addOrderItemToExistingOrder > adding new order > failure?");
-                    e.printStackTrace();
-                }
-                entry.setValue(currentOrder);
-                return currentOrder;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns Order object when adding an OrderItem to a newly created Order.
-     *
-     * @param userId userId of the CustomerUser model
-     * @param orderItemToAdd OrderItem object being added to an existing or new Order
-     * @param activeShoppingCart ShoppingCart object of the given CustomerUser
-     * @return Order object containing newly added OrderItem
-     */
-    private Order addOrderItemToNewOrder(
-            ObjectId userId, OrderItem orderItemToAdd, ShoppingCart activeShoppingCart) {
-        Order newOrder = createOrder(userId, orderItemToAdd);
-        try {
-            addOrder(newOrder);
-        } catch (Exception e) {
-            log.error("OrderController > addOrderItemToNewOrder > adding new order > failure?");
-            e.printStackTrace();
-        }
-        return newOrder;
+    // TODO: Return newOrder?
+    public void submitOrder(ShoppingCart shoppingCart) throws Exception {
+        log.debug("OrderController > submitOrder(...)");
+        Order newOrder = createOrder(shoppingCart);
+        addOrder(newOrder);
     }
 }
