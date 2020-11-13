@@ -70,20 +70,19 @@ public class OrderController {
         defaultOrder1.setCustomerId(new ObjectId());
         defaultOrder1.setBusinessId(new ObjectId());
         defaultOrder1.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        defaultOrder1.setTotalOrderItemQuantity(5);
+        defaultOrder1.setTotalPrice(13);
         Order defaultOrder2 = new Order();
         defaultOrder2.setId(new ObjectId());
         defaultOrder2.setOrderItems(order2Items);
         defaultOrder2.setCustomerId(new ObjectId());
         defaultOrder2.setBusinessId(new ObjectId());
         defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        defaultOrder2.setTotalOrderItemQuantity(2);
+        defaultOrder2.setTotalPrice(4);
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
-            // Updates the price and quantity for each order
-            for (Order order : orders.getAll()) {
-                calculateOrderPrice(order);
-                calculateItemQuantity(order);
-            }
         } catch (Exception e) {
             log.error("OrderController > construct > adding default orders > failure?");
             e.printStackTrace();
@@ -108,45 +107,6 @@ public class OrderController {
         newOrder.setTotalOrderItemQuantity(shoppingCart.getTotalQuantity());
         newOrder.setTotalPrice(shoppingCart.getTotalPrice());
         return newOrder;
-    }
-
-    // TODO: remove? As this is now calculated by ShoppingCart?
-    // TODO take the order id instead of object order.
-    // TODO the method will update order's field "totalPrice" or that would be
-    // responsibility of shopping cart?
-    /**
-     * Totals price for an order.
-     *
-     * @param order Order to calculate total price from
-     * @return orderPrice price for the order
-     */
-    public long calculateOrderPrice(Order order) {
-        log.debug("OrderController > calculateOrderPrice(...)");
-        long orderPrice = 0;
-        for (String id : order.getOrderItems().keySet()) {
-            OrderItem currrentItem = order.getOrderItems().get(id);
-            orderPrice =
-                    orderPrice
-                            + (currrentItem.getMenuItem().getPrice() * currrentItem.getQuantity());
-        }
-        return orderPrice;
-    }
-
-    // TODO: remove? As this is now calculated by ShoppingCart?
-    // TODO: is this responsibility of the OrderController?
-    /**
-     * Totals the number of OrderItems in an order
-     *
-     * @param order Order to total the quantity from
-     * @return itemQuantity order item quantity for the order
-     */
-    public int calculateItemQuantity(Order order) {
-        log.debug("OrderController > calculateItemQuanity(...)");
-        int totalOrderItemQuantity = 0;
-        for (OrderItem item : order.getOrderItems().values()) {
-            totalOrderItemQuantity += item.getQuantity();
-        }
-        return totalOrderItemQuantity;
     }
 
     @Nullable
@@ -195,12 +155,12 @@ public class OrderController {
      * Order repository.
      *
      * @param shoppingCart Non empty ShoppingCart whose contents are used to create a new Order
+     * @return new Order created based on ShoppingCart object OrderItem contents.
      * @throws Exception TODO (shh) create a custom exception
      */
-    // TODO: Return newOrder?
-    public void submitOrder(ShoppingCart shoppingCart) throws Exception {
+    public Order submitOrder(ShoppingCart shoppingCart) throws Exception {
         log.debug("OrderController > submitOrder(...)");
         Order newOrder = createOrder(shoppingCart);
-        addOrder(newOrder);
+        return addOrder(newOrder);
     }
 }
