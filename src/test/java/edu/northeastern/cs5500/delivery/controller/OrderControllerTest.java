@@ -22,16 +22,18 @@ class OrderControllerTest {
     Order order1;
     Order order2;
     Order order3;
+    HashMap<String, OrderItem> order1Items;
+
     ObjectId orderId1;
     ObjectId orderId2;
     ObjectId orderId3;
+    ObjectId customerId1;
 
     @BeforeEach
     void init() {
         orderController = new OrderController(new InMemoryRepository<Order>());
         shoppingCartController =
                 new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
-        // CustomerUser user;
 
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
@@ -51,7 +53,7 @@ class OrderControllerTest {
         OrderItem orderItem2 = new OrderItem();
         OrderItem orderItem3 = new OrderItem();
 
-        HashMap<String, OrderItem> order1Items = new HashMap<>();
+        order1Items = new HashMap<>();
         HashMap<String, OrderItem> order2Items = new HashMap<>();
         HashMap<String, OrderItem> order3Items = new HashMap<>();
 
@@ -63,6 +65,9 @@ class OrderControllerTest {
         order1 = new Order();
         order2 = new Order();
         order3 = new Order();
+
+        // CustomerId
+        customerId1 = new ObjectId();
 
         // Menu Item Setup
         menuItem1.setObjectId(menuItemObjectId1);
@@ -109,16 +114,18 @@ class OrderControllerTest {
 
         order1.setId(orderId1);
         order1.setOrderItems(order1Items);
-        order1.setCustomerId(new ObjectId()); // will need to link to customer
+        order1.setCustomerId(customerId1);
         order1.setBusinessId(businessId1);
-        order1.setOrderStatus(OrderStatus.PENDING);
+        order1.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        order1.setTotalOrderItemQuantity(order1Items.size());
+        order1.setTotalPrice(5);
 
         // Order 2 is same business different user than Order1
         order2.setId(orderId2);
         order2.setOrderItems(order2Items);
         order2.setCustomerId(new ObjectId()); // will need to link to customer
         order2.setBusinessId(businessId1);
-        order2.setOrderStatus(OrderStatus.PENDING);
+        order2.setOrderStatus(OrderStatus.UNDER_REVIEW);
 
         order3.setId(orderId3);
         order3.setOrderItems(order3Items);
@@ -131,16 +138,16 @@ class OrderControllerTest {
         order3.setOrderItems(order3Items);
     }
 
-    @Test
-    void testCalculateOrderPrice() {
-        assertThat(orderController.calculateOrderPrice(order1)).isEqualTo(7);
-        assertThat(orderController.calculateOrderPrice(order2)).isEqualTo(4);
-    }
-
-    @Test
-    void testCalculateItemQuantity() {
-        assertThat(orderController.calculateItemQuantity(order1)).isEqualTo(3);
-        assertThat(orderController.calculateItemQuantity(order2)).isEqualTo(2);
+    ShoppingCart createTestShoppingCart() {
+        ShoppingCart testShoppingCart = new ShoppingCart();
+        testShoppingCart.setCustomerId(customerId1);
+        testShoppingCart.setId(new ObjectId());
+        testShoppingCart.setShoppingCart(order1Items);
+        long cartPrice = shoppingCartController.calculateShoppingCartPrice(testShoppingCart);
+        int cartQuantity = shoppingCartController.calculateShoppingCartQuantity(testShoppingCart);
+        testShoppingCart.setTotalPrice(cartPrice);
+        testShoppingCart.setTotalQuantity(cartQuantity);
+        return testShoppingCart;
     }
 
     @Test
@@ -182,8 +189,6 @@ class OrderControllerTest {
                 .isEqualTo(OrderStatus.UNDER_REVIEW);
     }
 
-    // TODO: Test Overloaded update order method.
-
     @Test
     void testCanDeleteOrder() throws Exception {
         // Add the Order
@@ -197,20 +202,11 @@ class OrderControllerTest {
     }
 
     @Test
-    void testCanAddOrderItemEmptyCart() throws Exception {
-        // TODO(shh)
-        // Will need to create a CustomerUser with shoppingCart to test
-
-    }
-
-    @Test
-    void testCanAddOrderItemNoMatchingOrder() {
-        // TODO(shh)
-    }
-
-    @Test
-    void testCanAddOrderItemToExistingOrder() {
-        // TODO(shh)
-
+    void testCanSubmitOrder() throws Exception {
+        // Obtain test ShoppinCart w/ items in it
+        ShoppingCart testShoppingCart = createTestShoppingCart();
+        Order actualOrder = orderController.submitOrder(testShoppingCart);
+        Order expectedOrder = order1;
+        expectedOrder.setId(actualOrder.getId()); // Only way to match ObjectIds
     }
 }
