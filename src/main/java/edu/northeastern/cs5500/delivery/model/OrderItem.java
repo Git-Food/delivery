@@ -11,6 +11,7 @@ public class OrderItem implements Model {
     private static final int VALID_QUANTITY = 0;
 
     private ObjectId id;
+    private ObjectId businessId; // businessId from the BusinessUser model
     private MenuItem menuItem;
     private Integer quantity;
     private String specialNote;

@@ -5,9 +5,11 @@ import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
+import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -68,73 +70,43 @@ public class OrderController {
         defaultOrder1.setCustomerId(new ObjectId());
         defaultOrder1.setBusinessId(new ObjectId());
         defaultOrder1.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        defaultOrder1.setTotalOrderItemQuantity(5);
+        defaultOrder1.setTotalPrice(13);
         Order defaultOrder2 = new Order();
         defaultOrder2.setId(new ObjectId());
         defaultOrder2.setOrderItems(order2Items);
         defaultOrder2.setCustomerId(new ObjectId());
         defaultOrder2.setBusinessId(new ObjectId());
         defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        defaultOrder2.setTotalOrderItemQuantity(2);
+        defaultOrder2.setTotalPrice(4);
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
-            // Updates the price and quantity for each order
-            for (Order order : orders.getAll()) {
-                calculateOrderPrice(order);
-                calculateItemQuantity(order);
-            }
         } catch (Exception e) {
             log.error("OrderController > construct > adding default orders > failure?");
             e.printStackTrace();
         }
     }
 
-    // TODO take the order id instead of object order.
-    // TODO the method will update order's field "totalPrice" or that would be
-    // responsibility of shopping cart?
     /**
-     * Totals price for an order.
+     * Creates an Order based on the provided ShoppingCart.
      *
-     * @param order Order to calculate total price from
-     * @return orderPrice price for the order
+     * @param shoppingCart ShoppingCart from which an Order is created
+     * @return Order based on the provided ShoppingCart contents.
      */
-    public long calculateOrderPrice(Order order) {
-        long orderPrice = 0;
-        for (String id : order.getOrderItems().keySet()) {
-            OrderItem currrentItem = order.getOrderItems().get(id);
-            orderPrice =
-                    orderPrice
-                            + (currrentItem.getMenuItem().getPrice() * currrentItem.getQuantity());
-        }
-        // Update order
-        order.setTotalPrice(orderPrice);
-        try {
-            updateOrder(order);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // return the total price of this order
-        return orderPrice;
-    }
-
-    // TODO: is this responsibility of the OrderController?
-    /**
-     * Totals the number of OrderItems in an order
-     *
-     * @param order Order to total the quantity from
-     * @return itemQuantity order item quantity for the order
-     */
-    public int calculateItemQuantity(Order order) {
-        int totalOrderItemQuantity = 0;
-        for (OrderItem item : order.getOrderItems().values()) {
-            totalOrderItemQuantity += item.getQuantity();
-        }
-        order.setTotalOrderItemQuantity(totalOrderItemQuantity);
-        try {
-            updateOrder(order);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return totalOrderItemQuantity;
+    private Order createOrder(ShoppingCart shoppingCart) {
+        Map<String, OrderItem> orderItems = shoppingCart.getShoppingCart();
+        Map.Entry<String, OrderItem> entry = orderItems.entrySet().iterator().next();
+        Order newOrder = new Order();
+        newOrder.setId(new ObjectId());
+        newOrder.setCustomerId(shoppingCart.getCustomerId());
+        newOrder.setBusinessId(entry.getValue().getBusinessId());
+        newOrder.setOrderItems(orderItems);
+        newOrder.setOrderStatus(OrderStatus.UNDER_REVIEW);
+        newOrder.setTotalOrderItemQuantity(shoppingCart.getTotalQuantity());
+        newOrder.setTotalPrice(shoppingCart.getTotalPrice());
+        return newOrder;
     }
 
     @Nullable
@@ -176,5 +148,19 @@ public class OrderController {
     public void deleteOrder(@Nonnull ObjectId id) throws Exception {
         log.debug("OrderController > deleteOrder(...)");
         orders.delete(id);
+    }
+
+    /**
+     * Creates an Order based on the provided ShoppingCart contents and adds the new Order to the
+     * Order repository.
+     *
+     * @param shoppingCart Non empty ShoppingCart whose contents are used to create a new Order
+     * @return new Order created based on ShoppingCart object OrderItem contents.
+     * @throws Exception TODO (shh) create a custom exception
+     */
+    public Order submitOrder(ShoppingCart shoppingCart) throws Exception {
+        log.debug("OrderController > submitOrder(...)");
+        Order newOrder = createOrder(shoppingCart);
+        return addOrder(newOrder);
     }
 }
