@@ -27,7 +27,7 @@ public class ShoppingCartController {
             OrderController orderControllerInstance) {
         shoppingCarts = shoppingCartRepository;
         orderController = orderControllerInstance;
-        cartToUser = createCartToUserMap(shoppingCartRepository);
+        cartToUser = createCartToUserMap();
 
         log.info("ShoppingCartController > construct");
 
@@ -91,10 +91,9 @@ public class ShoppingCartController {
     }
 
     /** Return a Map<CustomerUser id, ShoppingCart id> based on a given ShoppingCartRepository. */
-    private Map<ObjectId, ObjectId> createCartToUserMap(
-            GenericRepository<ShoppingCart> shoppingCartRepository) {
+    private Map<ObjectId, ObjectId> createCartToUserMap() {
         HashMap<ObjectId, ObjectId> cartToUserMap = new HashMap<>();
-        Collection<ShoppingCart> allShoppingCarts = shoppingCartRepository.getAll();
+        Collection<ShoppingCart> allShoppingCarts = this.shoppingCarts.getAll();
         for (ShoppingCart shoppingCart : allShoppingCarts) {
             // place (customerId : shoppingCartId) in map
             cartToUserMap.put(shoppingCart.getCustomerId(), shoppingCart.getId());
@@ -183,7 +182,7 @@ public class ShoppingCartController {
             // TODO: replace with a real duplicate key exception
             throw new Exception("DuplicateKeyException");
         }
-
+        this.cartToUser.put(shoppingCart.getCustomerId(), shoppingCart.getId());
         return shoppingCarts.add(shoppingCart);
     }
 
@@ -325,6 +324,7 @@ public class ShoppingCartController {
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
+        this.cartToUser.remove(id);
         shoppingCarts.delete(id);
     }
 }
