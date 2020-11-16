@@ -23,11 +23,6 @@ public class ShoppingCartControllerTest {
         shoppingCarts = new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orders);
     }
 
-    /**
-     * Helper method to instantiate a Non-Empty ShoppingCart.
-     *
-     * @return A ShoppingCart instance.
-     */
     ShoppingCart createShoppingCart() {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
@@ -71,11 +66,6 @@ public class ShoppingCartControllerTest {
         return defaultShoppingCart1;
     }
 
-    /**
-     * Helper method to instantiate a Empty ShoppingCart.
-     *
-     * @return A ShoppingCart instance.
-     */
     ShoppingCart createEmptyCart() {
         // Shopping Cart
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
@@ -87,11 +77,6 @@ public class ShoppingCartControllerTest {
         return defaultShoppingCart1;
     }
 
-    /**
-     * Helper method to instantiate an OrderItem.
-     *
-     * @return A OrderItem instance.
-     */
     OrderItem createOrderItem() {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
@@ -113,11 +98,6 @@ public class ShoppingCartControllerTest {
         return orderItem1;
     }
 
-    /**
-     * Helper method to instantiate an OrderItem.
-     *
-     * @return A OrderItem instance with quantity = 1.
-     */
     OrderItem createSingleOrderItem() {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
@@ -214,7 +194,7 @@ public class ShoppingCartControllerTest {
         ShoppingCart shoppingCart1 = createShoppingCart();
         shoppingCarts.checkout(shoppingCart1);
         Assertions.assertTrue(shoppingCart1.getShoppingCart().isEmpty());
-        Assertions.assertTrue(shoppingCart1.getTotalPrice() == 0l);
+        Assertions.assertTrue(shoppingCart1.getTotalPrice() == 0);
         Assertions.assertTrue(shoppingCart1.getTotalQuantity() == 0);
     }
 

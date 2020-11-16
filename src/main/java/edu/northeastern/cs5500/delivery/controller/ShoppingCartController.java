@@ -123,12 +123,10 @@ public class ShoppingCartController {
      * @return totalPrice for the shoppingCart
      */
     public long calculateShoppingCartPrice(ShoppingCart shoppingCart) {
-        long totalPrice = 0;
-        for (OrderItem orderItem : shoppingCart.getShoppingCart().values()) {
-            long price = orderItem.getMenuItem().getPrice();
-            int quantity = orderItem.getQuantity();
-            totalPrice += (price * quantity);
-        }
+        long totalPrice =
+                shoppingCart.getShoppingCart().values().stream()
+                        .mapToLong(x -> x.getQuantity() * x.getMenuItem().getPrice())
+                        .sum();
         return totalPrice;
     }
 
@@ -326,7 +324,7 @@ public class ShoppingCartController {
         updateShoppingCart(shoppingCart);
     }
 
-    public void deleteShoppingCart(@Nonnull ObjectId id) {
+    public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
         this.cartToUser.remove(id);
         shoppingCarts.delete(id);
