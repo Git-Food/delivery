@@ -13,7 +13,7 @@ public class OrderItem implements Model {
     private ObjectId id;
     private ObjectId businessId; // businessId from the BusinessUser model
     private MenuItem menuItem;
-    private Integer quantity;
+    private int quantity;
     private String specialNote;
 
     /** @return true if this OrderItem is valid */

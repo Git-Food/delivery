@@ -111,6 +111,7 @@ public class ShoppingCartController {
     public ShoppingCart createShoppingCart(ObjectId userId) {
         ShoppingCart newCart = new ShoppingCart();
         newCart.setId(new ObjectId());
+        newCart.setShoppingCart(new HashMap<String, OrderItem>());
         newCart.setCustomerId(userId);
         return newCart;
     }
@@ -124,7 +125,9 @@ public class ShoppingCartController {
     public long calculateShoppingCartPrice(ShoppingCart shoppingCart) {
         long totalPrice = 0;
         for (OrderItem orderItem : shoppingCart.getShoppingCart().values()) {
-            totalPrice += orderItem.getMenuItem().getPrice();
+            long price = orderItem.getMenuItem().getPrice();
+            int quantity = orderItem.getQuantity();
+            totalPrice += (price * quantity);
         }
         return totalPrice;
     }
@@ -323,7 +326,7 @@ public class ShoppingCartController {
         updateShoppingCart(shoppingCart);
     }
 
-    public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
+    public void deleteShoppingCart(@Nonnull ObjectId id) {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
         this.cartToUser.remove(id);
         shoppingCarts.delete(id);

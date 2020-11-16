@@ -9,9 +9,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ShoppingCartControllerTest {
     ShoppingCartController shoppingCarts;
@@ -57,7 +57,7 @@ public class ShoppingCartControllerTest {
         orderItem2.setId(orderItemId2);
         orderItem2.setMenuItem(menuItem2);
         orderItem2.setQuantity(3);
-        orderItem1.setBusinessId(businessId);
+        orderItem2.setBusinessId(businessId);
 
         // Shopping Cart
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
@@ -141,7 +141,8 @@ public class ShoppingCartControllerTest {
 
     @Test
     void testCreateShoppingCart() {
-        ShoppingCart newCart = shoppingCarts.createShoppingCart(new ObjectId());
+        ObjectId userId = new ObjectId();
+        ShoppingCart newCart = shoppingCarts.createShoppingCart(userId);
         Assertions.assertTrue(newCart.isEmpty());
     }
 
@@ -312,14 +313,5 @@ public class ShoppingCartControllerTest {
         Assertions.assertTrue(shoppingCarts.getShoppingCarts().contains(shoppingCart1));
         shoppingCarts.deleteShoppingCart(shoppingCart1.getId());
         Assertions.assertFalse(shoppingCarts.getShoppingCarts().contains(shoppingCart1));
-    }
-
-    @Test
-    void testDeleteException() throws Exception {
-        Assertions.assertThrows(
-                Exception.class,
-                () -> {
-                    shoppingCarts.deleteShoppingCart(null);
-                });
     }
 }
