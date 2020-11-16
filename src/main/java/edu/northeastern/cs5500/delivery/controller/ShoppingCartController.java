@@ -52,20 +52,22 @@ public class ShoppingCartController {
         menuItem2.setPrice(3);
         menuItem2.setNote("BBQ sauce included");
         // Order Items
+        ObjectId businessId = new ObjectId();
         ObjectId orderItemId1 = new ObjectId();
         ObjectId orderItemId2 = new ObjectId();
         OrderItem orderItem1 = new OrderItem();
         orderItem1.setId(orderItemId1);
         orderItem1.setMenuItem(menuItem1);
         orderItem1.setQuantity(2);
+        orderItem1.setBusinessId(businessId);
         OrderItem orderItem2 = new OrderItem();
         orderItem2.setId(orderItemId2);
         orderItem2.setMenuItem(menuItem2);
         orderItem2.setQuantity(3);
+        orderItem2.setBusinessId(businessId);
 
         // Shopping Carts
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
-        ShoppingCart defaultShoppingCart2 = new ShoppingCart();
         defaultShoppingCart1.setId(new ObjectId());
         defaultShoppingCart1.setCustomerId(new ObjectId());
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
@@ -74,7 +76,6 @@ public class ShoppingCartController {
         defaultShoppingCart1.setShoppingCart(defaultShoppingCartMap1);
         try {
             addShoppingCart(defaultShoppingCart1);
-            addShoppingCart(defaultShoppingCart2);
             // Updates the price and quantity for each shoppingCart
             for (ShoppingCart shoppingCart : shoppingCarts.getAll()) {
                 long cartPrice = calculateShoppingCartPrice(shoppingCart);
