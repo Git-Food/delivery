@@ -14,6 +14,10 @@ A recent Gradle (>= 6.1.1 but < 7.0.0) and JDK 8.
 
 `./gradlew test`
 
+## Testing JaCoCo
+
+`./gradlew jacocoTestReport`
+
 ## Running
 
 `./gradlew run`
