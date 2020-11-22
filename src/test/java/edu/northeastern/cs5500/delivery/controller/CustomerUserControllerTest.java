@@ -122,7 +122,7 @@ public class CustomerUserControllerTest {
     }
 
     @Test
-    void testCanUpdateMenu() throws Exception {
+    void testCanUpdateCustomerUser() throws Exception {
         CustomerUser testUser1 = createTestCustomerUserOne();
         customerUsers.addCustomerUser(testUser1);
         String newPhone = "8881112222";
