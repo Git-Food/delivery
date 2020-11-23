@@ -182,9 +182,11 @@ public class ShoppingCartControllerTest {
     void testAddShoppingCartDuplicate() throws Exception {
         ShoppingCart shoppingCart = createShoppingCart();
         shoppingCarts.addShoppingCart(shoppingCart);
-        Assertions.assertThrows(Exception.class, () -> {
-            shoppingCarts.addShoppingCart(shoppingCart);
-        });
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    shoppingCarts.addShoppingCart(shoppingCart);
+                });
     }
 
     @Test
@@ -252,15 +254,18 @@ public class ShoppingCartControllerTest {
         shoppingCarts.addShoppingCart(shoppingCart2);
         shoppingCart2.setOrderItems(shoppingCart1.getOrderItems());
         shoppingCarts.updateShoppingCart(shoppingCart2);
-        Assertions.assertEquals(shoppingCarts.getShoppingCart(shoppingCart2.getId()).getOrderItems(),
+        Assertions.assertEquals(
+                shoppingCarts.getShoppingCart(shoppingCart2.getId()).getOrderItems(),
                 shoppingCart1.getOrderItems());
     }
 
     @Test
     void testCannotUpdateShoppingCart() throws Exception {
-        Assertions.assertThrows(Exception.class, () -> {
-            shoppingCarts.updateShoppingCart(null);
-        });
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    shoppingCarts.updateShoppingCart(null);
+                });
     }
 
     @Test
@@ -272,8 +277,10 @@ public class ShoppingCartControllerTest {
         shoppingCarts.addShoppingCart(shoppingCart2);
         shoppingCart2.setOrderItems(shoppingCart1.getOrderItems());
         shoppingCarts.updateShoppingCart(shoppingCart2);
-        Assertions.assertEquals(shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalPrice(), price);
-        Assertions.assertEquals(shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalQuantity(), quantity);
+        Assertions.assertEquals(
+                shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalPrice(), price);
+        Assertions.assertEquals(
+                shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalQuantity(), quantity);
     }
 
     @Test

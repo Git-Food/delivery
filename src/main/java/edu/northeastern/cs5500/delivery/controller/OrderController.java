@@ -151,11 +151,10 @@ public class OrderController {
     }
 
     /**
-     * Creates an Order based on the provided ShoppingCart contents and adds the new
-     * Order to the Order repository.
+     * Creates an Order based on the provided ShoppingCart contents and adds the new Order to the
+     * Order repository.
      *
-     * @param shoppingCart Non empty ShoppingCart whose contents are used to create
-     *                     a new Order
+     * @param shoppingCart Non empty ShoppingCart whose contents are used to create a new Order
      * @return new Order created based on ShoppingCart object OrderItem contents.
      * @throws Exception TODO (shh) create a custom exception
      */
