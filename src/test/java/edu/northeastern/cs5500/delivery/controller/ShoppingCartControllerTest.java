@@ -271,8 +271,7 @@ public class ShoppingCartControllerTest {
         int quantity = shoppingCart2.getTotalQuantity();
         shoppingCarts.addShoppingCart(shoppingCart2);
         shoppingCart2.setOrderItems(shoppingCart1.getOrderItems());
-        shoppingCarts.updateShoppingCart(shoppingCart2, shoppingCart1.getTotalPrice(),
-                shoppingCart2.getTotalQuantity());
+        shoppingCarts.updateShoppingCart(shoppingCart2);
         Assertions.assertEquals(shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalPrice(), price);
         Assertions.assertEquals(shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalQuantity(), quantity);
     }
