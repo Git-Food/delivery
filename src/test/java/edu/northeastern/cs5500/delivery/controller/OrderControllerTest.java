@@ -32,8 +32,7 @@ class OrderControllerTest {
     @BeforeEach
     void init() {
         orderController = new OrderController(new InMemoryRepository<Order>());
-        shoppingCartController =
-                new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
+        shoppingCartController = new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
 
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
@@ -142,7 +141,7 @@ class OrderControllerTest {
         ShoppingCart testShoppingCart = new ShoppingCart();
         testShoppingCart.setCustomerId(customerId1);
         testShoppingCart.setId(new ObjectId());
-        testShoppingCart.setShoppingCart(order1Items);
+        testShoppingCart.setOrderItems(order1Items);
         long cartPrice = shoppingCartController.calculateShoppingCartPrice(testShoppingCart);
         int cartQuantity = shoppingCartController.calculateShoppingCartQuantity(testShoppingCart);
         testShoppingCart.setTotalPrice(cartPrice);
@@ -185,8 +184,7 @@ class OrderControllerTest {
         // Update Order
         orderController.updateOrder(order3);
         // Assert new order status
-        assertThat(orderController.getOrder(orderId3).getOrderStatus())
-                .isEqualTo(OrderStatus.UNDER_REVIEW);
+        assertThat(orderController.getOrder(orderId3).getOrderStatus()).isEqualTo(OrderStatus.UNDER_REVIEW);
     }
 
     @Test

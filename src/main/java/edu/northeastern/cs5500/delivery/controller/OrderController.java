@@ -96,7 +96,7 @@ public class OrderController {
      * @return Order based on the provided ShoppingCart contents.
      */
     private Order createOrder(ShoppingCart shoppingCart) {
-        Map<String, OrderItem> orderItems = shoppingCart.getShoppingCart();
+        Map<String, OrderItem> orderItems = shoppingCart.getOrderItems();
         Map.Entry<String, OrderItem> entry = orderItems.entrySet().iterator().next();
         Order newOrder = new Order();
         newOrder.setId(new ObjectId());
@@ -151,10 +151,11 @@ public class OrderController {
     }
 
     /**
-     * Creates an Order based on the provided ShoppingCart contents and adds the new Order to the
-     * Order repository.
+     * Creates an Order based on the provided ShoppingCart contents and adds the new
+     * Order to the Order repository.
      *
-     * @param shoppingCart Non empty ShoppingCart whose contents are used to create a new Order
+     * @param shoppingCart Non empty ShoppingCart whose contents are used to create
+     *                     a new Order
      * @return new Order created based on ShoppingCart object OrderItem contents.
      * @throws Exception TODO (shh) create a custom exception
      */

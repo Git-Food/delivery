@@ -9,12 +9,12 @@ import org.bson.types.ObjectId;
 public class ShoppingCart implements Model {
     private ObjectId id;
     private ObjectId customerId;
-    private Map<String, OrderItem> shoppingCart;
+    private Map<String, OrderItem> orderItems;
     private int totalQuantity;
     private long totalPrice;
 
     @JsonIgnore
     public boolean isEmpty() {
-        return shoppingCart.isEmpty();
+        return orderItems.isEmpty();
     }
 }
