@@ -53,6 +53,18 @@ public class OrderView implements View {
                 },
                 jsonTransformer);
 
+        get(
+                "/orderHistory",
+                (request, response) -> {
+                    log.debug("/orderHistory");
+                    // Get orderHistory from userId
+                    String userId = request.queryParams("userId");
+                    final ObjectId id = new ObjectId(userId);
+                    response.type("application/json");
+                    return orderController.getOrdersByUser(id);
+                },
+                jsonTransformer);
+
         post(
                 "/order",
                 (request, response) -> {
