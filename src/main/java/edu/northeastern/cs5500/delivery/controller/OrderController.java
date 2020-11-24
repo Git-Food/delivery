@@ -100,7 +100,6 @@ public class OrderController {
             HashMap<ObjectId, ArrayList<ObjectId>> userToOrdersMap = new HashMap<>();
             Collection<Order> allOrders = this.orders.getAll();
             for (Order order : allOrders) {
-                // place (customerId : shoppingCartId) in map
                 ArrayList<ObjectId> currentUserOrders = userToOrdersMap.getOrDefault(order.getCustomerId(), new ArrayList<ObjectId>());
                 currentUserOrders.add(order.getId());
                 userToOrdersMap.put(order.getCustomerId(), currentUserOrders);
