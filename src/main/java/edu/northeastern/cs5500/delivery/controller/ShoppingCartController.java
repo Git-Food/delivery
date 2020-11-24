@@ -154,7 +154,8 @@ public class ShoppingCartController {
      *
      * @param userId ObjectId of a given CustomerUser
      * @return ShoppingCart based on CusterUser id.
-     * @throws Exception Throws NullPointerException if userId is not in cartToUser.
+     * @throws Exception Throws Exception if the a userId exists in the cartToUser but doesn't exist
+     *     in the shoppingCarts while also being a duplicate.
      */
     @Nullable
     public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) throws Exception {
