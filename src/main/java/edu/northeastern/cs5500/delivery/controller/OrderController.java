@@ -7,6 +7,8 @@ import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +22,12 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class OrderController {
     private final GenericRepository<Order> orders;
+    private Map<ObjectId, ArrayList<ObjectId>> userToOrders;
 
     @Inject
     OrderController(GenericRepository<Order> orderRepository) {
         orders = orderRepository;
+        userToOrders = createUserToOrdersMap();
 
         log.info("OrderController > construct");
 
@@ -88,6 +92,35 @@ public class OrderController {
             e.printStackTrace();
         }
     }
+
+
+        /** Return a Map<CustomerUserId, ArrayList<OrderId>>> based on a the Orders Repository. */
+        private Map<ObjectId, ArrayList<ObjectId>> createUserToOrdersMap() {
+            log.debug("OrderController > createUserToOrdersMap()");
+            HashMap<ObjectId, ArrayList<ObjectId>> userToOrdersMap = new HashMap<>();
+            Collection<Order> allOrders = this.orders.getAll();
+            for (Order order : allOrders) {
+                // place (customerId : shoppingCartId) in map
+                ArrayList<ObjectId> currentUserOrders = userToOrdersMap.getOrDefault(order.getCustomerId(), new ArrayList<ObjectId>());
+                currentUserOrders.add(order.getId());
+                userToOrdersMap.put(order.getCustomerId(), currentUserOrders);
+            }
+            return userToOrders;
+        }
+
+        /**
+         * Returns a collection of a User's orders.
+         * @param userId ObjectId of a given CustomerUser
+         * @return Collection of Orders based on given CustomerUser ObjectId.
+         */
+        public Collection<Order> getOrdersByUser(@Nonnull ObjectId userId) {
+            log.debug("OrderController > getOrderHistory()");
+            Collection<Order> userOrderHistory = new ArrayList<>();
+            for (ObjectId orderId : userToOrders.get(userId)) {
+                userOrderHistory.add(getOrder(orderId));
+            }
+            return userOrderHistory;
+        }
 
     /**
      * Creates an Order based on the provided ShoppingCart.
