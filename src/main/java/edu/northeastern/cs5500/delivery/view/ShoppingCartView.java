@@ -42,12 +42,6 @@ public class ShoppingCartView implements View {
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
-                    // If shopping cart for the user doesn't exist
-                    if (shoppingCart == null) {
-                        shoppingCart = shoppingCartController.createShoppingCart(id);
-                        shoppingCartController.addShoppingCart(shoppingCart);
-                    }
-
                     // Add orderItem
                     shoppingCartController.addOrderItem(orderItem, shoppingCart);
 

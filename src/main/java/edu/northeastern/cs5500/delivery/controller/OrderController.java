@@ -96,7 +96,7 @@ public class OrderController {
      * @return Order based on the provided ShoppingCart contents.
      */
     private Order createOrder(ShoppingCart shoppingCart) {
-        Map<String, OrderItem> orderItems = shoppingCart.getShoppingCart();
+        Map<String, OrderItem> orderItems = shoppingCart.getOrderItems();
         Map.Entry<String, OrderItem> entry = orderItems.entrySet().iterator().next();
         Order newOrder = new Order();
         newOrder.setId(new ObjectId());

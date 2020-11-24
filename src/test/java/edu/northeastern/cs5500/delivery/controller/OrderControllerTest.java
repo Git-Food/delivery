@@ -142,7 +142,7 @@ class OrderControllerTest {
         ShoppingCart testShoppingCart = new ShoppingCart();
         testShoppingCart.setCustomerId(customerId1);
         testShoppingCart.setId(new ObjectId());
-        testShoppingCart.setShoppingCart(order1Items);
+        testShoppingCart.setOrderItems(order1Items);
         long cartPrice = shoppingCartController.calculateShoppingCartPrice(testShoppingCart);
         int cartQuantity = shoppingCartController.calculateShoppingCartQuantity(testShoppingCart);
         testShoppingCart.setTotalPrice(cartPrice);

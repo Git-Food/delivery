@@ -61,7 +61,7 @@ public class ShoppingCartControllerTest {
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
         defaultShoppingCartMap1.put(orderItem1.getId().toString(), orderItem1);
         defaultShoppingCartMap1.put(orderItem2.getId().toString(), orderItem2);
-        defaultShoppingCart1.setShoppingCart(defaultShoppingCartMap1);
+        defaultShoppingCart1.setOrderItems(defaultShoppingCartMap1);
 
         return defaultShoppingCart1;
     }
@@ -72,7 +72,7 @@ public class ShoppingCartControllerTest {
         defaultShoppingCart1.setId(new ObjectId());
         defaultShoppingCart1.setCustomerId(new ObjectId());
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
-        defaultShoppingCart1.setShoppingCart(defaultShoppingCartMap1);
+        defaultShoppingCart1.setOrderItems(defaultShoppingCartMap1);
 
         return defaultShoppingCart1;
     }
@@ -193,7 +193,7 @@ public class ShoppingCartControllerTest {
     void testCheckoutAndClearCart() throws Exception {
         ShoppingCart shoppingCart1 = createShoppingCart();
         shoppingCarts.checkout(shoppingCart1);
-        Assertions.assertTrue(shoppingCart1.getShoppingCart().isEmpty());
+        Assertions.assertTrue(shoppingCart1.getOrderItems().isEmpty());
         Assertions.assertTrue(shoppingCart1.getTotalPrice() == 0);
         Assertions.assertTrue(shoppingCart1.getTotalQuantity() == 0);
     }
@@ -203,7 +203,7 @@ public class ShoppingCartControllerTest {
         ShoppingCart shoppingCart1 = createEmptyCart();
         OrderItem item1 = createOrderItem();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
-        Assertions.assertTrue(shoppingCart1.getShoppingCart().containsValue(item1));
+        Assertions.assertTrue(shoppingCart1.getOrderItems().containsValue(item1));
     }
 
     @Test
@@ -211,9 +211,9 @@ public class ShoppingCartControllerTest {
         ShoppingCart shoppingCart1 = createEmptyCart();
         OrderItem item1 = createOrderItem();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
-        Assertions.assertTrue(shoppingCart1.getShoppingCart().containsValue(item1));
+        Assertions.assertTrue(shoppingCart1.getOrderItems().containsValue(item1));
         shoppingCarts.removeOrderItem(item1, shoppingCart1);
-        Assertions.assertFalse(shoppingCart1.getShoppingCart().containsValue(item1));
+        Assertions.assertFalse(shoppingCart1.getOrderItems().containsValue(item1));
     }
 
     @Test
@@ -223,8 +223,7 @@ public class ShoppingCartControllerTest {
         int originalQuantity = item1.getQuantity();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
         shoppingCarts.incrementOrderItemQuantity(item1, shoppingCart1);
-        int newQuantity =
-                shoppingCart1.getShoppingCart().get(item1.getId().toString()).getQuantity();
+        int newQuantity = shoppingCart1.getOrderItems().get(item1.getId().toString()).getQuantity();
         Assertions.assertEquals(originalQuantity + 1, newQuantity);
     }
 
@@ -235,8 +234,7 @@ public class ShoppingCartControllerTest {
         int originalQuantity = item1.getQuantity();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
         shoppingCarts.decrementOrderItemQuantity(item1, shoppingCart1);
-        int newQuantity =
-                shoppingCart1.getShoppingCart().get(item1.getId().toString()).getQuantity();
+        int newQuantity = shoppingCart1.getOrderItems().get(item1.getId().toString()).getQuantity();
         Assertions.assertEquals(originalQuantity - 1, newQuantity);
     }
 
@@ -254,11 +252,11 @@ public class ShoppingCartControllerTest {
         ShoppingCart shoppingCart1 = createShoppingCart();
         ShoppingCart shoppingCart2 = createEmptyCart();
         shoppingCarts.addShoppingCart(shoppingCart2);
-        shoppingCart2.setShoppingCart(shoppingCart1.getShoppingCart());
+        shoppingCart2.setOrderItems(shoppingCart1.getOrderItems());
         shoppingCarts.updateShoppingCart(shoppingCart2);
         Assertions.assertEquals(
-                shoppingCarts.getShoppingCart(shoppingCart2.getId()).getShoppingCart(),
-                shoppingCart1.getShoppingCart());
+                shoppingCarts.getShoppingCart(shoppingCart2.getId()).getOrderItems(),
+                shoppingCart1.getOrderItems());
     }
 
     @Test
@@ -277,9 +275,8 @@ public class ShoppingCartControllerTest {
         long price = shoppingCart1.getTotalPrice();
         int quantity = shoppingCart2.getTotalQuantity();
         shoppingCarts.addShoppingCart(shoppingCart2);
-        shoppingCart2.setShoppingCart(shoppingCart1.getShoppingCart());
-        shoppingCarts.updateShoppingCart(
-                shoppingCart2, shoppingCart1.getTotalPrice(), shoppingCart2.getTotalQuantity());
+        shoppingCart2.setOrderItems(shoppingCart1.getOrderItems());
+        shoppingCarts.updateShoppingCart(shoppingCart2);
         Assertions.assertEquals(
                 shoppingCarts.getShoppingCart(shoppingCart2.getId()).getTotalPrice(), price);
         Assertions.assertEquals(
