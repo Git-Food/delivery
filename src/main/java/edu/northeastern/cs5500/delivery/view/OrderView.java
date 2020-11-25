@@ -93,7 +93,7 @@ public class OrderView implements View {
                     order.setId(null);
                     order = orderController.addOrder(order);
 
-                    response.redirect(String.format("/order/{}", order.getId().toHexString()), 301);
+                    response.redirect("/order/" + order.getId().toHexString(), 301);
                     return order;
                 });
 

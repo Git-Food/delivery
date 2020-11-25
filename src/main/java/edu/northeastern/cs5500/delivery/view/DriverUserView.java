@@ -17,10 +17,10 @@ import org.bson.types.ObjectId;
 
 @Singleton
 @Slf4j
-public class DriverView implements View {
+public class DriverUserView implements View {
 
     @Inject
-    DriverView() {}
+    DriverUserView() {}
 
     @Inject JsonTransformer jsonTransformer;
 
@@ -28,7 +28,7 @@ public class DriverView implements View {
 
     @Override
     public void register() {
-        log.info("DriverView > register");
+        log.info("DriverUserView > register");
 
         get(
                 "/driver",
@@ -69,8 +69,7 @@ public class DriverView implements View {
                     driver.setId(null);
                     driver = driversController.addDriver(driver);
 
-                    response.redirect(
-                            String.format("/driver/{}", driver.getId().toHexString()), 301);
+                    response.redirect("/driver/" + driver.getId().toHexString(), 301);
                     return driver;
                 });
 

@@ -75,9 +75,7 @@ public class CustomerUserView implements View {
                     customerUser.setId(null);
                     customerUser = customerUserController.addCustomerUser(customerUser);
 
-                    response.redirect(
-                            String.format("/customeruser/{}", customerUser.getId().toHexString()),
-                            301);
+                    response.redirect("/customeruser/" + customerUser.getId().toHexString(), 301);
                     return customerUser;
                 });
 

@@ -38,8 +38,8 @@ public class ViewModule {
 
     @Provides
     @IntoSet
-    public View provideDriverView(DriverView driverView) {
-        return driverView;
+    public View provideDriverUserView(DriverUserView driverUserView) {
+        return driverUserView;
     }
 
     @Provides
