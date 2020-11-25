@@ -1,9 +1,9 @@
 package edu.northeastern.cs5500.delivery.controller;
 
 import edu.northeastern.cs5500.delivery.model.MenuItem;
-import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
+import edu.northeastern.cs5500.delivery.repository.InMemoryOrderRepository;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class ShoppingCartControllerTest {
 
     @BeforeEach
     void init() {
-        orders = new OrderController(new InMemoryRepository<Order>());
+        orders = new OrderController(new InMemoryOrderRepository());
         shoppingCarts = new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orders);
     }
 

@@ -9,7 +9,7 @@ import org.bson.types.ObjectId;
 
 public class InMemoryRepository<T extends Model> implements GenericRepository<T> {
 
-    HashMap<ObjectId, T> collection;
+    protected HashMap<ObjectId, T> collection;
 
     @Inject
     public InMemoryRepository() {

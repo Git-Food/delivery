@@ -6,7 +6,7 @@ import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
-import edu.northeastern.cs5500.delivery.repository.GenericRepository;
+import edu.northeastern.cs5500.delivery.repository.OrderRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,11 +20,11 @@ import org.bson.types.ObjectId;
 @Singleton
 @Slf4j
 public class OrderController {
-    private final GenericRepository<Order> orders;
+    private final OrderRepository orders;
     private Map<ObjectId, ArrayList<ObjectId>> userToOrders;
 
     @Inject
-    OrderController(GenericRepository<Order> orderRepository) {
+    OrderController(OrderRepository orderRepository) {
         orders = orderRepository;
         userToOrders = createUserToOrdersMap();
 
@@ -115,11 +115,7 @@ public class OrderController {
      */
     public Collection<Order> getOrdersByUser(@Nonnull ObjectId userId) {
         log.debug("OrderController > getOrderHistory()");
-        Collection<Order> userOrderHistory = new ArrayList<>();
-        for (ObjectId orderId : userToOrders.get(userId)) {
-            userOrderHistory.add(getOrder(orderId));
-        }
-        return userOrderHistory;
+        return orders.getOrdersByUserId(userId);
     }
 
     /**
