@@ -1,6 +1,7 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -8,7 +9,7 @@ import org.bson.types.ObjectId;
 @Data
 public class Order implements Model {
     private ObjectId id;
-    private Map<String, OrderItem> orderItems;
+    private Map<String, OrderItem> orderItems = new HashMap<>();
     private OrderStatus orderStatus;
     private long deliveryCharge;
     private long taxAmount;
