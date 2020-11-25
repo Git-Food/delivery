@@ -68,7 +68,7 @@ public class MenuView implements View {
                     menu.setId(null);
                     menu = menuController.addMenu(menu);
 
-                    response.redirect(String.format("/menu/{}", menu.getId().toHexString()), 301);
+                    response.redirect(String.join("/menu/", menu.getId().toHexString()), 301);
                     return menu;
                 });
 

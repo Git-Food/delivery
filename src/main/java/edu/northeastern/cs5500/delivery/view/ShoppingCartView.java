@@ -181,8 +181,7 @@ public class ShoppingCartView implements View {
                     shoppingCart = shoppingCartController.addShoppingCart(shoppingCart);
 
                     response.redirect(
-                            String.format("/shoppingCart/{}", shoppingCart.getId().toHexString()),
-                            301);
+                            String.join("/shoppingCart/", shoppingCart.getId().toHexString()), 301);
                     return shoppingCart;
                 });
 

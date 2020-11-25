@@ -70,8 +70,7 @@ public class BusinessUserView implements View {
                     customerUser = businessUserController.addBusinessUser(customerUser);
 
                     response.redirect(
-                            String.format("/businessuser/{}", customerUser.getId().toHexString()),
-                            301);
+                            String.join("/businessuser/", customerUser.getId().toHexString()), 301);
                     return customerUser;
                 });
 
