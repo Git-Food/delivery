@@ -69,7 +69,7 @@ public class DriverUserView implements View {
                     driver.setId(null);
                     driver = driversController.addDriver(driver);
 
-                    response.redirect(String.join("/driver/", driver.getId().toHexString()), 301);
+                    response.redirect("/driver/" + driver.getId().toHexString(), 301);
                     return driver;
                 });
 

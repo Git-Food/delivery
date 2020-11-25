@@ -68,8 +68,7 @@ public class DeliveryView implements View {
                     delivery.setId(null);
                     delivery = deliveryController.addDelivery(delivery);
 
-                    response.redirect(
-                            String.join("/delivery/", delivery.getId().toHexString()), 301);
+                    response.redirect("/delivery/" + delivery.getId().toHexString(), 301);
                     return delivery;
                 });
 

@@ -170,18 +170,12 @@ public class ShoppingCartView implements View {
                     ObjectMapper mapper = new ObjectMapper();
                     ShoppingCart shoppingCart =
                             mapper.readValue(request.body(), ShoppingCart.class);
-                    // There is currently no invalid shoppingCart
-                    // if (!shoppingCart.isValid()) {
-                    // response.status(400);
-                    // return "";
-                    // }
 
                     // Ignore the user-provided ID if there is one
                     shoppingCart.setId(null);
                     shoppingCart = shoppingCartController.addShoppingCart(shoppingCart);
 
-                    response.redirect(
-                            String.join("/shoppingCart/", shoppingCart.getId().toHexString()), 301);
+                    response.redirect("/shoppingCart/" + shoppingCart.getId().toHexString(), 301);
                     return shoppingCart;
                 });
 
