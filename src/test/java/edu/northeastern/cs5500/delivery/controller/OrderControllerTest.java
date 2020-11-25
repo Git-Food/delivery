@@ -10,6 +10,7 @@ import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
+import edu.northeastern.cs5500.delivery.repository.InMemoryOrderRepository;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
 import java.util.HashMap;
 import org.bson.types.ObjectId;
@@ -31,7 +32,7 @@ class OrderControllerTest {
 
     @BeforeEach
     void init() {
-        orderController = new OrderController(new InMemoryRepository<Order>());
+        orderController = new OrderController(new InMemoryOrderRepository());
         shoppingCartController =
                 new ShoppingCartController(new InMemoryRepository<ShoppingCart>(), orderController);
 

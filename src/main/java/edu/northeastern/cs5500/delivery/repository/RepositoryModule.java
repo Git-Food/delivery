@@ -85,6 +85,16 @@ public class RepositoryModule {
             MongoDBService mongoDBService) {
         return new MongoDBRepository<ShoppingCart>(ShoppingCart.class, mongoDBService);
     }
+
+    // @Provides
+    // public OrderRepository providesNonGenericOrderRepository() {
+    //     return new InMemoryOrderRepository();
+    // }
+
+    @Provides
+    public OrderRepository providesNonGenericOrderRepository(MongoDBService mongoDBService) {
+        return new MongoDBOrderRepository(mongoDBService);
+    }
 }
 
 /*
