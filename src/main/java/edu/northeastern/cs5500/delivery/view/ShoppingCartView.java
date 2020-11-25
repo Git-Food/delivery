@@ -4,10 +4,12 @@ import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.redirect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.northeastern.cs5500.delivery.JsonTransformer;
 import edu.northeastern.cs5500.delivery.controller.ShoppingCartController;
+import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import javax.inject.Inject;
@@ -31,14 +33,25 @@ public class ShoppingCartView implements View {
 
         /** API to add orderItem into a shoppingCart */
         put(
-                "/addOrderItem",
+                "/addorderitem",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
-                    OrderItem orderItem =
-                            mapper.readValue(request.queryParams("orderItem"), OrderItem.class);
+
+                    MenuItem menuItem =
+                            mapper.readValue(request.queryParams("menuitem"), MenuItem.class);
+                    String note = request.queryParams("specialnote");
+                    Integer quantity = Integer.valueOf(request.queryParams("quantity"));
+
+                    // Build orderItem
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setId(new ObjectId());
+                    orderItem.setBusinessId(menuItem.getBusinessId());
+                    orderItem.setMenuItem(menuItem);
+                    orderItem.setQuantity(quantity);
+                    orderItem.setSpecialNote(note);
 
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -50,14 +63,14 @@ public class ShoppingCartView implements View {
 
         /** API to remove orderItem from a shoppingCart */
         put(
-                "/removeOrderItem",
+                "/removeorderitem",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     OrderItem orderItem =
-                            mapper.readValue(request.queryParams("orderItem"), OrderItem.class);
+                            mapper.readValue(request.queryParams("orderitem"), OrderItem.class);
 
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -69,14 +82,14 @@ public class ShoppingCartView implements View {
 
         /** API to increment quantity from OrderItem already in ShoppingCart */
         put(
-                "/incrementOrderItem",
+                "/incrementorderitem",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     OrderItem orderItem =
-                            mapper.readValue(request.queryParams("orderItem"), OrderItem.class);
+                            mapper.readValue(request.queryParams("orderitem"), OrderItem.class);
 
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -88,14 +101,14 @@ public class ShoppingCartView implements View {
 
         /** API to decrement quantity from OrderItem already in ShoppingCart */
         put(
-                "/decrementOrderItem",
+                "/decrementorderitem",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     OrderItem orderItem =
-                            mapper.readValue(request.queryParams("orderItem"), OrderItem.class);
+                            mapper.readValue(request.queryParams("orderitem"), OrderItem.class);
 
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -107,10 +120,10 @@ public class ShoppingCartView implements View {
 
         /** API to clear Shopping Cart. */
         put(
-                "/clearShoppingCart",
+                "/clearshoppingcart",
                 (request, response) -> {
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -125,7 +138,7 @@ public class ShoppingCartView implements View {
                 "/checkout",
                 (request, response) -> {
                     // Get shopping cart from userId
-                    String userId = request.queryParams("userId");
+                    String userId = request.queryParams("userid");
                     final ObjectId id = new ObjectId(userId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
 
@@ -134,13 +147,13 @@ public class ShoppingCartView implements View {
 
                     // Redirect to orderStatus view
                     // TODO(pcd) Implement orderStatus view
-                    response.redirect("/orderStatus");
+                    redirect.any("/checkout", "/orderhistory?userid=" + id.toHexString());
 
                     return shoppingCart;
                 });
 
         get(
-                "/shoppingCart",
+                "/shoppingcart",
                 (request, response) -> {
                     log.debug("/shoppingCart");
                     response.type("application/json");
@@ -149,10 +162,10 @@ public class ShoppingCartView implements View {
                 jsonTransformer);
 
         get(
-                "/shoppingCart/:id",
+                "/shoppingcart/:id",
                 (request, response) -> {
                     final String paramId = request.params(":id");
-                    log.debug("/shoppingCart/:id<{}>", paramId);
+                    log.debug("/shoppingcart/:id<{}>", paramId);
                     final ObjectId id = new ObjectId(paramId);
                     ShoppingCart shoppingCart = shoppingCartController.getShoppingCart(id);
                     // There is currently no invalid shoppingCart
@@ -165,7 +178,7 @@ public class ShoppingCartView implements View {
                 jsonTransformer);
 
         post(
-                "/shoppingCart",
+                "/shoppingcart",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     ShoppingCart shoppingCart =
@@ -180,7 +193,7 @@ public class ShoppingCartView implements View {
                 });
 
         put(
-                "/shoppingCart",
+                "/shoppingcart",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     ShoppingCart shoppingCart =
@@ -196,7 +209,7 @@ public class ShoppingCartView implements View {
                 });
 
         delete(
-                "/shoppingCart",
+                "/shoppingcart",
                 (request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     ShoppingCart shoppingCart =

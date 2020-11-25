@@ -11,6 +11,7 @@ public class MenuItem {
     private String description;
     private long price;
     private String note;
+    private ObjectId businessId;
 
     /** @return true if this MenuItem is valid */
     @JsonIgnore

@@ -117,6 +117,19 @@ public class ShoppingCartController {
     }
 
     /**
+     * Returns a new ShoppingCart object.
+     *
+     * @return a new ShoppingCart object.
+     */
+    public ShoppingCart createShoppingCart() {
+        ShoppingCart newCart = new ShoppingCart();
+        newCart.setId(new ObjectId());
+        newCart.setOrderItems(new HashMap<String, OrderItem>());
+        newCart.setCustomerId(new ObjectId());
+        return newCart;
+    }
+
+    /**
      * Calculate total price for a shoppingCart.
      *
      * @param ShoppingCart shoppingCart to calculate total price from
@@ -143,7 +156,7 @@ public class ShoppingCartController {
         log.debug("ShoppingCartController > getShoppingCart({})", uuid);
         ShoppingCart shoppingCart = shoppingCarts.get(uuid);
         if (shoppingCart == null) {
-            shoppingCart = createShoppingCart(uuid);
+            shoppingCart = createShoppingCart();
             addShoppingCart(shoppingCart);
         }
         return shoppingCart;
@@ -160,6 +173,12 @@ public class ShoppingCartController {
     @Nullable
     public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) throws Exception {
         log.debug("ShoppingCartController > getShoppingCartByUser({})", userId);
+        // There is no cart for the given userId
+        if (cartToUser.get(userId) == null) {
+            ShoppingCart cart = createShoppingCart(userId);
+            addShoppingCart(cart);
+            return cart;
+        }
         return getShoppingCart(cartToUser.get(userId));
     }
 
