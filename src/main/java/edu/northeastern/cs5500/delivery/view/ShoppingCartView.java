@@ -15,6 +15,8 @@ import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
+import spark.Redirect.Status;
+
 import org.bson.types.ObjectId;
 
 @Singleton
@@ -147,7 +149,7 @@ public class ShoppingCartView implements View {
 
                     // Redirect to orderStatus view
                     // TODO(pcd) Implement orderStatus view
-                    redirect.any("/checkout", "/orderhistory?userid=" + id.toHexString());
+                    redirect.any("/checkout", "/orderhistory?userid=" + id.toHexString(), Status.MOVED_PERMANENTLY);
 
                     return shoppingCart;
                 });
