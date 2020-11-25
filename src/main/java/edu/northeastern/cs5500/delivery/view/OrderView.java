@@ -53,6 +53,32 @@ public class OrderView implements View {
                 },
                 jsonTransformer);
 
+        /** API to view orderHistory of a given User */
+        get(
+                "/orderHistory",
+                (request, response) -> {
+                    log.debug("/orderHistory");
+                    // Get orderHistory from userId
+                    String userId = request.queryParams("userId");
+                    final ObjectId id = new ObjectId(userId);
+                    response.type("application/json");
+                    return orderController.getOrdersByUser(id);
+                },
+                jsonTransformer);
+
+        /** API to view orderStatus of order */
+        get(
+                "/orderStatus",
+                (request, response) -> {
+                    log.debug("/orderHistory");
+                    // Get orderHistory from userId
+                    String orderId = request.queryParams("orderId");
+                    final ObjectId id = new ObjectId(orderId);
+                    response.type("application/json");
+                    return orderController.getOrder(id);
+                },
+                jsonTransformer);
+
         post(
                 "/order",
                 (request, response) -> {
