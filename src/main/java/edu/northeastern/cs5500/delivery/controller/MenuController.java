@@ -36,12 +36,14 @@ public class MenuController {
         defaultMenuItem1.setDescription("chicken1 description");
         defaultMenuItem1.setPrice(2);
         defaultMenuItem1.setNote("Spicy sauce included");
+        defaultMenuItem1.setBusinessId(new ObjectId());
         MenuItem defaultMenuItem2 = new MenuItem();
         defaultMenuItem2.setObjectId(menuItemObjectId2);
         defaultMenuItem2.setName("Beef1");
         defaultMenuItem2.setDescription("beef1 description");
         defaultMenuItem2.setPrice(3);
         defaultMenuItem2.setNote("BBQ sauce included");
+        defaultMenuItem2.setBusinessId(new ObjectId());
         HashMap<String, MenuItem> defaultMenuItems1 = new HashMap<>();
         defaultMenuItems1.put(menuItemObjectId1.toString(), defaultMenuItem1);
         HashMap<String, MenuItem> defaultMenuItems2 = new HashMap<>();

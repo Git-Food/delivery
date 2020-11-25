@@ -55,7 +55,7 @@ public class OrderView implements View {
 
         /** API to view orderHistory of a given User */
         get(
-                "/orderHistory",
+                "/orderhistory",
                 (request, response) -> {
                     log.debug("/orderHistory");
                     // Get orderHistory from userId
@@ -68,7 +68,7 @@ public class OrderView implements View {
 
         /** API to view orderStatus of order */
         get(
-                "/orderStatus",
+                "/orderstatus",
                 (request, response) -> {
                     log.debug("/orderHistory");
                     // Get orderHistory from userId
