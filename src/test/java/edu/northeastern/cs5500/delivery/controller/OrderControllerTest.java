@@ -3,16 +3,17 @@
  */
 package edu.northeastern.cs5500.delivery.controller;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.model.Order;
 import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -117,19 +118,19 @@ class OrderControllerTest {
         order1.setCustomerId(customerId1);
         order1.setBusinessId(businessId1);
         order1.setOrderStatus(OrderStatus.UNDER_REVIEW);
-        order1.setTotalOrderItemQuantity(order1Items.size());
-        order1.setTotalPrice(5);
+        order1.setTotalOrderItemQuantity(3);
+        order1.setTotalPrice(7);
 
         // Order 2 is same business different user than Order1
         order2.setId(orderId2);
         order2.setOrderItems(order2Items);
-        order2.setCustomerId(new ObjectId()); // will need to link to customer
+        order2.setCustomerId(new ObjectId());
         order2.setBusinessId(businessId1);
         order2.setOrderStatus(OrderStatus.UNDER_REVIEW);
 
         order3.setId(orderId3);
         order3.setOrderItems(order3Items);
-        order3.setCustomerId(new ObjectId()); // will need to link to customer
+        order3.setCustomerId(new ObjectId());
         order3.setBusinessId(businessId2);
         order3.setOrderStatus(OrderStatus.PENDING);
 
@@ -150,20 +151,36 @@ class OrderControllerTest {
         return testShoppingCart;
     }
 
+    OrderController createTestOrderController() {
+        InMemoryRepository<Order> testRepo = new InMemoryRepository<>();
+        testRepo.add(order1);
+        return new OrderController(testRepo);
+    }
+
     @Test
     void testGetOrder() throws Exception {
         // Add orders to Orders to repository
         orderController.addOrder(order1);
         orderController.addOrder(order2);
-        assertThat(orderController.getOrder(orderId1)).isEqualTo(order1);
-        assertThat(orderController.getOrder(orderId2)).isEqualTo(order2);
+        Assertions.assertEquals(order1, orderController.getOrder(orderId1));
+        Assertions.assertEquals(order2, orderController.getOrder(orderId2));
+    }
+
+    @Test
+    void testGetOrdersByUser() throws Exception {
+        // Create order Controller with Order already in repository
+        OrderController testOrderController = createTestOrderController();
+        Collection<Order> expectedOrderCollection = new ArrayList<>();
+        expectedOrderCollection.add(order1);
+        Assertions.assertEquals(
+                expectedOrderCollection, testOrderController.getOrdersByUser(customerId1));
     }
 
     @Test
     void testGetOrders() {
         // Is not empty right away because of dummy data inserted
         // directly inside the OrderController class.
-        assertThat(orderController.getOrders()).isNotEmpty();
+        Assertions.assertTrue(orderController.getOrders().size() != 0);
         // assert collections are equal?
     }
 
@@ -171,7 +188,28 @@ class OrderControllerTest {
     void testCanAddOrder() throws Exception {
         // Add the Order
         orderController.addOrder(order3);
-        assertThat(orderController.getOrder(orderId3)).isEqualTo(order3);
+        Assertions.assertEquals(order3, orderController.getOrder(orderId3));
+    }
+
+    @Test
+    void testCannotAddInvalidOrder() throws Exception {
+        OrderController testOrderController = createTestOrderController();
+        Order invalidOrder = new Order();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    testOrderController.addOrder(invalidOrder);
+                });
+    }
+
+    @Test
+    void testCannotAddOrderDuplicate() throws Exception {
+        OrderController testOrderController = createTestOrderController();
+        Assertions.assertThrows(
+                Exception.class,
+                () -> {
+                    testOrderController.addOrder(order1);
+                });
     }
 
     @Test
@@ -179,14 +217,14 @@ class OrderControllerTest {
         // Add the Order
         orderController.addOrder(order3);
         // Assert Order is as orignal expected
-        assertThat(orderController.getOrder(orderId3)).isEqualTo(order3);
+        Assertions.assertEquals(order3, orderController.getOrder(orderId3));
         // Set New Order Status
         order3.setOrderStatus(OrderStatus.UNDER_REVIEW);
         // Update Order
         orderController.updateOrder(order3);
         // Assert new order status
-        assertThat(orderController.getOrder(orderId3).getOrderStatus())
-                .isEqualTo(OrderStatus.UNDER_REVIEW);
+        Assertions.assertEquals(
+                OrderStatus.UNDER_REVIEW, orderController.getOrder(orderId3).getOrderStatus());
     }
 
     @Test
@@ -194,11 +232,11 @@ class OrderControllerTest {
         // Add the Order
         orderController.addOrder(order3);
         // Assert Order is as orignal expected
-        assertThat(orderController.getOrder(orderId3)).isEqualTo(order3);
+        Assertions.assertEquals(order3, orderController.getOrder(orderId3));
         // Delete Order
         orderController.deleteOrder(orderId3);
         // Assert Order has been removed
-        assertThat(orderController.getOrders()).doesNotContain(order3);
+        Assertions.assertTrue(!orderController.getOrders().contains(order3));
     }
 
     @Test
@@ -208,5 +246,6 @@ class OrderControllerTest {
         Order actualOrder = orderController.submitOrder(testShoppingCart);
         Order expectedOrder = order1;
         expectedOrder.setId(actualOrder.getId()); // Only way to match ObjectIds
+        Assertions.assertEquals(expectedOrder, actualOrder);
     }
 }
