@@ -153,7 +153,7 @@ class OrderControllerTest {
     }
 
     OrderController createTestOrderController() {
-        InMemoryRepository<Order> testRepo = new InMemoryRepository<>();
+        InMemoryOrderRepository testRepo = new InMemoryOrderRepository();
         testRepo.add(order1);
         return new OrderController(testRepo);
     }
