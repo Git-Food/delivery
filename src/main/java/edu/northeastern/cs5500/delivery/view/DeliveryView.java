@@ -84,7 +84,8 @@ public class DeliveryView implements View {
 
                     deliveryController.updateDelivery(delivery);
                     return delivery;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/delivery",
@@ -94,6 +95,7 @@ public class DeliveryView implements View {
 
                     deliveryController.deleteDelivery(delivery.getId());
                     return delivery;
-                });
+                },
+                jsonTransformer);
     }
 }

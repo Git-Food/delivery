@@ -85,7 +85,8 @@ public class DriverUserView implements View {
 
                     driversController.updateDriver(driver);
                     return driver;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/driver",
@@ -95,6 +96,7 @@ public class DriverUserView implements View {
 
                     driversController.deleteDriver(driver.getId());
                     return driver;
-                });
+                },
+                jsonTransformer);
     }
 }

@@ -92,7 +92,8 @@ public class CustomerUserView implements View {
 
                     customerUserController.updateCustomerUser(customerUser);
                     return customerUser;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/customeruser",
@@ -103,6 +104,7 @@ public class CustomerUserView implements View {
 
                     customerUserController.deleteCustomerUser(customerUser.getId());
                     return customerUser;
-                });
+                },
+                jsonTransformer);
     }
 }
