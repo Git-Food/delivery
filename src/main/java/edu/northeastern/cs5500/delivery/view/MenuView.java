@@ -84,7 +84,8 @@ public class MenuView implements View {
 
                     menuController.updateMenu(menu);
                     return menu;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/menu",
@@ -94,6 +95,7 @@ public class MenuView implements View {
 
                     menuController.deleteMenu(menu.getId());
                     return menu;
-                });
+                },
+                jsonTransformer);
     }
 }

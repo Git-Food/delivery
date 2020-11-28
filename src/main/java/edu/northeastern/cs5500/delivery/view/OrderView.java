@@ -109,7 +109,8 @@ public class OrderView implements View {
 
                     orderController.updateOrder(order);
                     return order;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/order",
@@ -119,6 +120,7 @@ public class OrderView implements View {
 
                     orderController.deleteOrder(order.getId());
                     return order;
-                });
+                },
+                jsonTransformer);
     }
 }

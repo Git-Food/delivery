@@ -60,7 +60,8 @@ public class ShoppingCartView implements View {
                     shoppingCartController.addOrderItem(orderItem, shoppingCart);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         /** API to remove orderItem from a shoppingCart */
         put(
@@ -79,7 +80,8 @@ public class ShoppingCartView implements View {
                     shoppingCartController.removeOrderItem(orderItem, shoppingCart);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         /** API to increment quantity from OrderItem already in ShoppingCart */
         put(
@@ -98,7 +100,8 @@ public class ShoppingCartView implements View {
                     shoppingCartController.incrementOrderItemQuantity(orderItem, shoppingCart);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         /** API to decrement quantity from OrderItem already in ShoppingCart */
         put(
@@ -117,7 +120,8 @@ public class ShoppingCartView implements View {
                     shoppingCartController.decrementOrderItemQuantity(orderItem, shoppingCart);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         /** API to clear Shopping Cart. */
         put(
@@ -132,7 +136,8 @@ public class ShoppingCartView implements View {
                     shoppingCartController.clearShoppingCart(shoppingCart);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         /** API to checkout. */
         post(
@@ -210,7 +215,8 @@ public class ShoppingCartView implements View {
 
                     shoppingCartController.updateShoppingCart(shoppingCart);
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/shoppingcart",
@@ -221,6 +227,7 @@ public class ShoppingCartView implements View {
 
                     shoppingCartController.deleteShoppingCart(shoppingCart.getId());
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
     }
 }

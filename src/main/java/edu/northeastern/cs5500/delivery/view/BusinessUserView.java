@@ -86,7 +86,8 @@ public class BusinessUserView implements View {
 
                     businessUserController.updateBusinessUser(customerUser);
                     return customerUser;
-                });
+                },
+                jsonTransformer);
 
         delete(
                 "/businessuser",
@@ -97,6 +98,7 @@ public class BusinessUserView implements View {
 
                     businessUserController.deleteBusinessUser(customerUser.getId());
                     return customerUser;
-                });
+                },
+                jsonTransformer);
     }
 }
