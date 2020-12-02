@@ -74,4 +74,9 @@ public class ModelModule {
     public Class<ShoppingCart> providesShoppingCart() {
         return ShoppingCart.class;
     }
+
+    @Provides
+    public Class<Restaurant> providesRestaurant() {
+        return Restaurant.class;
+    }
 }

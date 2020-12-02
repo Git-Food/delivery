@@ -8,6 +8,7 @@ import edu.northeastern.cs5500.delivery.model.Delivery;
 import edu.northeastern.cs5500.delivery.model.DriverUser;
 import edu.northeastern.cs5500.delivery.model.Menu;
 import edu.northeastern.cs5500.delivery.model.Order;
+import edu.northeastern.cs5500.delivery.model.Restaurant;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.service.MongoDBService;
 
@@ -94,6 +95,12 @@ public class RepositoryModule {
     @Provides
     public OrderRepository providesNonGenericOrderRepository(MongoDBService mongoDBService) {
         return new MongoDBOrderRepository(mongoDBService);
+    }
+
+    @Provides
+    public GenericRepository<Restaurant> providesRestaurantRepository(
+            MongoDBService mongoDBService) {
+        return new MongoDBRepository<Restaurant>(Restaurant.class, mongoDBService);
     }
 }
 
