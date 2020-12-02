@@ -28,13 +28,13 @@ public class ShoppingCartControllerTest {
         ObjectId menuItemObjectId1 = new ObjectId();
         ObjectId menuItemObjectId2 = new ObjectId();
         MenuItem menuItem1 = new MenuItem();
-        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setId(menuItemObjectId1);
         menuItem1.setName("Chicken1");
         menuItem1.setDescription("chicken1 description");
         menuItem1.setPrice(2);
         menuItem1.setNote("Spicy sauce included");
         MenuItem menuItem2 = new MenuItem();
-        menuItem2.setObjectId(menuItemObjectId2);
+        menuItem2.setId(menuItemObjectId2);
         menuItem2.setName("Beef1");
         menuItem2.setDescription("beef1 description");
         menuItem2.setPrice(3);
@@ -81,7 +81,7 @@ public class ShoppingCartControllerTest {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
         MenuItem menuItem1 = new MenuItem();
-        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setId(menuItemObjectId1);
         menuItem1.setName("Taco");
         menuItem1.setDescription("taco description");
         menuItem1.setPrice(5);
@@ -102,7 +102,7 @@ public class ShoppingCartControllerTest {
         // Menu Items
         ObjectId menuItemObjectId1 = new ObjectId();
         MenuItem menuItem1 = new MenuItem();
-        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setId(menuItemObjectId1);
         menuItem1.setName("Taco");
         menuItem1.setDescription("taco description");
         menuItem1.setPrice(5);

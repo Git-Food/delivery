@@ -72,19 +72,19 @@ class OrderControllerTest {
         customerId1 = new ObjectId();
 
         // Menu Item Setup
-        menuItem1.setObjectId(menuItemObjectId1);
+        menuItem1.setId(menuItemObjectId1);
         menuItem1.setName("Supreme Pizza");
         menuItem1.setDescription("Supreme Pizza description");
         menuItem1.setPrice(2);
         menuItem1.setNote("Spicy sauce included");
 
-        menuItem2.setObjectId(menuItemObjectId2);
+        menuItem2.setId(menuItemObjectId2);
         menuItem2.setName("Pasta");
         menuItem2.setDescription("Pasta description");
         menuItem2.setPrice(3);
         menuItem2.setNote("Special sauce included");
 
-        menuItem3.setObjectId(menuItemObjectId3);
+        menuItem3.setId(menuItemObjectId3);
         menuItem3.setName("Calamari");
         menuItem3.setDescription("Calamari description");
         menuItem3.setPrice(3);

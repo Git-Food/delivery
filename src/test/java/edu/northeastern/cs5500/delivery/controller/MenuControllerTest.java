@@ -6,8 +6,7 @@ package edu.northeastern.cs5500.delivery.controller;
 import edu.northeastern.cs5500.delivery.model.Menu;
 import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,19 +27,24 @@ public class MenuControllerTest {
         menu.setName("menu name one");
         MenuItem menuItem1 = new MenuItem();
         ObjectId menuItemId1 = new ObjectId();
-        menuItem1.setObjectId(menuItemId1);
+        menuItem1.setId(menuItemId1);
         menuItem1.setName("menuItem1 name");
         menuItem1.setNote("menuItem1 note");
         menuItem1.setPrice(2L);
         MenuItem menuItem2 = new MenuItem();
         ObjectId menuItemId2 = new ObjectId();
-        menuItem2.setObjectId(menuItemId2);
+
+        menuItem2.setId(menuItemId2);
         menuItem2.setName("menuItem2 name");
         menuItem2.setNote("menuItem2 note");
         menuItem2.setPrice(3L);
-        Map<String, MenuItem> menuItems1 = new HashMap<>();
-        menuItems1.put(menuItemId1.toString(), menuItem1);
-        menuItems1.put(menuItemId2.toString(), menuItem2);
+
+        ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(menuItem1);
+        menuItems.add(menuItem2);
+
+        menu.setMenuItems(menuItems);
+
         return menu;
     }
 
@@ -51,19 +55,23 @@ public class MenuControllerTest {
         menu.setName("menu name two");
         MenuItem menuItem1 = new MenuItem();
         ObjectId menuItemId1 = new ObjectId();
-        menuItem1.setObjectId(menuItemId1);
+        menuItem1.setId(menuItemId1);
         menuItem1.setName("menuItem3 name");
         menuItem1.setNote("menuItem3 note");
         menuItem1.setPrice(5L);
         MenuItem menuItem2 = new MenuItem();
         ObjectId menuItemId2 = new ObjectId();
-        menuItem2.setObjectId(menuItemId2);
+        menuItem2.setId(menuItemId2);
         menuItem2.setName("menuItem4 name");
         menuItem2.setNote("menuItem4 note");
         menuItem2.setPrice(7L);
-        Map<String, MenuItem> menuItems1 = new HashMap<>();
-        menuItems1.put(menuItemId1.toString(), menuItem1);
-        menuItems1.put(menuItemId2.toString(), menuItem2);
+
+        ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(menuItem1);
+        menuItems.add(menuItem2);
+
+        menu.setMenuItems(menuItems);
+
         return menu;
     }
 
