@@ -53,4 +53,10 @@ public class ViewModule {
     public View providesShoppingCartView(ShoppingCartView shoppingCartView) {
         return shoppingCartView;
     }
+
+    @Provides
+    @IntoSet
+    public View providesRestaurantView(RestaurantView restaurantView) {
+        return restaurantView;
+    }
 }
