@@ -57,6 +57,7 @@ public class RestaurantController {
         defaultMenu1.setName("menu name1");
         defaultMenu1.setDescription("menu description1");
         defaultMenu1.setMenuItems(defaultMenuItems1);
+        defaultMenu1.setId(new ObjectId());
 
         ArrayList<MenuItem> defaultMenuItems2 = new ArrayList<MenuItem>();
         defaultMenuItems2.add(defaultMenuItem2);
@@ -65,6 +66,7 @@ public class RestaurantController {
         defaultMenu2.setName("menu name2");
         defaultMenu2.setDescription("menu description2");
         defaultMenu2.setMenuItems(defaultMenuItems2);
+        defaultMenu2.setId(new ObjectId());
         // Locations
         PostalAddress address1 = new PostalAddress();
         address1.setHouseNumber("410");
