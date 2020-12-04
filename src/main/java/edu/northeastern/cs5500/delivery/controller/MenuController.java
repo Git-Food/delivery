@@ -1,9 +1,7 @@
 package edu.northeastern.cs5500.delivery.controller;
 
 import edu.northeastern.cs5500.delivery.model.Menu;
-import edu.northeastern.cs5500.delivery.model.MenuItem;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,47 +25,50 @@ public class MenuController {
             return;
         }
 
-        log.info("MenuController > construct > adding default menus");
-        ObjectId menuItemObjectId1 = new ObjectId();
-        ObjectId menuItemObjectId2 = new ObjectId();
-        MenuItem defaultMenuItem1 = new MenuItem();
-        defaultMenuItem1.setId(menuItemObjectId1);
-        defaultMenuItem1.setName("Chicken1");
-        defaultMenuItem1.setDescription("chicken1 description");
-        defaultMenuItem1.setPrice(2);
-        defaultMenuItem1.setNote("Spicy sauce included");
-        defaultMenuItem1.setBusinessId(new ObjectId());
-        MenuItem defaultMenuItem2 = new MenuItem();
-        defaultMenuItem2.setId(menuItemObjectId2);
-        defaultMenuItem2.setName("Beef1");
-        defaultMenuItem2.setDescription("beef1 description");
-        defaultMenuItem2.setPrice(3);
-        defaultMenuItem2.setNote("BBQ sauce included");
-        defaultMenuItem2.setBusinessId(new ObjectId());
+        // Since RestaurantController is adding the dummy Menu's, MenuController
+        // No longer needs to populate its dummy Menu's.
 
-        ArrayList<MenuItem> defaultMenuItems1 = new ArrayList<MenuItem>();
-        defaultMenuItems1.add(defaultMenuItem1);
+        // log.info("MenuController > construct > adding default menus");
+        // ObjectId menuItemObjectId1 = new ObjectId();
+        // ObjectId menuItemObjectId2 = new ObjectId();
+        // MenuItem defaultMenuItem1 = new MenuItem();
+        // defaultMenuItem1.setId(menuItemObjectId1);
+        // defaultMenuItem1.setName("Chicken1");
+        // defaultMenuItem1.setDescription("chicken1 description");
+        // defaultMenuItem1.setPrice(2);
+        // defaultMenuItem1.setNote("Spicy sauce included");
+        // defaultMenuItem1.setBusinessId(new ObjectId());
+        // MenuItem defaultMenuItem2 = new MenuItem();
+        // defaultMenuItem2.setId(menuItemObjectId2);
+        // defaultMenuItem2.setName("Beef1");
+        // defaultMenuItem2.setDescription("beef1 description");
+        // defaultMenuItem2.setPrice(3);
+        // defaultMenuItem2.setNote("BBQ sauce included");
+        // defaultMenuItem2.setBusinessId(new ObjectId());
 
-        final Menu defaultMenu1 = new Menu();
-        defaultMenu1.setName("menu name1");
-        defaultMenu1.setDescription("menu description1");
-        defaultMenu1.setMenuItems(defaultMenuItems1);
+        // ArrayList<MenuItem> defaultMenuItems1 = new ArrayList<MenuItem>();
+        // defaultMenuItems1.add(defaultMenuItem1);
 
-        ArrayList<MenuItem> defaultMenuItems2 = new ArrayList<MenuItem>();
-        defaultMenuItems2.add(defaultMenuItem2);
+        // final Menu defaultMenu1 = new Menu();
+        // defaultMenu1.setName("menu name1");
+        // defaultMenu1.setDescription("menu description1");
+        // defaultMenu1.setMenuItems(defaultMenuItems1);
 
-        final Menu defaultMenu2 = new Menu();
-        defaultMenu2.setName("menu name2");
-        defaultMenu2.setDescription("menu description2");
-        defaultMenu2.setMenuItems(defaultMenuItems2);
+        // ArrayList<MenuItem> defaultMenuItems2 = new ArrayList<MenuItem>();
+        // defaultMenuItems2.add(defaultMenuItem2);
 
-        try {
-            addMenu(defaultMenu1);
-            addMenu(defaultMenu2);
-        } catch (Exception e) {
-            log.error("MenuController > construct > adding default menus > failure?");
-            e.printStackTrace();
-        }
+        // final Menu defaultMenu2 = new Menu();
+        // defaultMenu2.setName("menu name2");
+        // defaultMenu2.setDescription("menu description2");
+        // defaultMenu2.setMenuItems(defaultMenuItems2);
+
+        // try {
+        // addMenu(defaultMenu1);
+        // addMenu(defaultMenu2);
+        // } catch (Exception e) {
+        // log.error("MenuController > construct > adding default menus > failure?");
+        // e.printStackTrace();
+        // }
     }
 
     @Nullable

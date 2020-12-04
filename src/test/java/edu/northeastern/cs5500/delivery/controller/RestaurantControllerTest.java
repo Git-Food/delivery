@@ -14,10 +14,11 @@ import org.junit.jupiter.api.Test;
 
 public class RestaurantControllerTest {
     RestaurantController restaurants;
+    MenuController menus;
 
     @BeforeEach
     void init() {
-        restaurants = new RestaurantController(new InMemoryRepository<Restaurant>());
+        restaurants = new RestaurantController(new InMemoryRepository<Restaurant>(), menus);
     }
 
     Restaurant createRestaurantOne() {
@@ -35,9 +36,11 @@ public class RestaurantControllerTest {
         defaultMenuItems1.add(defaultMenuItem1);
 
         final Menu defaultMenu1 = new Menu();
+        ObjectId menuObjectId1 = new ObjectId();
         defaultMenu1.setName("menu name1");
         defaultMenu1.setDescription("menu description1");
         defaultMenu1.setMenuItems(defaultMenuItems1);
+        defaultMenu1.setId(menuObjectId1);
 
         // Locations
         PostalAddress address1 = new PostalAddress();
@@ -50,7 +53,7 @@ public class RestaurantControllerTest {
         // Build Restaurants
         final Restaurant defaultRestaurant1 = new Restaurant();
         defaultRestaurant1.setName("Best Food Restaurant");
-        defaultRestaurant1.setMenu(defaultMenu1);
+        defaultRestaurant1.setMenuId(defaultMenu1.getId().toString());
         defaultRestaurant1.setCuisineType("American");
         defaultRestaurant1.setId(new ObjectId());
         defaultRestaurant1.setLocation(address1);
@@ -75,9 +78,11 @@ public class RestaurantControllerTest {
         defaultMenuItems2.add(defaultMenuItem2);
 
         final Menu defaultMenu2 = new Menu();
+        ObjectId menuObjectId2 = new ObjectId();
         defaultMenu2.setName("menu name2");
         defaultMenu2.setDescription("menu description2");
         defaultMenu2.setMenuItems(defaultMenuItems2);
+        defaultMenu2.setId(menuObjectId2);
         // Locations
         PostalAddress address2 = new PostalAddress();
         address2.setHouseNumber("832");
@@ -90,7 +95,7 @@ public class RestaurantControllerTest {
         final Restaurant defaultRestaurant2 = new Restaurant();
 
         defaultRestaurant2.setName("Eatery");
-        defaultRestaurant2.setMenu(defaultMenu2);
+        defaultRestaurant2.setMenuId(defaultMenu2.getId().toString());
         defaultRestaurant2.setCuisineType("Chinese");
         defaultRestaurant2.setId(new ObjectId());
         defaultRestaurant2.setLocation(address2);
@@ -113,6 +118,7 @@ public class RestaurantControllerTest {
     void testCanAddRestaurant() throws Exception {
         Restaurant restaurant1 = createRestaurantOne();
         restaurants.addRestaurant(restaurant1);
+        System.out.println(restaurants);
         Assertions.assertEquals(
                 restaurants.getRestaurant(restaurant1.getId()).getName(), restaurant1.getName());
     }

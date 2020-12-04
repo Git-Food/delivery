@@ -14,15 +14,10 @@ public class Restaurant implements Model {
     private LocalTime startTime;
     private LocalTime endTime;
     private String cuisineType;
-    private Menu menu;
+    private String menuId;
 
     @JsonIgnore
     public boolean isValid() {
-        return name != null
-                && !name.isEmpty()
-                && name != null
-                && !name.isEmpty()
-                && menu.isValid()
-                && location.isValid();
+        return name != null && !name.isEmpty() && location.isValid();
     }
 }

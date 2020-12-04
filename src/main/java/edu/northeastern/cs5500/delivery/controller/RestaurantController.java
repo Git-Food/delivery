@@ -19,10 +19,14 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class RestaurantController {
     private final GenericRepository<Restaurant> restaurants;
+    private final MenuController menuController;
 
     @Inject
-    RestaurantController(GenericRepository<Restaurant> restaurantRepository) {
+    RestaurantController(
+            GenericRepository<Restaurant> restaurantRepository,
+            MenuController menuControllerInstance) {
         restaurants = restaurantRepository;
+        menuController = menuControllerInstance;
 
         log.info("RestaurantController > construct");
 
@@ -42,6 +46,7 @@ public class RestaurantController {
         defaultMenuItem1.setPrice(2);
         defaultMenuItem1.setNote("Spicy sauce included");
         defaultMenuItem1.setBusinessId(new ObjectId());
+
         MenuItem defaultMenuItem2 = new MenuItem();
         defaultMenuItem2.setId(menuItemObjectId2);
         defaultMenuItem2.setName("Beef1");
@@ -50,8 +55,11 @@ public class RestaurantController {
         defaultMenuItem2.setNote("BBQ sauce included");
         defaultMenuItem2.setBusinessId(new ObjectId());
 
+        // Build menu items
         ArrayList<MenuItem> defaultMenuItems1 = new ArrayList<MenuItem>();
         defaultMenuItems1.add(defaultMenuItem1);
+        ArrayList<MenuItem> defaultMenuItems2 = new ArrayList<MenuItem>();
+        defaultMenuItems2.add(defaultMenuItem2);
 
         final Menu defaultMenu1 = new Menu();
         defaultMenu1.setName("menu name1");
@@ -59,14 +67,12 @@ public class RestaurantController {
         defaultMenu1.setMenuItems(defaultMenuItems1);
         defaultMenu1.setId(new ObjectId());
 
-        ArrayList<MenuItem> defaultMenuItems2 = new ArrayList<MenuItem>();
-        defaultMenuItems2.add(defaultMenuItem2);
-
         final Menu defaultMenu2 = new Menu();
         defaultMenu2.setName("menu name2");
         defaultMenu2.setDescription("menu description2");
         defaultMenu2.setMenuItems(defaultMenuItems2);
         defaultMenu2.setId(new ObjectId());
+
         // Locations
         PostalAddress address1 = new PostalAddress();
         address1.setHouseNumber("410");
@@ -83,11 +89,14 @@ public class RestaurantController {
         address2.setState("WA");
         address2.setZipCode("98109");
         address2.setCountry("United States");
+
         // Build Restaurants
         final Restaurant defaultRestaurant1 = new Restaurant();
         final Restaurant defaultRestaurant2 = new Restaurant();
+
         defaultRestaurant1.setName("Best Food Restaurant");
-        defaultRestaurant1.setMenu(defaultMenu1);
+        // Grabs the menu id of the menu for the restaurant
+        defaultRestaurant1.setMenuId(defaultMenu1.getId().toString());
         defaultRestaurant1.setCuisineType("American");
         defaultRestaurant1.setId(new ObjectId());
         defaultRestaurant1.setLocation(address1);
@@ -95,7 +104,8 @@ public class RestaurantController {
         defaultRestaurant1.setEndTime(LocalTime.of(7, 00, 00));
 
         defaultRestaurant2.setName("Eatery");
-        defaultRestaurant2.setMenu(defaultMenu2);
+        // Grabs the menu id of the menu for the restaurant
+        defaultRestaurant2.setMenuId(defaultMenu2.getId().toString());
         defaultRestaurant2.setCuisineType("Chinese");
         defaultRestaurant2.setId(new ObjectId());
         defaultRestaurant2.setLocation(address2);
@@ -105,6 +115,8 @@ public class RestaurantController {
         try {
             addRestaurant(defaultRestaurant1);
             addRestaurant(defaultRestaurant2);
+            menuController.addMenu(defaultMenu1);
+            menuController.addMenu(defaultMenu2);
         } catch (Exception e) {
             log.error(
                     "defaultRestaurant1Controller > construct > adding default restaurants > failure?");
