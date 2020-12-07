@@ -247,6 +247,7 @@ class OrderControllerTest {
         Order actualOrder = orderController.submitOrder(testShoppingCart);
         Order expectedOrder = order1;
         expectedOrder.setId(actualOrder.getId()); // Only way to match ObjectIds
+        expectedOrder.setOrderDate(actualOrder.getOrderDate()); // Only way to match date time
         Assertions.assertEquals(expectedOrder, actualOrder);
     }
 }

@@ -9,6 +9,7 @@ import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.OrderRepository;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -213,6 +214,7 @@ public class OrderController {
     public Order submitOrder(ShoppingCart shoppingCart) throws Exception {
         log.debug("OrderController > submitOrder(...)");
         Order newOrder = createOrder(shoppingCart);
+        newOrder.setOrderDate(new Date());
         return addOrder(newOrder);
     }
 }
