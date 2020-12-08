@@ -109,10 +109,10 @@ class OrderControllerTest {
         orderItem3.setBusinessId(businessId2);
 
         // Order Setup
-        order1Items.put(menuItemObjectId1.toString(), orderItem1);
-        order1Items.put(menuItemObjectId2.toString(), orderItem2);
-        order2Items.put(menuItemObjectId1.toString(), orderItem1);
-        order3Items.put(menuItemObjectId3.toString(), orderItem3);
+        order1Items.put(menuItemObjectId1.toHexString(), orderItem1);
+        order1Items.put(menuItemObjectId2.toHexString(), orderItem2);
+        order2Items.put(menuItemObjectId1.toHexString(), orderItem1);
+        order3Items.put(menuItemObjectId3.toHexString(), orderItem3);
 
         order1.setId(orderId1);
         order1.setOrderItems(order1Items);

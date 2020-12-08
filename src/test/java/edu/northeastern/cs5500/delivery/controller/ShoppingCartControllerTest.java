@@ -59,8 +59,8 @@ public class ShoppingCartControllerTest {
         defaultShoppingCart1.setId(new ObjectId());
         defaultShoppingCart1.setCustomerId(new ObjectId());
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
-        defaultShoppingCartMap1.put(orderItem1.getId().toString(), orderItem1);
-        defaultShoppingCartMap1.put(orderItem2.getId().toString(), orderItem2);
+        defaultShoppingCartMap1.put(orderItem1.getId().toHexString(), orderItem1);
+        defaultShoppingCartMap1.put(orderItem2.getId().toHexString(), orderItem2);
         defaultShoppingCart1.setOrderItems(defaultShoppingCartMap1);
 
         return defaultShoppingCart1;
@@ -223,7 +223,8 @@ public class ShoppingCartControllerTest {
         int originalQuantity = item1.getQuantity();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
         shoppingCarts.incrementOrderItemQuantity(item1, shoppingCart1);
-        int newQuantity = shoppingCart1.getOrderItems().get(item1.getId().toString()).getQuantity();
+        int newQuantity =
+                shoppingCart1.getOrderItems().get(item1.getId().toHexString()).getQuantity();
         Assertions.assertEquals(originalQuantity + 1, newQuantity);
     }
 
@@ -234,7 +235,8 @@ public class ShoppingCartControllerTest {
         int originalQuantity = item1.getQuantity();
         shoppingCarts.addOrderItem(item1, shoppingCart1);
         shoppingCarts.decrementOrderItemQuantity(item1, shoppingCart1);
-        int newQuantity = shoppingCart1.getOrderItems().get(item1.getId().toString()).getQuantity();
+        int newQuantity =
+                shoppingCart1.getOrderItems().get(item1.getId().toHexString()).getQuantity();
         Assertions.assertEquals(originalQuantity - 1, newQuantity);
     }
 

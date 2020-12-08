@@ -71,8 +71,8 @@ public class ShoppingCartController {
         defaultShoppingCart1.setId(new ObjectId());
         defaultShoppingCart1.setCustomerId(new ObjectId());
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
-        defaultShoppingCartMap1.put(orderItem1.getId().toString(), orderItem1);
-        defaultShoppingCartMap1.put(orderItem2.getId().toString(), orderItem2);
+        defaultShoppingCartMap1.put(orderItem1.getId().toHexString(), orderItem1);
+        defaultShoppingCartMap1.put(orderItem2.getId().toHexString(), orderItem2);
         defaultShoppingCart1.setOrderItems(defaultShoppingCartMap1);
         try {
             addShoppingCart(defaultShoppingCart1);
@@ -246,7 +246,7 @@ public class ShoppingCartController {
             throws Exception {
         log.debug("ShoppingCartController > addOrderItem(...)");
         Map<String, OrderItem> orderItems = shoppingCart.getOrderItems();
-        orderItems.put(orderItemToAdd.getId().toString(), orderItemToAdd);
+        orderItems.put(orderItemToAdd.getId().toHexString(), orderItemToAdd);
         updateShoppingCartPriceQuantity(shoppingCart);
     }
 
@@ -263,7 +263,7 @@ public class ShoppingCartController {
             throws Exception {
         log.debug("ShoppingCartController > removeOrderItem(...)");
         Map<String, OrderItem> activeShoppingCart = shoppingCart.getOrderItems();
-        activeShoppingCart.remove(orderItemToRemove.getId().toString());
+        activeShoppingCart.remove(orderItemToRemove.getId().toHexString());
         updateShoppingCartPriceQuantity(shoppingCart);
     }
 
@@ -279,7 +279,7 @@ public class ShoppingCartController {
             @Nonnull OrderItem orderItem, @Nonnull ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > incrementOrderItem(...)");
         Map<String, OrderItem> orderItems = shoppingCart.getOrderItems();
-        OrderItem currentItem = orderItems.get(orderItem.getId().toString());
+        OrderItem currentItem = orderItems.get(orderItem.getId().toHexString());
         currentItem.setQuantity(currentItem.getQuantity() + 1);
         updateShoppingCartPriceQuantity(shoppingCart);
     }
@@ -296,7 +296,7 @@ public class ShoppingCartController {
             @Nonnull OrderItem orderItem, @Nonnull ShoppingCart shoppingCart) throws Exception {
         log.debug("ShoppingCartController > decrementOrderItem(...)");
         Map<String, OrderItem> orderItems = shoppingCart.getOrderItems();
-        OrderItem currentItem = orderItems.get(orderItem.getId().toString());
+        OrderItem currentItem = orderItems.get(orderItem.getId().toHexString());
         if (currentItem.getQuantity() <= 1) {
             removeOrderItem(orderItem, shoppingCart);
         } else {

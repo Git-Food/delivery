@@ -87,9 +87,9 @@ public class OrderController {
         orderItem3.setSpecialNote("Special Note OrderItem3");
         HashMap<String, OrderItem> order1Items = new HashMap<>();
         HashMap<String, OrderItem> order2Items = new HashMap<>();
-        order1Items.put(orderItemId1.toString(), orderItem1);
-        order2Items.put(orderItemId2.toString(), orderItem2);
-        order2Items.put(orderItemId3.toString(), orderItem3);
+        order1Items.put(orderItemId1.toHexString(), orderItem1);
+        order2Items.put(orderItemId2.toHexString(), orderItem2);
+        order2Items.put(orderItemId3.toHexString(), orderItem3);
         // Orders
         Order defaultOrder1 = new Order();
         defaultOrder1.setId(new ObjectId());
