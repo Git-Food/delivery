@@ -108,7 +108,7 @@ public class OrderController {
         defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
         defaultOrder2.setTotalOrderItemQuantity(7);
         defaultOrder2.setTotalPrice(29);
-        defaultOrder1.setOrderDate(LocalDate.of(2020, 8, 31));
+        defaultOrder2.setOrderDate(LocalDate.of(2020, 8, 31));
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
