@@ -7,9 +7,9 @@ import edu.northeastern.cs5500.delivery.model.OrderItem;
 import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.OrderRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -99,6 +99,7 @@ public class OrderController {
         defaultOrder1.setOrderStatus(OrderStatus.UNDER_REVIEW);
         defaultOrder1.setTotalOrderItemQuantity(2);
         defaultOrder1.setTotalPrice(20);
+        defaultOrder1.setOrderDate(LocalDate.of(2020, 3, 27));
         Order defaultOrder2 = new Order();
         defaultOrder2.setId(new ObjectId());
         defaultOrder2.setOrderItems(order2Items);
@@ -107,6 +108,7 @@ public class OrderController {
         defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
         defaultOrder2.setTotalOrderItemQuantity(7);
         defaultOrder2.setTotalPrice(29);
+        defaultOrder1.setOrderDate(LocalDate.of(2020, 8, 31));
         try {
             addOrder(defaultOrder1);
             addOrder(defaultOrder2);
@@ -214,7 +216,7 @@ public class OrderController {
     public Order submitOrder(ShoppingCart shoppingCart) throws Exception {
         log.debug("OrderController > submitOrder(...)");
         Order newOrder = createOrder(shoppingCart);
-        newOrder.setOrderDate(new Date());
+        newOrder.setOrderDate(LocalDate.now());
         return addOrder(newOrder);
     }
 }
