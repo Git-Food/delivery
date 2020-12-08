@@ -53,7 +53,7 @@ public class RestaurantControllerTest {
         // Build Restaurants
         final Restaurant defaultRestaurant1 = new Restaurant();
         defaultRestaurant1.setName("Best Food Restaurant");
-        defaultRestaurant1.setMenuId(defaultMenu1.getId().toString());
+        defaultRestaurant1.setMenuId(defaultMenu1.getId().toHexString());
         defaultRestaurant1.setCuisineType("American");
         defaultRestaurant1.setId(new ObjectId());
         defaultRestaurant1.setLocation(address1);
@@ -95,7 +95,7 @@ public class RestaurantControllerTest {
         final Restaurant defaultRestaurant2 = new Restaurant();
 
         defaultRestaurant2.setName("Eatery");
-        defaultRestaurant2.setMenuId(defaultMenu2.getId().toString());
+        defaultRestaurant2.setMenuId(defaultMenu2.getId().toHexString());
         defaultRestaurant2.setCuisineType("Chinese");
         defaultRestaurant2.setId(new ObjectId());
         defaultRestaurant2.setLocation(address2);

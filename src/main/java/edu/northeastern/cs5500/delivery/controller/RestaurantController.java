@@ -96,7 +96,7 @@ public class RestaurantController {
 
         defaultRestaurant1.setName("Best Food Restaurant");
         // Grabs the menu id of the menu for the restaurant
-        defaultRestaurant1.setMenuId(defaultMenu1.getId().toString());
+        defaultRestaurant1.setMenuId(defaultMenu1.getId().toHexString());
         defaultRestaurant1.setCuisineType("American");
         defaultRestaurant1.setId(new ObjectId());
         defaultRestaurant1.setLocation(address1);
@@ -105,7 +105,7 @@ public class RestaurantController {
 
         defaultRestaurant2.setName("Eatery");
         // Grabs the menu id of the menu for the restaurant
-        defaultRestaurant2.setMenuId(defaultMenu2.getId().toString());
+        defaultRestaurant2.setMenuId(defaultMenu2.getId().toHexString());
         defaultRestaurant2.setCuisineType("Chinese");
         defaultRestaurant2.setId(new ObjectId());
         defaultRestaurant2.setLocation(address2);
