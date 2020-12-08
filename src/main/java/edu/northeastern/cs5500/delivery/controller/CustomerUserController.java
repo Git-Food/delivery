@@ -4,7 +4,7 @@ import edu.northeastern.cs5500.delivery.model.CustomerUser;
 import edu.northeastern.cs5500.delivery.model.Name;
 import edu.northeastern.cs5500.delivery.model.PostalAddress;
 import edu.northeastern.cs5500.delivery.repository.GenericRepository;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +46,7 @@ public class CustomerUserController {
         defaultCustomerUser1.setEmail("john.smith@email.com");
         defaultCustomerUser1.setPhoneNumber("1234567890");
         defaultCustomerUser1.setLocation(addressUser1);
-        defaultCustomerUser1.setBirthday(Date.valueOf("1965-12-12"));
+        defaultCustomerUser1.setBirthday(LocalDate.of(1965, 12, 12));
 
         final CustomerUser defaultCustomerUser2 = new CustomerUser();
         Name customerUserName2 = new Name();
@@ -64,7 +64,7 @@ public class CustomerUserController {
         defaultCustomerUser2.setEmail("mary.poppins@email.com");
         defaultCustomerUser2.setPhoneNumber("0987654321");
         defaultCustomerUser2.setLocation(addressUser2);
-        defaultCustomerUser2.setBirthday(Date.valueOf("1900-01-28"));
+        defaultCustomerUser2.setBirthday(LocalDate.of(1900, 1, 28));
 
         try {
             addCustomerUser(defaultCustomerUser1);

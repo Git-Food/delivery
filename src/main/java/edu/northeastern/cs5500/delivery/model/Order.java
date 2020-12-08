@@ -1,7 +1,7 @@
 package edu.northeastern.cs5500.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class Order implements Model {
     private ObjectId customerId;
     private ObjectId businessId;
     private ObjectId driverId;
-    private Date orderDate;
+    private LocalDate orderDate;
 
     /** @return true if this Order is valid */
     @JsonIgnore

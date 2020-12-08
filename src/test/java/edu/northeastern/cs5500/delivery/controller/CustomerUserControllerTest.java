@@ -4,7 +4,7 @@ import edu.northeastern.cs5500.delivery.model.CustomerUser;
 import edu.northeastern.cs5500.delivery.model.Name;
 import edu.northeastern.cs5500.delivery.model.PostalAddress;
 import edu.northeastern.cs5500.delivery.repository.InMemoryRepository;
-import java.sql.Date;
+import java.time.LocalDate;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class CustomerUserControllerTest {
         testCustomerUser1.setEmail("First.Last@email.com");
         testCustomerUser1.setPhoneNumber("1234567890");
         testCustomerUser1.setLocation(addressUser1);
-        testCustomerUser1.setBirthday(Date.valueOf("1900-01-01"));
+        testCustomerUser1.setBirthday(LocalDate.of(1900, 1, 1));
 
         return testCustomerUser1;
     }
@@ -61,7 +61,7 @@ public class CustomerUserControllerTest {
         testCustomerUser2.setEmail("Last.First@email.com");
         testCustomerUser2.setPhoneNumber("9876543210");
         testCustomerUser2.setLocation(addressUser2);
-        testCustomerUser2.setBirthday(Date.valueOf("2000-12-31"));
+        testCustomerUser2.setBirthday(LocalDate.of(2000, 12, 31));
 
         return testCustomerUser2;
     }
@@ -76,7 +76,7 @@ public class CustomerUserControllerTest {
         ObjectId testUserId1 = testUser1.getId();
         ObjectId testUserId2 = testUser2.getId();
 
-        // Add  test customerUsers to repository
+        // Add test customerUsers to repository
         customerUsers.addCustomerUser(testUser1);
         customerUsers.addCustomerUser(testUser2);
 
