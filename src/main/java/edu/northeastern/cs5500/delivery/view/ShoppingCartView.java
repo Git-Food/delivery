@@ -159,7 +159,8 @@ public class ShoppingCartView implements View {
                             Status.MOVED_PERMANENTLY);
 
                     return shoppingCart;
-                });
+                },
+                jsonTransformer);
 
         get(
                 "/shoppingcart",
