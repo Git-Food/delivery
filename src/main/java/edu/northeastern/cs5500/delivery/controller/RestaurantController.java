@@ -53,48 +53,48 @@ public class RestaurantController {
         defaultMenuItem1.setName("Chicken burrito");
         defaultMenuItem1.setDescription("Rice, beans, chicken");
         defaultMenuItem1.setNote("Extra chicken");
-        defaultMenuItem1.setPrice(8);
+        defaultMenuItem1.setPrice(850);
         defaultMenuItem1.setBusinessId(businessObjectId1);
 
         defaultMenuItem2.setId(new ObjectId());
         defaultMenuItem2.setName("Beef salad");
         defaultMenuItem2.setDescription("Romaine salad, rice, beans, beef");
-        defaultMenuItem2.setPrice(9);
+        defaultMenuItem2.setPrice(950);
         defaultMenuItem2.setNote("No source cream");
         defaultMenuItem2.setBusinessId(businessObjectId1);
 
         defaultMenuItem3.setId(new ObjectId());
         defaultMenuItem3.setName("Kaiseki Gozen");
         defaultMenuItem3.setDescription("7-8 course Kaiseki dishes");
-        defaultMenuItem3.setPrice(100);
+        defaultMenuItem3.setPrice(10000);
         defaultMenuItem3.setNote("");
         defaultMenuItem3.setBusinessId(businessObjectId2);
 
         defaultMenuItem4.setId(new ObjectId());
         defaultMenuItem4.setName("The wa'z Don");
         defaultMenuItem4.setDescription("The highest quality ikura, negitoro, and uni toro");
-        defaultMenuItem4.setPrice(50);
+        defaultMenuItem4.setPrice(5000);
         defaultMenuItem4.setNote("Available until Dec 31");
         defaultMenuItem4.setBusinessId(businessObjectId2);
 
         defaultMenuItem5.setId(new ObjectId());
         defaultMenuItem5.setName("Party Temaki");
         defaultMenuItem5.setDescription("Temaki plate for three");
-        defaultMenuItem5.setPrice(135);
+        defaultMenuItem5.setPrice(13500);
         defaultMenuItem5.setNote("4th of July special Temaki");
         defaultMenuItem5.setBusinessId(businessObjectId2);
 
         defaultMenuItem6.setId(new ObjectId());
         defaultMenuItem6.setName("Shack Burger");
         defaultMenuItem6.setDescription("Cheeseburger with lettuce and tomato");
-        defaultMenuItem6.setPrice(9);
+        defaultMenuItem6.setPrice(879);
         defaultMenuItem6.setNote("Double");
         defaultMenuItem6.setBusinessId(businessObjectId3);
 
         defaultMenuItem7.setId(new ObjectId());
         defaultMenuItem7.setName("Bacon cheese fries");
         defaultMenuItem7.setDescription("Topped with cheese sauce and applewood-smoked bacon");
-        defaultMenuItem7.setPrice(5);
+        defaultMenuItem7.setPrice(1018);
         defaultMenuItem7.setNote("Niman Ranch");
         defaultMenuItem7.setBusinessId(businessObjectId3);
 
