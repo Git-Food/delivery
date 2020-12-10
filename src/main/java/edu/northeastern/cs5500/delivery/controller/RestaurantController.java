@@ -164,7 +164,7 @@ public class RestaurantController {
         defaultRestaurant1.setName("Chipotle");
         defaultRestaurant1.setMenuId(defaultMenu1.getId().toHexString());
         defaultRestaurant1.setCuisineType("Mexican");
-        defaultRestaurant1.setId(new ObjectId());
+        defaultRestaurant1.setId(businessObjectId1);
         defaultRestaurant1.setLocation(address1);
         defaultRestaurant1.setStartTime(LocalTime.of(10, 45, 00));
         defaultRestaurant1.setEndTime(LocalTime.of(22, 00, 00));
@@ -172,7 +172,7 @@ public class RestaurantController {
         defaultRestaurant2.setName("Wa'z Seattle");
         defaultRestaurant2.setMenuId(defaultMenu2.getId().toHexString());
         defaultRestaurant2.setCuisineType("Japanese");
-        defaultRestaurant2.setId(new ObjectId());
+        defaultRestaurant2.setId(businessObjectId2);
         defaultRestaurant2.setLocation(address2);
         defaultRestaurant2.setStartTime(LocalTime.of(18, 00, 00));
         defaultRestaurant2.setEndTime(LocalTime.of(21, 00, 00));
@@ -180,7 +180,7 @@ public class RestaurantController {
         defaultRestaurant3.setName("Shake Shack");
         defaultRestaurant3.setMenuId(defaultMenu3.getId().toHexString());
         defaultRestaurant3.setCuisineType("American");
-        defaultRestaurant3.setId(new ObjectId());
+        defaultRestaurant3.setId(businessObjectId3);
         defaultRestaurant3.setLocation(address3);
         defaultRestaurant3.setStartTime(LocalTime.of(11, 00, 00));
         defaultRestaurant3.setEndTime(LocalTime.of(22, 00, 00));
