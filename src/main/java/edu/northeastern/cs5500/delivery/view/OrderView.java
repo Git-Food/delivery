@@ -57,12 +57,11 @@ public class OrderView implements View {
         get(
                 "/orderhistory",
                 (request, response) -> {
-                    log.debug("/orderHistory");
+                    log.debug("/orderhistory");
                     // Get orderHistory from userId
                     String userId = request.queryParams("userId");
-                    final ObjectId id = new ObjectId(userId);
                     response.type("application/json");
-                    return orderController.getOrdersByUser(id);
+                    return orderController.getOrdersByUser(userId);
                 },
                 jsonTransformer);
 

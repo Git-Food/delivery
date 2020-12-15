@@ -19,7 +19,7 @@ import org.bson.types.ObjectId;
 public class ShoppingCartController {
     private final GenericRepository<ShoppingCart> shoppingCarts;
     private final OrderController orderController;
-    private Map<ObjectId, ObjectId> cartToUser;
+    private Map<String, ObjectId> cartToUser;
 
     @Inject
     ShoppingCartController(
@@ -69,7 +69,7 @@ public class ShoppingCartController {
         // Shopping Carts
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
         defaultShoppingCart1.setId(new ObjectId());
-        defaultShoppingCart1.setCustomerId(new ObjectId());
+        defaultShoppingCart1.setCustomerId("customerId1");
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
         defaultShoppingCartMap1.put(orderItem1.getId().toHexString(), orderItem1);
         defaultShoppingCartMap1.put(orderItem2.getId().toHexString(), orderItem2);
@@ -92,8 +92,8 @@ public class ShoppingCartController {
     }
 
     /** Return a Map<CustomerUser id, ShoppingCart id> based on a given ShoppingCartRepository. */
-    private Map<ObjectId, ObjectId> createCartToUserMap() {
-        HashMap<ObjectId, ObjectId> cartToUserMap = new HashMap<>();
+    private Map<String, ObjectId> createCartToUserMap() {
+        HashMap<String, ObjectId> cartToUserMap = new HashMap<>();
         Collection<ShoppingCart> allShoppingCarts = this.shoppingCarts.getAll();
         for (ShoppingCart shoppingCart : allShoppingCarts) {
             // place (customerId : shoppingCartId) in map
@@ -108,7 +108,7 @@ public class ShoppingCartController {
      *
      * @return a new ShoppingCart object for a given CustomerUser id.
      */
-    public ShoppingCart createShoppingCart(ObjectId userId) {
+    public ShoppingCart createShoppingCart(String userId) {
         ShoppingCart newCart = new ShoppingCart();
         newCart.setId(new ObjectId());
         newCart.setOrderItems(new HashMap<String, OrderItem>());
@@ -125,7 +125,7 @@ public class ShoppingCartController {
         ShoppingCart newCart = new ShoppingCart();
         newCart.setId(new ObjectId());
         newCart.setOrderItems(new HashMap<String, OrderItem>());
-        newCart.setCustomerId(new ObjectId());
+        newCart.setCustomerId("");
         return newCart;
     }
 
@@ -171,7 +171,7 @@ public class ShoppingCartController {
      *     in the shoppingCarts while also being a duplicate.
      */
     @Nullable
-    public ShoppingCart getShoppingCartByUser(@Nonnull ObjectId userId) throws Exception {
+    public ShoppingCart getShoppingCartByUser(@Nonnull String userId) throws Exception {
         log.debug("ShoppingCartController > getShoppingCartByUser({})", userId);
         // There is no cart for the given userId
         if (cartToUser.get(userId) == null) {
@@ -194,7 +194,6 @@ public class ShoppingCartController {
         ObjectId id = shoppingCart.getId();
 
         if (id != null && shoppingCarts.get(id) != null) {
-            // TODO: replace with a real duplicate key exception
             throw new Exception("DuplicateKeyException");
         }
         cartToUser.put(shoppingCart.getCustomerId(), shoppingCart.getId());
@@ -326,7 +325,11 @@ public class ShoppingCartController {
 
     public void deleteShoppingCart(@Nonnull ObjectId id) throws Exception {
         log.debug("ShoppingCartController > deleteShoppingCart(...)");
-        cartToUser.remove(id);
+        for (Map.Entry<String, ObjectId> entry : cartToUser.entrySet()) {
+            if (id == entry.getValue()) {
+                cartToUser.remove(entry.getKey());
+            }
+        }
         shoppingCarts.delete(id);
     }
 }

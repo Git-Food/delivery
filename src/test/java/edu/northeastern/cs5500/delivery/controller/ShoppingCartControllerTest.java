@@ -57,7 +57,7 @@ public class ShoppingCartControllerTest {
         // Shopping Cart
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
         defaultShoppingCart1.setId(new ObjectId());
-        defaultShoppingCart1.setCustomerId(new ObjectId());
+        defaultShoppingCart1.setCustomerId("customerId1");
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
         defaultShoppingCartMap1.put(orderItem1.getId().toHexString(), orderItem1);
         defaultShoppingCartMap1.put(orderItem2.getId().toHexString(), orderItem2);
@@ -70,7 +70,7 @@ public class ShoppingCartControllerTest {
         // Shopping Cart
         ShoppingCart defaultShoppingCart1 = new ShoppingCart();
         defaultShoppingCart1.setId(new ObjectId());
-        defaultShoppingCart1.setCustomerId(new ObjectId());
+        defaultShoppingCart1.setCustomerId("customerId2");
         Map<String, OrderItem> defaultShoppingCartMap1 = new HashMap<>();
         defaultShoppingCart1.setOrderItems(defaultShoppingCartMap1);
 
@@ -121,7 +121,7 @@ public class ShoppingCartControllerTest {
 
     @Test
     void testCreateShoppingCart() {
-        ObjectId userId = new ObjectId();
+        String userId = "customerId3";
         ShoppingCart newCart = shoppingCarts.createShoppingCart(userId);
         Assertions.assertTrue(newCart.isEmpty());
     }
@@ -153,7 +153,7 @@ public class ShoppingCartControllerTest {
     @Test
     void testGetShoppingCartByUser() throws Exception {
         ShoppingCart shoppingCart = createShoppingCart();
-        ObjectId id = shoppingCart.getCustomerId();
+        String id = shoppingCart.getCustomerId();
         shoppingCarts.addShoppingCart(shoppingCart);
         Assertions.assertEquals(shoppingCart, shoppingCarts.getShoppingCartByUser(id));
     }

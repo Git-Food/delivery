@@ -3,7 +3,6 @@ package edu.northeastern.cs5500.delivery.repository;
 import edu.northeastern.cs5500.delivery.model.Order;
 import java.util.Collection;
 import javax.annotation.Nonnull;
-import org.bson.types.ObjectId;
 
 public interface OrderRepository extends GenericRepository<Order> {
 
@@ -13,5 +12,5 @@ public interface OrderRepository extends GenericRepository<Order> {
      * @param userId User's id.
      * @return Collection of Orders based on given CustomerUser ObjectId.
      */
-    public Collection<Order> getOrdersByUserId(@Nonnull ObjectId userId);
+    public Collection<Order> getOrdersByUserId(@Nonnull String userId);
 }

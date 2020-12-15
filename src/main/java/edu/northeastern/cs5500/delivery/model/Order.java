@@ -16,7 +16,7 @@ public class Order implements Model {
     private long taxAmount;
     private long totalPrice;
     private int totalOrderItemQuantity;
-    private ObjectId customerId;
+    private String customerId;
     private ObjectId businessId;
     private ObjectId driverId;
     private LocalDate orderDate;
