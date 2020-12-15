@@ -4,7 +4,6 @@ import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.redirect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.northeastern.cs5500.delivery.JsonTransformer;
@@ -16,7 +15,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import spark.Redirect.Status;
 
 @Singleton
 @Slf4j
@@ -53,8 +51,8 @@ public class ShoppingCartView implements View {
 
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Add orderItem
                     shoppingCartController.addOrderItem(orderItem, shoppingCart);
@@ -73,8 +71,8 @@ public class ShoppingCartView implements View {
 
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Remove orderItem
                     shoppingCartController.removeOrderItem(orderItem, shoppingCart);
@@ -93,8 +91,8 @@ public class ShoppingCartView implements View {
 
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Increment quantity orderItem
                     shoppingCartController.incrementOrderItemQuantity(orderItem, shoppingCart);
@@ -113,8 +111,8 @@ public class ShoppingCartView implements View {
 
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Decrement quantity orderItem
                     shoppingCartController.decrementOrderItemQuantity(orderItem, shoppingCart);
@@ -129,8 +127,8 @@ public class ShoppingCartView implements View {
                 (request, response) -> {
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Clear shopping cart
                     shoppingCartController.clearShoppingCart(shoppingCart);
@@ -145,18 +143,11 @@ public class ShoppingCartView implements View {
                 (request, response) -> {
                     // Get shopping cart from userId
                     String userId = request.queryParams("userid");
-                    final ObjectId id = new ObjectId(userId);
-                    ShoppingCart shoppingCart = shoppingCartController.getShoppingCartByUser(id);
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
 
                     // Checkout shopping cart
                     shoppingCartController.checkout(shoppingCart);
-
-                    // Redirect to orderStatus view
-                    // TODO(pcd) Implement orderStatus view
-                    redirect.any(
-                            "/checkout",
-                            "/orderhistory?userid=" + id.toHexString(),
-                            Status.MOVED_PERMANENTLY);
 
                     return shoppingCart;
                 },

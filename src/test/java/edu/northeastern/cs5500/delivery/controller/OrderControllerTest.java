@@ -29,7 +29,7 @@ class OrderControllerTest {
     ObjectId orderId1;
     ObjectId orderId2;
     ObjectId orderId3;
-    ObjectId customerId1;
+    String customerId1;
 
     @BeforeEach
     void init() {
@@ -69,7 +69,7 @@ class OrderControllerTest {
         order3 = new Order();
 
         // CustomerId
-        customerId1 = new ObjectId();
+        customerId1 = "customerId1";
 
         // Menu Item Setup
         menuItem1.setId(menuItemObjectId1);
@@ -125,13 +125,13 @@ class OrderControllerTest {
         // Order 2 is same business different user than Order1
         order2.setId(orderId2);
         order2.setOrderItems(order2Items);
-        order2.setCustomerId(new ObjectId());
+        order2.setCustomerId("customerId2");
         order2.setBusinessId(businessId1);
         order2.setOrderStatus(OrderStatus.UNDER_REVIEW);
 
         order3.setId(orderId3);
         order3.setOrderItems(order3Items);
-        order3.setCustomerId(new ObjectId());
+        order3.setCustomerId("customerId3");
         order3.setBusinessId(businessId2);
         order3.setOrderStatus(OrderStatus.PENDING);
 

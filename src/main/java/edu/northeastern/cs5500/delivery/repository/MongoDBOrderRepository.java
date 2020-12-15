@@ -8,7 +8,6 @@ import edu.northeastern.cs5500.delivery.service.MongoDBService;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 public class MongoDBOrderRepository extends MongoDBRepository<Order> implements OrderRepository {
 
@@ -25,7 +24,7 @@ public class MongoDBOrderRepository extends MongoDBRepository<Order> implements 
      * @return Collection of Orders based on given CustomerUser ObjectId.
      */
     @Override
-    public Collection<Order> getOrdersByUserId(ObjectId userId) {
+    public Collection<Order> getOrdersByUserId(String userId) {
         Collection<Order> userOrderHistory = new ArrayList<>();
         MongoCursor<Order> orders = collection.find(eq("customerId", userId)).iterator();
         try {

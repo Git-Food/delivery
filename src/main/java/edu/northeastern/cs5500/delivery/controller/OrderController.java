@@ -8,7 +8,6 @@ import edu.northeastern.cs5500.delivery.model.OrderStatus;
 import edu.northeastern.cs5500.delivery.model.ShoppingCart;
 import edu.northeastern.cs5500.delivery.repository.OrderRepository;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +21,10 @@ import org.bson.types.ObjectId;
 @Slf4j
 public class OrderController {
     private final OrderRepository orders;
-    private Map<ObjectId, ArrayList<ObjectId>> userToOrders;
 
     @Inject
     OrderController(OrderRepository orderRepository) {
         orders = orderRepository;
-        userToOrders = createUserToOrdersMap();
 
         log.info("OrderController > construct");
 
@@ -94,7 +91,7 @@ public class OrderController {
         Order defaultOrder1 = new Order();
         defaultOrder1.setId(new ObjectId());
         defaultOrder1.setOrderItems(order1Items);
-        defaultOrder1.setCustomerId(new ObjectId());
+        defaultOrder1.setCustomerId("customerId1");
         defaultOrder1.setBusinessId(orderItem1.getBusinessId());
         defaultOrder1.setOrderStatus(OrderStatus.UNDER_REVIEW);
         defaultOrder1.setTotalOrderItemQuantity(2);
@@ -103,7 +100,7 @@ public class OrderController {
         Order defaultOrder2 = new Order();
         defaultOrder2.setId(new ObjectId());
         defaultOrder2.setOrderItems(order2Items);
-        defaultOrder2.setCustomerId(new ObjectId());
+        defaultOrder2.setCustomerId("customerId1");
         defaultOrder2.setBusinessId(orderItem2.getBusinessId());
         defaultOrder2.setOrderStatus(OrderStatus.UNDER_REVIEW);
         defaultOrder2.setTotalOrderItemQuantity(7);
@@ -118,28 +115,13 @@ public class OrderController {
         }
     }
 
-    /** Return a Map<CustomerUserId, ArrayList<OrderId>>> based on a the Orders Repository. */
-    private Map<ObjectId, ArrayList<ObjectId>> createUserToOrdersMap() {
-        log.debug("OrderController > createUserToOrdersMap()");
-        HashMap<ObjectId, ArrayList<ObjectId>> userToOrdersMap = new HashMap<>();
-        Collection<Order> allOrders = this.orders.getAll();
-        for (Order order : allOrders) {
-            ArrayList<ObjectId> currentUserOrders =
-                    userToOrdersMap.getOrDefault(order.getCustomerId(), new ArrayList<ObjectId>());
-            currentUserOrders.add(order.getId());
-            userToOrdersMap.put(order.getCustomerId(), currentUserOrders);
-        }
-
-        return userToOrdersMap;
-    }
-
     /**
      * Returns a collection of a User's orders.
      *
      * @param userId ObjectId of a given CustomerUser
      * @return Collection of Orders based on given CustomerUser ObjectId.
      */
-    public Collection<Order> getOrdersByUser(@Nonnull ObjectId userId) {
+    public Collection<Order> getOrdersByUser(@Nonnull String userId) {
         log.debug("OrderController > getOrderHistory()");
         return orders.getOrdersByUserId(userId);
     }
