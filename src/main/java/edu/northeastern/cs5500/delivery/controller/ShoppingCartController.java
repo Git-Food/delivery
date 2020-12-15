@@ -165,7 +165,7 @@ public class ShoppingCartController {
     /**
      * Return a ShoppingCart belonging to a CustomerUser identified by id.
      *
-     * @param userId ObjectId of a given CustomerUser
+     * @param userId String of a given CustomerUser
      * @return ShoppingCart based on CusterUser id.
      * @throws Exception Throws Exception if the a userId exists in the cartToUser but doesn't exist
      *     in the shoppingCarts while also being a duplicate.

@@ -30,6 +30,18 @@ public class ShoppingCartView implements View {
     public void register() {
         log.info("ShoppingCartView > register");
 
+        /** API to get a shoppingCart for a specified user id */
+        get(
+                "/shoppingcartbyuser",
+                (request, response) -> {
+                    String userId = request.queryParams("userid");
+                    ShoppingCart shoppingCart =
+                            shoppingCartController.getShoppingCartByUser(userId);
+                    response.type("application/json");
+                    return shoppingCart;
+                },
+                jsonTransformer);
+
         /** API to add orderItem into a shoppingCart */
         put(
                 "/addorderitem",
