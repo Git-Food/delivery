@@ -24,16 +24,15 @@ All relevant Project documentation can be viewed in our sharepoint [Project Docu
 ## Deployment Instructions:
 1) [Clone repository](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 2) Decide whether to deploy to Heroku via [Heroku CLI & Git](https://devcenter.heroku.com/articles/git) or via [Github Integration](https://devcenter.heroku.com/articles/github-integration)
-3) Using the Heroku CLI or the Heroku website, go the settings of the application and configure the following buildpack: https://github.com/mars/create-react-app-buildpack
-4) [Create an Atlas (MongoDB) account](https://docs.atlas.mongodb.com/getting-started) and setup and connect to your cluster. Make note of your username, password, and MongoDB URL
-5) If you plan to run the application on your `localhost:5000`, it is best advised to set up a [local environmental variable](https://flaviocopes.com/shell-environment-variables/) so that you can connect to the database easily. The environmental variable should match the URL provided by Atlas:
+3) [Create an Atlas (MongoDB) account](https://docs.atlas.mongodb.com/getting-started) and setup and connect to your cluster. Make note of your username, password, and MongoDB URL
+4) If you plan to run the application on your `localhost:5000`, it is best advised to set up a [local environmental variable](https://flaviocopes.com/shell-environment-variables/) so that you can connect to the database easily. The environmental variable should match the URL provided by Atlas:
     ```
     MONGODB_URI=<MongoDB URL>
     ```
 
     This variable needs to also be configured within Heroku to ensure the application connects to the Database correctly when depoyed. These `Config Vars` may be defined either using the Heroku CLI or directly on the Heroku website under settings.
 
-6) Follow the necessary Heroku instructions mentioned in (2) to sucessfully deploy the application.
+5) Follow the necessary Heroku instructions mentioned in (2) to sucessfully deploy the application.
 
 ---
 
