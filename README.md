@@ -1,11 +1,11 @@
 # Git-Food API
 
 ## Overview
-This repository includes the relevant code base used to deploy the back-end API on Heroku. 
+This repository includes the relevant code base used to deploy the back-end API on Heroku.
 
 **Deployed API:** https://git-food.herokuapp.com/
 
-To find the complimentary UI code base, its deployment instructions, and deployment location, please visit the following repository: 
+To find the complimentary UI code base, its deployment instructions, and deployment location, please visit the following repository:
 
 https://github.com/Git-Food/delivery-ui
 
