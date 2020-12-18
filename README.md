@@ -11,7 +11,7 @@ https://github.com/Git-Food/delivery-ui
 
 ## Relevant Project Documentation & Presentation
 
-**Presentation:** Video linked [here](www.youtube.com)
+**Presentation:** Video linked [here](https://youtu.be/_bmIMcCgcKo)
 
 All relevant Project documentation can be viewed in our sharepoint [Project Documentation Folder](https://northeastern.sharepoint.com/:f:/s/Fit/ElOVh2COQF1HiinugLhexDsBWroZ5DJ4_e9nemJrSCzguw?e=4v71vy). The Project Documentation Folder includes the following documents:
 * Regular Meeting Notes
