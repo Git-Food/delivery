@@ -44,78 +44,75 @@ All relevant Project documentation can be viewed in our sharepoint [Project Docu
 
 ### Base URL: https://git-food.herokuapp.com
 
-#### Menu API
+### Menu API
 
-    Description: fetch menu for a particular restaurant based on menu id.
-    Method: get
-    Url: “/menu/:id”
+| Description | fetch menu for a particular restaurant based on menu id. |
+| ----------- | -------------------------------------------------------- |
+| Method      | get                                                      |
+| Url         | "/menu/:id"                                              |
 
-#### Orders API
+### Orders API
 
-     Description: fetch orders for a specified user id.
-     Method: get
-     Url: “/orderhistory”
-     Params:
-     - userId
+| Description | fetch orders for a specified user id. |
+| ----------- | ------------------------------------- |
+| Method      | get                                   |
+| Url         | “/orderhistory”                       |
+| Params      | { userId }                            |
 
-#### Restaurants API
+### Restaurants API
 
-    Description: fetch all restaurants available.
-    Method: get
-    Url: “/restaurant”
+| Description | fetch all restaurants available. |
+| ----------- | -------------------------------- |
+| Method      | get                              |
+| Url         | “/restaurant”                    |
 
-#### Shopping cart by user API
+### Shopping cart by user API
 
-    Description: fetch a shopping cart associated to a user id.
-    Method: get
-    Url: “/shoppingcartbyuser”
-    Params:
-     - Userid
+| Description | fetch a shopping cart associated to a user id. |
+| ----------- | ---------------------------------------------- |
+| Method      | get                                            |
+| Url         | “/shoppingcartbyuser”                          |
+| Params      | { userid }                                     |
 
-#### Add order item to shopping cart API
+### Add order item to shopping cart API
 
-    Description: put and order item into the shopping cart.
-    Method: put
-    Url: “/addorderitem”
-    Params:
-     - userid
-     - menuitem
-     - specialnote
-     - quantity
+| Description | put and order item into the shopping cart.  |
+| ----------- | ------------------------------------------- |
+| Method      | put                                         |
+| Url         | “/addorderitem”                             |
+| Params      | { userid, menuitem, specialnote, quantity } |
 
-#### Increment order item quantity on shopping cart API
+### Increment order item quantity on shopping cart API
 
-    Description: increment quantity of a particular order item already in the shopping cart.
-    Method: put
-    Url: “/incrementorderitem”
-    Params:
-     - userid
-     - Orderitem
+| Description | increment quantity of a particular order item already in the shopping cart. |
+| ----------- | --------------------------------------------------------------------------- |
+| Method      | put                                                                         |
+| Url         | “/incrementorderitem”                                                       |
+| Params      | { userid, orderitem }                                                       |
 
-#### Decrement order item quantity on shopping cart API
+### Decrement order item quantity on shopping cart API
 
-    Description: decrement quantity of a particular order item already in the shopping cart.
-    Method: put
-    Url: “/decrementorderitem”
-    Params:
-     - userid
-     - orderitem
+| Description | decrement quantity of a particular order item already in the shopping cart. |
+| ----------- | --------------------------------------------------------------------------- |
+| Method      | put                                                                         |
+| Url         | “/decrementorderitem”                                                       |
+| Params      | { userid, orderitem }                                                       |
 
-#### Clear shopping cart API
+### Clear shopping cart API
 
-    Description: Remove all items from a shopping cart.
-    Method: put
-    Url: “/clearshoppingcart”
-    Params:
-     - Userid
+| Description | Remove all items from a shopping cart. |
+| ----------- | -------------------------------------- |
+| Method      | put                                    |
+| Url         | “/clearshoppingcart”                   |
+| Params      | { userid }                             |
 
-#### Checkout API
+### Checkout API
 
-    Description: Executes checkout process. Clear shopping cart and create and Order.
-    Method: post
-    Url: “/checkout”
-    Params:
-     - userid
+| Description | Executes checkout process. Clear shopping cart and create and Order. |
+| ----------- | -------------------------------------------------------------------- |
+| Method      | post                                                                 |
+| Url         | “/checkout”                                                          |
+| Params      | { userid }                                                           |
 
 ---
 
